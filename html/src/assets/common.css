@@ -1,0 +1,4 @@
+.wrap{ font-family: "微软雅黑"}
+.hide{ display: none; }
+.btngroup{ text-align: center; }
+.button{ display: inline-block; margin: 30px auto 50px; padding: 8px 30px; border: none; border-radius: 20px; background: #c00; color: #fff;}
