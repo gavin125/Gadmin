@@ -6,17 +6,13 @@
 
 <script>
 
-
 export default {
-
   data () {
     return {}
   },
   computed:{
     year:()=>{return new Date().getFullYear();}
   },
-
-
 };
 
 </script>

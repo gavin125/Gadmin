@@ -2,42 +2,37 @@
   <div class="xggWrap">
     <!-- head -->
     <xggHead :manager='manager'></xggHead>
-
     <!-- menu -->
     <xggMenu :menu='menu'></xggMenu>    
-    
-
 
     <!-- main -->
     <div class="xggMain bg-white pb-2 border-left border-bottom">
       <b-breadcrumb :items="items" class="rounded-0 border-bottom py-2 bg-light"/>
       <div class="container-fluid">
         <h3 class="border-bottom pb-2 mb-4 text-secondary">{{items[items.length-1].text}} <a href="nav.html" class="btn btn-success btn-sm float-right">返回列表</a></h3>
-        <div class="py-3">
+        <div class="py-3 Xggfz14">
           <b-form>
             <b-form-row class="mb-2">
-              <div class="col-2 text-right py-1">系统内容</div>
-              <div class="col-4"><b-form-select size='sm' v-model="navitem.info" :options="navitem.infoOps" class="mb-3" /></div>
+              <div class="col-2 text-right py-1">轮播图描述</div>
+              <div class="col-4"><b-form-input size='sm' v-model="carousel.desc" type="text"/></b-form-input></div>
             </b-form-row>
             <b-form-row class="mb-2">
-              <div class="col-2 text-right py-1">导航名称</div>
-              <div class="col-4"><b-form-input size='sm' v-model="navitem.name" type="text"></b-form-input></div>
-            </b-form-row>
-            <b-form-row class="mb-2">
-              <div class="col-2 text-right py-1">位置</div>
-              <div class="col-4 py-1"><b-form-radio-group plain v-model="navitem.position" :options="navitem.positionOps" name="radioInline"></b-form-radio-group></div>
+              <div class="col-2 text-right py-1">轮播图片</div>
+              <div class="col-4">
+                <div class="custom-file">
+                  <input type="file" class="custom-file-input" id="customFile" @change="changeImage($event)">
+                  <label class="custom-file-label" for="customFile" v-text='carousel.img'> </label>
+                </div>
+              </div>
+              <div class="col-2 position-relative"><img class="position-absolute w-100" :src="carousel.b64img" alt=""></div>
             </b-form-row>
             <b-form-row class="mb-2">
               <div class="col-2 text-right py-1">链接地址</div>
-              <div class="col-4"><b-form-input size='sm' v-model="navitem.link" type="text"></b-form-input></div>
-            </b-form-row>
-            <b-form-row class="mb-2">
-              <div class="col-2 text-right py-1">上级分类</div>
-              <div class="col-4"><b-form-select size='sm' v-model="navitem.type" :options="navitem.typeOps" class="mb-3" /></div>
+              <div class="col-4"><b-form-input size='sm' v-model="carousel.link" type="text"></b-form-input></div>
             </b-form-row>
             <b-form-row class="mb-2">
               <div class="col-2 text-right py-1">排序</div>
-              <div class="col-4"><b-form-input size='sm' v-model="navitem.srot" type="text"></b-form-input></div>
+              <div class="col-4"><b-form-input size='sm' v-model="carousel.srot" type="text"></b-form-input></div>
             </b-form-row>
             <b-form-row>
               <div class="col-2 text-right py-1"></div>
@@ -45,10 +40,8 @@
             </b-form-row>
           </b-form>
         </div>
-        
 
-       
-        
+      
       </div>
 
     </div>
@@ -75,7 +68,7 @@ export default {
     xggMenu,
     xggFoot
   },
-  data () {
+  data(){
     return {
       manager:{id:1,name:'admin2'},
       menu:[
@@ -84,8 +77,8 @@ export default {
         }],
         [{
           text:'系统设置',link:'system.html',active:false},{
-          text:'导航栏',link:'nav.html',active:true},{
-          text:'轮播图',link:'carousel.html',active:false},{
+          text:'导航栏',link:'nav.html',active:false},{
+          text:'轮播图',link:'carousel.html',active:true},{
           text:'单页面',link:'page.html',active:false
         }],
         [{
@@ -96,18 +89,14 @@ export default {
       ],
       items: [{
         text: '网站管理中心',active: true},{
-        text: '导航栏',active: true},{
-        text: '编辑导航',active: true
+        text: '轮播图',active: true},{
+        text: '编辑轮播图',active: true
       }],
-      navitem:{
-        info:0,
-        infoOps:[{ value:'0',text:'系统内容'},{value:'1',text:'其他'}],
-        name:'',
-        position:1,
-        positionOps:[{ value:1,text:'主导航'},{value:2,text:'顶部'},{value:3,text:'底部'}],
+      carousel:{
+        desc:'',
+        img:'',
+        b64img:'',
         link:'',
-        type:0,
-        typeOps:[{ value:'0',text:'系统内容'},{value:'1',text:'其他'}],
         srot:0
       },
       
@@ -116,10 +105,22 @@ export default {
   computed:{
     year:()=>{return new Date().getFullYear();}
   },
-  mounted () {
-    
-    
-  },
+  mounted(){},
+  methods:{
+    changeImage(e) {
+      var file = e.target.files[0]
+      this.carousel.img=file.name;
+      var reader = new FileReader()
+      var that = this
+      reader.readAsDataURL(file)
+      reader.onload = function(e) {
+        var imgFile = e.target.result;
+        console.log(imgFile);
+        that.carousel.b64img=imgFile;
+      }
+
+    }
+  }
 
 };
 

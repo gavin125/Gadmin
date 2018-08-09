@@ -1,7 +1,7 @@
 <template>
     <!-- head -->
     <b-navbar toggleable="md" type="dark" variant="success" class="px-0">
-      <b-navbar-brand class="m-0 p-0 text-center column" href="#">网站管理中心</b-navbar-brand>
+      <b-navbar-brand class="m-0 p-0 text-center column" href="#">内容管理系统</b-navbar-brand>
       <b-navbar-nav>
         <b-nav-item href="#">查看网站</b-nav-item>
         <b-nav-item href="#">清除缓存</b-nav-item>
@@ -15,25 +15,14 @@
     </b-navbar>
 </template>
 
-
 <script>
 
-
-
 export default {
+  props:['manager'],
   data () {
-    return {
-      manager:{
-        id:1,
-        name:'admin1'
-      }
-    }
+    return {}
   },
-
-  mounted () {
-    
-  },
-
+  mounted () {},
 };
 
 </script>
