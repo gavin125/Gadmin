@@ -1,6 +1,6 @@
 {
-  "name": "my-project",
-  "description": "A Vue.js project",
+  "name": "Gadmin WEB",
+  "description": "前端资源包括html、css、js、image等，通过webpack打包后可直接放置在CDN上的资源文件。",
   "version": "1.0.0",
   "author": "gavin <278033412@qq.com>",
   "private": true,
@@ -9,10 +9,11 @@
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
   "dependencies": {
-    "vue": "^2.5.3",
     "bootstrap": "^4.0.0-beta.2",
     "bootstrap-vue": "^1.2.0",
-    "popper.js": "^1.12.9"
+    "popper.js": "^1.12.9",
+    "vue": "^2.5.3",
+    "vue-quill-editor": "^3.0.6"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

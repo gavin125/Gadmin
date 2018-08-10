@@ -9,30 +9,38 @@
     <div class="xggMain bg-white pb-2 border-left border-bottom">
       <b-breadcrumb :items="items" class="rounded-0 border-bottom py-2 bg-light"/>
       <div class="container-fluid">
-        <h3 class="border-bottom pb-2 mb-4 text-secondary">{{items[items.length-1].text}} <a href="nav.html" class="btn btn-success btn-sm float-right">返回列表</a></h3>
+        <h3 class="border-bottom pb-2 mb-4 text-secondary">{{items[items.length-1].text}} <a href="page.html" class="btn btn-success btn-sm float-right">返回列表</a></h3>
         <div class="py-3 Xggfz14">
           <b-form>
             <b-form-row class="mb-2">
-              <div class="col-2 text-right py-1">轮播图描述</div>
-              <div class="col-4"><b-form-input size='sm' v-model="carousel.desc" type="text"/></b-form-input></div>
+              <div class="col-2 text-right py-1">标题</div>
+              <div class="col-4"><b-form-input size='sm' v-model="page.title" type="text"/></b-form-input></div>
             </b-form-row>
             <b-form-row class="mb-2">
-              <div class="col-2 text-right py-1">轮播图片</div>
+              <div class="col-2 text-right py-1">banner</div>
               <div class="col-4">
                 <div class="custom-file">
                   <input type="file" class="custom-file-input" id="customFile" @change="changeImage($event)">
-                  <label class="custom-file-label" for="customFile" v-text='carousel.img'> </label>
+                  <label class="custom-file-label" for="customFile" v-text='page.banner'> </label>
                 </div>
               </div>
-              <div class="col-2 position-relative"><img class="position-absolute w-100" :src="carousel.b64img" alt=""></div>
+              <div class="col-2 position-relative"><img class="position-absolute w-100" :src="page.banner64" alt=""></div>
             </b-form-row>
             <b-form-row class="mb-2">
-              <div class="col-2 text-right py-1">链接地址</div>
-              <div class="col-4"><b-form-input size='sm' v-model="carousel.link" type="text"></b-form-input></div>
+              <div class="col-2 text-right py-1">上级分类</div>
+              <div class="col-4"><b-form-select size='sm' v-model="page.type" :options="page.typeOps" /></b-form-input></div>
             </b-form-row>
             <b-form-row class="mb-2">
-              <div class="col-2 text-right py-1">排序</div>
-              <div class="col-4"><b-form-input size='sm' v-model="carousel.srot" type="text"></b-form-input></div>
+              <div class="col-2 text-right py-1">关键词</div>
+              <div class="col-4"><b-form-input size='sm' v-model="page.keywords" type="text"></b-form-input></div>
+            </b-form-row>
+            <b-form-row class="mb-2">
+              <div class="col-2 text-right py-1">描述</div>
+              <div class="col-4"><b-form-textarea size='sm' v-model="page.description":rows="3" :max-rows="5"></b-form-textarea></div>
+            </b-form-row>
+            <b-form-row class="mb-2">
+              <div class="col-2 text-right py-1">页面内容</div>
+              <div class="col-4"></div>
             </b-form-row>
             <b-form-row>
               <div class="col-2 text-right py-1"></div>
@@ -42,6 +50,12 @@
         </div>
 
       
+      </div>
+
+      <div>
+        <div class="quill-editor" v-model="content"v-quill:myQuillEditor="editorOption"></div>
+
+        <div class="quill-editor" :content="content" @change="onEditorChange($event)" v-quill:myQuillEditor="editorOption"></div>
       </div>
 
     </div>
@@ -62,14 +76,25 @@ import xggHead from '../../components/xggHead.vue'
 import xggMenu from '../../components/xggMenu.vue'
 import xggFoot from '../../components/xggFoot.vue'
 
+import { quillEditor } from 'vue-quill-editor'
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+
 export default {
   components: {
     xggHead,
     xggMenu,
-    xggFoot
+    xggFoot,
+    quillEditor
   },
   data(){
     return {
+
+      content: '<p>example content</p>',
+      editorOption: { /* quill options */ }
+
+
       manager:{id:1,name:'admin2'},
       menu:[
         [{
@@ -89,21 +114,21 @@ export default {
       ],
       items: [{
         text: '网站管理中心',active: true},{
-        text: '轮播图',active: true},{
-        text: '编辑轮播图',active: true
+        text: '单页面',active: true},{
+        text: '编辑单页面',active: true
       }],
-      carousel:{
-        desc:'',
-        img:'',
-        b64img:'',
-        link:'',
-        srot:0
+      page:{
+        title:'',
+        banner:'',
+        banner64:'',
+        type:'',
+        typeOps:[{ value:0,text:'cn'},{value:1,text:'en'}],
+        keywords:'',
+        description:'',
+        content:''
       },
       
     }
-  },
-  computed:{
-    year:()=>{return new Date().getFullYear();}
   },
   mounted(){},
   methods:{
@@ -118,8 +143,11 @@ export default {
         console.log(imgFile);
         that.carousel.b64img=imgFile;
       }
-
+    },
+    onEditorChange(e){
+      console.log(e);
     }
+    
   }
 
 };

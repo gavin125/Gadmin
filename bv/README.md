@@ -1,6 +1,6 @@
-# my-project
+# Gadmin 前端静态资源
 
-> A Vue.js project
+> 前端资源包括html、css、js、image等，通过webpack打包后可直接放置在CDN上的资源文件。
 
 ## Build Setup
 

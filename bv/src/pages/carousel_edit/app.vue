@@ -9,7 +9,7 @@
     <div class="xggMain bg-white pb-2 border-left border-bottom">
       <b-breadcrumb :items="items" class="rounded-0 border-bottom py-2 bg-light"/>
       <div class="container-fluid">
-        <h3 class="border-bottom pb-2 mb-4 text-secondary">{{items[items.length-1].text}} <a href="nav.html" class="btn btn-success btn-sm float-right">返回列表</a></h3>
+        <h3 class="border-bottom pb-2 mb-4 text-secondary">{{items[items.length-1].text}} <a href="carousel.html" class="btn btn-success btn-sm float-right">返回列表</a></h3>
         <div class="py-3 Xggfz14">
           <b-form>
             <b-form-row class="mb-2">

@@ -9,7 +9,7 @@
     <div class="xggMain bg-white pb-2 border-left border-bottom">
       <b-breadcrumb :items="items" class="rounded-0 border-bottom py-2 bg-light"/>
       <div class="container-fluid">
-        <h3 class="border-bottom pb-2 mb-4 text-secondary">{{items[items.length-1].text}} <a href="nav_edit.html" class="btn btn-success btn-sm float-right">添加导航</a></h3>
+        <h3 class="border-bottom pb-2 mb-4 text-secondary">{{items[items.length-1].text}} <a href="nav_edit.html" class="btn btn-success float-right px-4">新增</a></h3>
         <b-tabs>
           <b-tab title="主导航" active>
             <div class="py-3 text-center">
