@@ -8,7 +8,7 @@ class SampleModel {
     public function __construct() {
     }   
     
-    public function selectSample() {
+    public function selectSampleselectSample() {
         return 'Hello World!';
     }
 

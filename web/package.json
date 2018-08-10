@@ -1,8 +1,8 @@
 {
   "name": "Gadmin WEB",
-  "description": "前端资源包括html、css、js、image等，通过webpack打包后可直接放置在CDN上的资源文件。",
+  "description": "",
   "version": "1.0.0",
-  "author": "gavin <278033412@qq.com>",
+  "author": "gavin <gulei125@qq.com>",
   "private": true,
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot",
