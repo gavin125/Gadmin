@@ -7,16 +7,14 @@
 
 
 
-
 class IndexModel {
 
   public function __construct() {
-  	include '_PDO.php';
-  	$this->_pdo=_PDO::getInstance()->connect('localhost','xiaoguge','root','');
+  	$this->_pdo=Yaf_Registry::get('pdo');
   }   
   
   public function get($id) {
-  	$sth=$this->_pdo->prepare('SELECT * FROM xgg_admin WHERE id=?');
+  	$sth=$this->_pdo->prepare('SELECT * FROM xz_admin WHERE user_id=?');
   	$sth->execute(array($id));
   	return $sth->fetch(PDO::FETCH_ASSOC);
 

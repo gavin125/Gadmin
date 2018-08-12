@@ -1,6 +1,6 @@
 <template>
   <div>
-    <script id="editor" type="text/plain" ></script>
+    <script id="editor" type="text/plain" > {{defaultMsg}}</script>
   </div>
 </template>
 
@@ -16,12 +16,19 @@
    
     data() {
       return {
-        editor: null
+        editor: null,
+        defaultMsg: '这里是UE测试',
+        config: {
+          toolbars: [
+            ['fullscreen', 'source', 'undo', 'redo'],
+    ['bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc']
+          ],
+          initialFrameWidth : 800,
+          initialFrameHeight : 300
+        },
       }
     },
     mounted() {
-      //初始化UE
-      const _this = this;
       this.editor = UM.getEditor('editor',this.config);
     },
     destoryed() {

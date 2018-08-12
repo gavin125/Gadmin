@@ -7,20 +7,24 @@
  * 这些方法, 都接受一个参数:Yaf_Dispatcher $dispatcher
  * 调用的次序, 和申明的次序相同
  */
+require_once 'plugins/_PDO.php';
+
+
 class Bootstrap extends Yaf_Bootstrap_Abstract {
 
+	private $_db;
 
-    public function _initConfig() {
+  public function _initConfig() {
 		//把配置保存起来
-		$arrConfig = Yaf_Application::app()->getConfig();
-		var_dump($arrConfig);
-		Yaf_Registry::set('config', $arrConfig);
+		$this->_db = Yaf_Application::app()->getConfig()->db;
 	}
 
 	public function _initPlugin(Yaf_Dispatcher $dispatcher) {
 		//注册一个插件
-		$objSamplePlugin = new SamplePlugin();
-		$dispatcher->registerPlugin($objSamplePlugin);
+		// $objSamplePlugin = new SamplePlugin();
+		// $dispatcher->registerPlugin($objSamplePlugin);
+		$pdo=_PDO::getInstance()->connect($this->_db->host,$this->_db->name,$this->_db->user,$this->_db->pass);
+		Yaf_Registry::set('pdo', $pdo);
 	}
 
 	public function _initRoute(Yaf_Dispatcher $dispatcher) {
@@ -35,7 +39,7 @@ class Bootstrap extends Yaf_Bootstrap_Abstract {
 		// $router->addRoute('product',$route);
 	}
 	
-	public function _initView(Yaf_Dispatcher $dispatcher) {
-		//在这里注册自己的view控制器，例如smarty,firekylin
-	}
+	// public function _initView(Yaf_Dispatcher $dispatcher) {
+	// 	//在这里注册自己的view控制器，例如smarty,firekylin
+	// }
 }

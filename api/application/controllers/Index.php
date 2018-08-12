@@ -24,7 +24,7 @@ class IndexController extends Yaf_Controller_Abstract {
 		$id = $this->getRequest()->getQuery("id");
 		//调用Model，返回数据
 		$model = new IndexModel();
-		if($text=$model->get($id)){
+		if($text=$model->get(1)){
 			echo $this->_createJson(0,'',$text);
 		}
 

@@ -40,7 +40,7 @@
             </b-form-row>
             <b-form-row class="mb-2">
               <div class="col-2 text-right py-1">页面内容</div>
-              <div class="col-4"></div>
+              <div class="col-4"><ueditor :defaultMsg=defaultMsg :config='config' ref="ue"></ueditor></div>
             </b-form-row>
             <b-form-row>
               <div class="col-2 text-right py-1"></div>
@@ -52,11 +52,11 @@
       
       </div>
 
-      <div>
-        <div class="quill-editor" v-model="content"v-quill:myQuillEditor="editorOption"></div>
 
-        <div class="quill-editor" :content="content" @change="onEditorChange($event)" v-quill:myQuillEditor="editorOption"></div>
+      <div>
+        
       </div>
+
 
     </div>
 
@@ -75,24 +75,18 @@
 import xggHead from '../../components/xggHead.vue'
 import xggMenu from '../../components/xggMenu.vue'
 import xggFoot from '../../components/xggFoot.vue'
+import ueditor from '../../components/ueditor.vue'
 
-import { quillEditor } from 'vue-quill-editor'
-import 'quill/dist/quill.core.css'
-import 'quill/dist/quill.snow.css'
-import 'quill/dist/quill.bubble.css'
 
 export default {
   components: {
     xggHead,
     xggMenu,
     xggFoot,
-    quillEditor
+    ueditor
   },
   data(){
     return {
-
-      content: '<p>example content</p>',
-      editorOption: { /* quill options */ }
 
 
       manager:{id:1,name:'admin2'},
