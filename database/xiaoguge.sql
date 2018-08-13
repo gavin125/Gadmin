@@ -1,0 +1,428 @@
+-- phpMyAdmin SQL Dump
+-- version 4.5.1
+-- http://www.phpmyadmin.net
+--
+-- Host: 127.0.0.1
+-- Generation Time: 2018-08-13 12:24:53
+-- 服务器版本： 10.1.19-MariaDB
+-- PHP Version: 5.6.28
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `xiaoguge`
+--
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `xgg_admin`
+--
+
+CREATE TABLE `xgg_admin` (
+  `id` smallint(5) UNSIGNED NOT NULL COMMENT 'ID',
+  `user_name` varchar(32) NOT NULL COMMENT '账号',
+  `pass_word` varchar(32) NOT NULL COMMENT '密码',
+  `email` varchar(60) NOT NULL COMMENT '邮箱',
+  `action_list` text NOT NULL COMMENT '权限',
+  `add_time` int(10) UNSIGNED NOT NULL COMMENT '注册时间',
+  `last_login` int(10) UNSIGNED NOT NULL COMMENT '最后登录时间',
+  `last_ip` varchar(15) NOT NULL COMMENT '最后登录IP'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='管理员';
+
+--
+-- 转存表中的数据 `xgg_admin`
+--
+
+INSERT INTO `xgg_admin` (`id`, `user_name`, `pass_word`, `email`, `action_list`, `add_time`, `last_login`, `last_ip`) VALUES
+(1, 'admin', '96e79218965eb72c92a549dd5a330112', '', 'ALL', 1509980132, 1528443988, '127.0.0.1');
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `xgg_article`
+--
+
+CREATE TABLE `xgg_article` (
+  `id` mediumint(8) UNSIGNED NOT NULL COMMENT 'ID',
+  `cat_id` smallint(5) UNSIGNED NOT NULL DEFAULT '0' COMMENT '分类',
+  `title` varchar(150) NOT NULL DEFAULT '' COMMENT '标题',
+  `content` longtext NOT NULL COMMENT '详情',
+  `image` varchar(255) NOT NULL DEFAULT '' COMMENT '图片',
+  `click` smallint(5) UNSIGNED NOT NULL DEFAULT '0' COMMENT '点击',
+  `key_word` varchar(255) NOT NULL DEFAULT '' COMMENT '关键词',
+  `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
+  `add_time` varchar(50) DEFAULT NULL COMMENT '添加时间',
+  `sort` tinyint(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '排序'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='产品';
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `xgg_article_group`
+--
+
+CREATE TABLE `xgg_article_group` (
+  `id` smallint(5) UNSIGNED NOT NULL,
+  `name` varchar(50) NOT NULL COMMENT '名称',
+  `parent_id` smallint(5) NOT NULL DEFAULT '0' COMMENT '父级ID',
+  `sort` tinyint(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '排序'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='页面';
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `xgg_case`
+--
+
+CREATE TABLE `xgg_case` (
+  `id` mediumint(8) UNSIGNED NOT NULL COMMENT 'ID',
+  `cat_id` smallint(5) UNSIGNED NOT NULL DEFAULT '0' COMMENT '分类',
+  `name` varchar(150) NOT NULL DEFAULT '' COMMENT '名称',
+  `content` longtext NOT NULL COMMENT '详情',
+  `image` varchar(255) NOT NULL DEFAULT '' COMMENT '图片',
+  `click` smallint(5) UNSIGNED NOT NULL DEFAULT '0' COMMENT '点击',
+  `keywords` varchar(255) NOT NULL DEFAULT '' COMMENT '关键词',
+  `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
+  `add_time` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '添加时间',
+  `sort` tinyint(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '排序'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='案例';
+
+--
+-- 转存表中的数据 `xgg_case`
+--
+
+INSERT INTO `xgg_case` (`id`, `cat_id`, `name`, `content`, `image`, `click`, `keywords`, `description`, `add_time`, `sort`) VALUES
+(1, 0, '小古哥 个人APP案例', '小古哥 个人APP案例', '4.jpg', 0, '小古哥 个人APP案例', '小古哥 个人APP案例', 0, 0);
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `xgg_case_group`
+--
+
+CREATE TABLE `xgg_case_group` (
+  `id` smallint(5) UNSIGNED NOT NULL,
+  `name` varchar(50) NOT NULL COMMENT '名称',
+  `parent_id` smallint(5) NOT NULL DEFAULT '0' COMMENT '父级ID',
+  `sort` tinyint(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '排序'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='页面';
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `xgg_config`
+--
+
+CREATE TABLE `xgg_config` (
+  `id` smallint(5) UNSIGNED NOT NULL COMMENT 'ID',
+  `name` varchar(50) NOT NULL COMMENT '属性',
+  `value` text NOT NULL COMMENT '值',
+  `type` varchar(10) NOT NULL COMMENT '类型'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='配置';
+
+--
+-- 转存表中的数据 `xgg_config`
+--
+
+INSERT INTO `xgg_config` (`id`, `name`, `value`, `type`) VALUES
+(1, 'title', '小古哥-全栈工程师', 'string'),
+(2, 'keywords', '小古哥 全栈工程师 网站开发建设 网站定制开发 HTML5 H5游戏 APP开发 Android IOS', 'string'),
+(3, 'description', '全栈开发工程师，先后从事美术设计与技术开发等相关工作，熟练掌握多种设计软件和编程语言。对常见互联网产品的用户体验和研发流程有深入理解，精通各类网站/H5/小程序/APP的制作与开发。', 'string'),
+(4, 'logo', 'logo.png', 'src'),
+(5, 'icp', '沪ICP备17025818号-1', 'string'),
+(7, 'tel', '15000902705', 'string'),
+(8, 'address', '上海浦东新区杨高南路799号', 'string'),
+(9, 'email', 'gulei125@163.com', 'string'),
+(10, 'code', '', 'code'),
+(6, 'qq', '278033412', 'number'),
+(11, 'display', '', 'json');
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `xgg_link`
+--
+
+CREATE TABLE `xgg_link` (
+  `id` smallint(5) UNSIGNED NOT NULL COMMENT 'ID',
+  `name` varchar(60) NOT NULL DEFAULT '' COMMENT '名称',
+  `url` varchar(255) NOT NULL DEFAULT '' COMMENT '链接',
+  `img` varchar(255) NOT NULL COMMENT '图片',
+  `sort` tinyint(3) UNSIGNED NOT NULL DEFAULT '50' COMMENT '排序'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='友情链接';
+
+--
+-- 转存表中的数据 `xgg_link`
+--
+
+INSERT INTO `xgg_link` (`id`, `name`, `url`, `img`, `sort`) VALUES
+(1, '江苏哈工智能机器人股份有限公司', 'www.hgzngroup.com', 'data/link/20180528zxgwis.png', 10);
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `xgg_log`
+--
+
+CREATE TABLE `xgg_log` (
+  `id` int(10) UNSIGNED NOT NULL COMMENT 'ID',
+  `user_id` tinyint(3) UNSIGNED NOT NULL COMMENT '管理员ID',
+  `add_time` int(10) UNSIGNED NOT NULL COMMENT '时间',
+  `action` varchar(255) NOT NULL COMMENT '动作',
+  `last_ip` varchar(15) NOT NULL COMMENT 'IP'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='日志';
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `xgg_nav`
+--
+
+CREATE TABLE `xgg_nav` (
+  `id` smallint(5) UNSIGNED NOT NULL COMMENT 'ID',
+  `name` varchar(50) NOT NULL COMMENT '名称',
+  `site` varchar(10) NOT NULL DEFAULT 'main' COMMENT '位置：top|main|bottom',
+  `link` varchar(255) NOT NULL COMMENT '链接',
+  `sort` tinyint(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '排序'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='轮播图';
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `xgg_page`
+--
+
+CREATE TABLE `xgg_page` (
+  `id` mediumint(8) UNSIGNED NOT NULL,
+  `name` varchar(50) NOT NULL COMMENT '名称',
+  `parent_id` smallint(5) NOT NULL DEFAULT '0' COMMENT '父级ID',
+  `banenr` varchar(255) NOT NULL COMMENT 'banner',
+  `content` longtext NOT NULL COMMENT '页面内容',
+  `keywords` varchar(255) NOT NULL DEFAULT '',
+  `description` varchar(255) NOT NULL DEFAULT ''
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='页面';
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `xgg_product`
+--
+
+CREATE TABLE `xgg_product` (
+  `id` mediumint(8) UNSIGNED NOT NULL COMMENT 'ID',
+  `cat_id` smallint(5) UNSIGNED NOT NULL DEFAULT '0' COMMENT '分类',
+  `name` varchar(150) NOT NULL DEFAULT '' COMMENT '名称',
+  `content` longtext NOT NULL COMMENT '详情',
+  `image` varchar(255) NOT NULL DEFAULT '' COMMENT '图片',
+  `key_word` varchar(255) NOT NULL DEFAULT '' COMMENT '关键词',
+  `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
+  `add_time` varchar(50) DEFAULT NULL COMMENT '添加时间',
+  `sort` tinyint(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '排序'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='产品';
+
+--
+-- 转存表中的数据 `xgg_product`
+--
+
+INSERT INTO `xgg_product` (`id`, `cat_id`, `name`, `content`, `image`, `key_word`, `description`, `add_time`, `sort`) VALUES
+(1, 0, '企业网站定制', '根据企业的所属行业、产品特点、网站结构、审美需要等量身定制，界面设计和功能开发上有很大的灵活性。', '1.jpg', '企业网站定制', '根据企业的所属行业、产品特点、网站结构、审美需要等量身定制，界面设计和功能开发上有很大的灵活性。', NULL, 0),
+(2, 0, '高级前端开发', '专注各类前端技术，熟悉常用前端框架，可配合开发PC端或移动端的各类界面交互，活动游戏等。', '2.jpg', '高级前端开发', '专注各类前端技术，熟悉常用前端框架，可配合开发PC端或移动端的各类界面交互，活动游戏等。', NULL, 0),
+(3, 0, 'APP开发', '采用MUI框架，一次开发即可多端发布，轻松解决高频应用的移动客户端需求。', '3.jpg', 'APP开发', '采用MUI框架，一次开发即可多端发布，轻松解决高频应用的移动客户端需求。', NULL, 0);
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `xgg_product_group`
+--
+
+CREATE TABLE `xgg_product_group` (
+  `id` smallint(5) UNSIGNED NOT NULL,
+  `name` varchar(50) NOT NULL COMMENT '名称',
+  `parent_id` smallint(5) NOT NULL DEFAULT '0' COMMENT '父级ID',
+  `sort` tinyint(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '排序'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='页面';
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `xgg_show`
+--
+
+CREATE TABLE `xgg_show` (
+  `id` smallint(5) UNSIGNED NOT NULL COMMENT 'ID',
+  `name` varchar(60) NOT NULL DEFAULT '' COMMENT '名称',
+  `link` varchar(255) NOT NULL DEFAULT '' COMMENT '链接',
+  `img` varchar(255) NOT NULL COMMENT '图片',
+  `type` varchar(10) NOT NULL COMMENT '类型',
+  `sort` tinyint(3) UNSIGNED NOT NULL DEFAULT '50' COMMENT '排序'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='轮播图';
+
+--
+-- 转存表中的数据 `xgg_show`
+--
+
+INSERT INTO `xgg_show` (`id`, `name`, `link`, `img`, `type`, `sort`) VALUES
+(1, '江苏哈工智能机器人股份有限公司', 'www.hgzngroup.com', 'data/link/20180528zxgwis.png', 'PC', 10);
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `xgg_admin`
+--
+ALTER TABLE `xgg_admin`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `xgg_article`
+--
+ALTER TABLE `xgg_article`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `xgg_article_group`
+--
+ALTER TABLE `xgg_article_group`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `xgg_case`
+--
+ALTER TABLE `xgg_case`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `xgg_case_group`
+--
+ALTER TABLE `xgg_case_group`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `xgg_config`
+--
+ALTER TABLE `xgg_config`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `xgg_link`
+--
+ALTER TABLE `xgg_link`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `xgg_log`
+--
+ALTER TABLE `xgg_log`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `xgg_nav`
+--
+ALTER TABLE `xgg_nav`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `xgg_page`
+--
+ALTER TABLE `xgg_page`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `xgg_product`
+--
+ALTER TABLE `xgg_product`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `xgg_product_group`
+--
+ALTER TABLE `xgg_product_group`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `xgg_show`
+--
+ALTER TABLE `xgg_show`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- 在导出的表使用AUTO_INCREMENT
+--
+
+--
+-- 使用表AUTO_INCREMENT `xgg_admin`
+--
+ALTER TABLE `xgg_admin`
+  MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=2;
+--
+-- 使用表AUTO_INCREMENT `xgg_article`
+--
+ALTER TABLE `xgg_article`
+  MODIFY `id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID';
+--
+-- 使用表AUTO_INCREMENT `xgg_article_group`
+--
+ALTER TABLE `xgg_article_group`
+  MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- 使用表AUTO_INCREMENT `xgg_case`
+--
+ALTER TABLE `xgg_case`
+  MODIFY `id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=2;
+--
+-- 使用表AUTO_INCREMENT `xgg_case_group`
+--
+ALTER TABLE `xgg_case_group`
+  MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- 使用表AUTO_INCREMENT `xgg_config`
+--
+ALTER TABLE `xgg_config`
+  MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=12;
+--
+-- 使用表AUTO_INCREMENT `xgg_link`
+--
+ALTER TABLE `xgg_link`
+  MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=2;
+--
+-- 使用表AUTO_INCREMENT `xgg_log`
+--
+ALTER TABLE `xgg_log`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID';
+--
+-- 使用表AUTO_INCREMENT `xgg_nav`
+--
+ALTER TABLE `xgg_nav`
+  MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID';
+--
+-- 使用表AUTO_INCREMENT `xgg_page`
+--
+ALTER TABLE `xgg_page`
+  MODIFY `id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- 使用表AUTO_INCREMENT `xgg_product`
+--
+ALTER TABLE `xgg_product`
+  MODIFY `id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=4;
+--
+-- 使用表AUTO_INCREMENT `xgg_product_group`
+--
+ALTER TABLE `xgg_product_group`
+  MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- 使用表AUTO_INCREMENT `xgg_show`
+--
+ALTER TABLE `xgg_show`
+  MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=2;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
