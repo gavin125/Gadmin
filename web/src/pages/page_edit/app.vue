@@ -11,7 +11,7 @@
       <div class="container-fluid">
         <h3 class="border-bottom pb-2 mb-4 text-secondary">{{items[items.length-1].text}} <a href="page.html" class="btn btn-success btn-sm float-right">返回列表</a></h3>
         <div class="py-3 Xggfz14">
-          <b-form>
+          <b-form @submit="onSubmit">
             <b-form-row class="mb-2">
               <div class="col-2 text-right py-1">标题</div>
               <div class="col-4"><b-form-input size='sm' v-model="page.title" type="text"/></b-form-input></div>
@@ -20,8 +20,8 @@
               <div class="col-2 text-right py-1">banner</div>
               <div class="col-4">
                 <div class="custom-file">
-                  <input type="file" class="custom-file-input" id="customFile" @change="changeImage($event)">
-                  <label class="custom-file-label" for="customFile" v-text='page.banner'> </label>
+                  <input type="file" class="custom-file-input" id="customFile" @change="changeImage($event)" >
+                  <label class="custom-file-label" for="customFile" v-text='page.banner'></label>
                 </div>
               </div>
               <div class="col-2 position-relative"><img class="position-absolute w-100" :src="page.banner64" alt=""></div>
@@ -40,7 +40,7 @@
             </b-form-row>
             <b-form-row class="mb-2">
               <div class="col-2 text-right py-1">页面内容</div>
-              <div class="col-4"><ueditor :defaultMsg=defaultMsg :config='config' ref="ue"></ueditor></div>
+              <div class="col-6"><wangeditor :inittxt='page.content' v-on:listenEditor='listenEditor'></wangeditor></div>
             </b-form-row>
             <b-form-row>
               <div class="col-2 text-right py-1"></div>
@@ -53,10 +53,6 @@
       </div>
 
 
-      <div>
-        
-      </div>
-
 
     </div>
 
@@ -68,6 +64,7 @@
 
 <style>
 @import '../../assets/common.scss';
+.custom-file-label::after{content: '浏览'}
 </style>
 
 <script>
@@ -75,7 +72,7 @@
 import xggHead from '../../components/xggHead.vue'
 import xggMenu from '../../components/xggMenu.vue'
 import xggFoot from '../../components/xggFoot.vue'
-import ueditor from '../../components/ueditor.vue'
+import wangeditor from '../../components/wangeditor.vue'
 
 
 export default {
@@ -83,7 +80,7 @@ export default {
     xggHead,
     xggMenu,
     xggFoot,
-    ueditor
+    wangeditor
   },
   data(){
     return {
@@ -97,8 +94,8 @@ export default {
         [{
           text:'系统设置',link:'system.html',active:false},{
           text:'导航栏',link:'nav.html',active:false},{
-          text:'轮播图',link:'carousel.html',active:true},{
-          text:'单页面',link:'page.html',active:false
+          text:'轮播图',link:'carousel.html',active:false},{
+          text:'单页面',link:'page.html',active:true
         }],
         [{
           text:'管理员',link:'manager.html',active:false},{
@@ -119,7 +116,7 @@ export default {
         typeOps:[{ value:0,text:'cn'},{value:1,text:'en'}],
         keywords:'',
         description:'',
-        content:''
+        content:'<p>请编辑内容</p>'
       },
       
     }
@@ -128,18 +125,22 @@ export default {
   methods:{
     changeImage(e) {
       var file = e.target.files[0]
-      this.carousel.img=file.name;
+      this.page.banner=file.name;
       var reader = new FileReader()
       var that = this
       reader.readAsDataURL(file)
       reader.onload = function(e) {
         var imgFile = e.target.result;
         console.log(imgFile);
-        that.carousel.b64img=imgFile;
+        that.page.banner64=imgFile;
       }
     },
-    onEditorChange(e){
-      console.log(e);
+    listenEditor(data){
+      this.page.content=data;
+    },
+    onSubmit(e){
+      e.preventDefault();
+      alert(JSON.stringify(this.form));
     }
     
   }

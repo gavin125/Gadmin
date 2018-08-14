@@ -12,7 +12,7 @@
       <div class="container-fluid">
         <h4 class="border-bottom pb-2 mb-4 text-secondary">{{items[items.length-1].text}}</h4>
         <h5 class="border-bottom pb-2 text-muted">单页面管理</h5>
-        <div class="mb-3">
+        <div class="mb-4">
           <a href="" class="btn btn-dark mr-2 px-4">公司介绍</a>
           <a href="" class="btn btn-dark mr-2 px-4">联系方式</a>
         </div>
