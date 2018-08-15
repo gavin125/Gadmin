@@ -9,23 +9,25 @@
     <div class="xggMain bg-white pb-2 border-left border-bottom">
       <b-breadcrumb :items="items" class="rounded-0 border-bottom py-2 bg-light"/>
       <div class="container-fluid">
-        <h3 class="border-bottom pb-2 mb-4 text-secondary">{{items[items.length-1].text}} <a href="page_edit.html" class="btn btn-success float-right px-4">新增</a></h3>
+        <h3 class="border-bottom pb-2 mb-4 text-secondary">{{items[items.length-1].text}} <a href="manager_edit.html" class="btn btn-success float-right px-4">新增</a></h3>
         <div class="py-3 text-center ">
           <table class="table table-bordered">
             <tr class="bg-light">
-             <th width="150">标题</th>
-             <th>banner</th>
-             <th>上级栏目</th>
-             <th>关键词</th>
+             <th width="120">编号</th>
+             <th>管理员</th>
+             <th>email</th>
+             <th>添加时间</th>
+             <th>最后登录时间</th>
              <th width="150">操作</th>
             </tr>
             <tbody>
             <tr>
-             <td class="align-middle">公司介绍</td>
-             <td><img src="../../assets/20130514acunau_thumb.jpg" alt=""></td>
-             <td class="align-middle">无</td>
-             <td class="align-middle">公司介绍 上市公司</td>
-             <td class="align-middle"><a href="page_edit.html">编辑</a> | <a href="#">删除</a></td>
+             <td>1</td>
+             <td>admin</td>
+             <td>123@123.com</td>
+             <td>2018-08-06 12:05:50</td>
+             <td>2018-08-06 12:05:50</td>
+             <td><a href="manager_edit.html">编辑</a> | <a href="#">删除</a></td>
             </tr>
             </tbody>
           </table>
@@ -65,10 +67,10 @@ export default {
           text:'系统设置',link:'system.html',active:false},{
           text:'导航栏',link:'nav.html',active:false},{
           text:'轮播图',link:'carousel.html',active:false},{
-          text:'单页面',link:'page.html',active:true
+          text:'单页面',link:'page.html',active:false
         }],
         [{
-          text:'管理员',link:'manager.html',active:false},{
+          text:'管理员',link:'manager.html',active:true},{
           text:'操作记录',link:'log.html',active:false},{
           text:'数据备份',link:'backup.html',active:false
         }],
@@ -83,7 +85,7 @@ export default {
       ],
       items: [{
         text: '网站管理中心',active: true},{
-        text: '单页面',active: true
+        text: '管理员',active: true
       }]
     }
   },

@@ -93,6 +93,14 @@ export default {
           text:'操作记录',link:'log.html',active:false},{
           text:'数据备份',link:'backup.html',active:false
         }],
+        [{
+          text:'文章分类',link:'article_group.html',active:false},{
+          text:'文章列表',link:'article.html',active:false
+        }],
+        [{
+          text:'产品分类',link:'product_group.html',active:false},{
+          text:'产品列表',link:'product.html',active:false
+        }],
       ],
       items: [{
         text: '网站管理中心',active: true},{
