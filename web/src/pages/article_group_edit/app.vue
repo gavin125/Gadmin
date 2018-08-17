@@ -9,39 +9,21 @@
     <div class="xggMain bg-white pb-2 border-left border-bottom">
       <b-breadcrumb :items="items" class="rounded-0 border-bottom py-2 bg-light"/>
       <div class="container-fluid">
-        <h3 class="border-bottom pb-2 mb-4 text-secondary">{{items[items.length-1].text}} <a href="page.html" class="btn btn-success btn-sm float-right">返回列表</a></h3>
+        <h3 class="border-bottom pb-2 mb-4 text-secondary">{{items[items.length-1].text}} <a href="article_group.html" class="btn btn-success float-right">返回列表</a></h3>
         <div class="py-3 Xggfz14">
           <b-form @submit="onSubmit">
             <b-form-row class="mb-2">
-              <div class="col-2 text-right py-1">标题</div>
-              <div class="col-4"><b-form-input size='sm' v-model="page.title" type="text"/></b-form-input></div>
+              <div class="col-2 text-right py-1">分类名称</div>
+              <div class="col-4"><b-form-input size='sm' v-model="article_group.name" type="text"/></b-form-input></div>
             </b-form-row>
             <b-form-row class="mb-2">
-              <div class="col-2 text-right py-1">banner</div>
-              <div class="col-4">
-                <div class="custom-file">
-                  <input type="file" class="custom-file-input" id="customFile" @change="changeImage($event)" >
-                  <label class="custom-file-label" for="customFile" v-text='page.banner'></label>
-                </div>
-              </div>
-              <div class="col-2 position-relative"><img class="position-absolute w-100" :src="page.banner64" alt=""></div>
+              <div class="col-2 text-right py-1">父级分类</div>
+              <div class="col-4"><b-form-input size='sm' v-model="article_group.parent" type="text"/></b-form-input></div>
             </b-form-row>
             <b-form-row class="mb-2">
-              <div class="col-2 text-right py-1">上级分类</div>
-              <div class="col-4"><b-form-select size='sm' v-model="page.type" :options="page.typeOps" /></b-form-input></div>
-            </b-form-row>
-            <b-form-row class="mb-2">
-              <div class="col-2 text-right py-1">关键词</div>
-              <div class="col-4"><b-form-input size='sm' v-model="page.keywords" type="text"></b-form-input></div>
-            </b-form-row>
-            <b-form-row class="mb-2">
-              <div class="col-2 text-right py-1">描述</div>
-              <div class="col-4"><b-form-textarea size='sm' v-model="page.description":rows="3" :max-rows="5"></b-form-textarea></div>
-            </b-form-row>
-            <b-form-row class="mb-2">
-              <div class="col-2 text-right py-1">页面内容</div>
-              <div class="col-6"><wangeditor :inittxt='page.content' v-on:listenEditor='listenEditor'></wangeditor></div>
-            </b-form-row>
+              <div class="col-2 text-right py-1">排序</div>
+              <div class="col-4"><b-form-input size='sm' v-model="article_group.sort" type="text"></b-form-input></div>
+            </b-form-row>            
             <b-form-row>
               <div class="col-2 text-right py-1"></div>
               <div class="col-4"><b-button type="submit" class="px-5" variant="success">保 存</b-button></div>
@@ -95,7 +77,7 @@ export default {
           text:'系统设置',link:'system.html',active:false},{
           text:'导航栏',link:'nav.html',active:false},{
           text:'轮播图',link:'carousel.html',active:false},{
-          text:'单页面',link:'page.html',active:true
+          text:'单页面',link:'page.html',active:false
         }],
         [{
           text:'管理员',link:'manager.html',active:false},{
@@ -103,7 +85,7 @@ export default {
           text:'数据备份',link:'backup.html',active:false
         }],
         [{
-          text:'文章分类',link:'article_group.html',active:false},{
+          text:'文章分类',link:'article_group.html',active:true},{
           text:'文章列表',link:'article.html',active:false
         }],
         [{
@@ -113,17 +95,12 @@ export default {
       ],
       items: [{
         text: '网站管理中心',active: true},{
-        text: '编辑单页面',active: true
+        text: '编辑分类',active: true
       }],
-      page:{
-        title:'',
-        banner:'',
-        banner64:'',
-        type:'',
-        typeOps:[{ value:0,text:'cn'},{value:1,text:'en'}],
-        keywords:'',
-        description:'',
-        content:'<p>请编辑内容</p>'
+      article_group:{
+        name:'',
+        parent:'',
+        sort:''
       },
       
     }

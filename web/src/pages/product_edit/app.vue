@@ -9,38 +9,43 @@
     <div class="xggMain bg-white pb-2 border-left border-bottom">
       <b-breadcrumb :items="items" class="rounded-0 border-bottom py-2 bg-light"/>
       <div class="container-fluid">
-        <h3 class="border-bottom pb-2 mb-4 text-secondary">{{items[items.length-1].text}} <a href="page.html" class="btn btn-success btn-sm float-right">返回列表</a></h3>
+        <h3 class="border-bottom pb-2 mb-4 text-secondary">{{items[items.length-1].text}} <a href="product.html" class="btn btn-success btn-sm float-right">返回列表</a></h3>
         <div class="py-3 Xggfz14">
           <b-form @submit="onSubmit">
             <b-form-row class="mb-2">
+              <div class="col-2 text-right py-1">分类</div>
+              <div class="col-4"><b-form-select size='sm' v-model="product.group" :options="product.groupOps" /></b-form-input></div>
+            </b-form-row>
+            <b-form-row class="mb-2">
               <div class="col-2 text-right py-1">标题</div>
-              <div class="col-4"><b-form-input size='sm' v-model="page.title" type="text"/></b-form-input></div>
-            </b-form-row>
-            <b-form-row class="mb-2">
-              <div class="col-2 text-right py-1">banner</div>
-              <div class="col-4">
-                <div class="custom-file">
-                  <input type="file" class="custom-file-input" id="customFile" @change="changeImage($event)" >
-                  <label class="custom-file-label" for="customFile" v-text='page.banner'></label>
-                </div>
-              </div>
-              <div class="col-2 position-relative"><img class="position-absolute w-100" :src="page.banner64" alt=""></div>
-            </b-form-row>
-            <b-form-row class="mb-2">
-              <div class="col-2 text-right py-1">上级分类</div>
-              <div class="col-4"><b-form-select size='sm' v-model="page.type" :options="page.typeOps" /></b-form-input></div>
-            </b-form-row>
-            <b-form-row class="mb-2">
-              <div class="col-2 text-right py-1">关键词</div>
-              <div class="col-4"><b-form-input size='sm' v-model="page.keywords" type="text"></b-form-input></div>
-            </b-form-row>
-            <b-form-row class="mb-2">
-              <div class="col-2 text-right py-1">描述</div>
-              <div class="col-4"><b-form-textarea size='sm' v-model="page.description":rows="3" :max-rows="5"></b-form-textarea></div>
+              <div class="col-4"><b-form-input size='sm' v-model="product.title" type="text"/></b-form-input></div>
             </b-form-row>
             <b-form-row class="mb-2">
               <div class="col-2 text-right py-1">页面内容</div>
-              <div class="col-6"><wangeditor :inittxt='page.content' v-on:listenEditor='listenEditor'></wangeditor></div>
+              <div class="col-6"><wangeditor :inittxt='product.content' v-on:listenEditor='listenEditor'></wangeditor></div>
+            </b-form-row>
+            <b-form-row class="mb-2">
+              <div class="col-2 text-right py-1">缩略图</div>
+              <div class="col-4">
+                <div class="custom-file">
+                  <input type="file" class="custom-file-input" id="customFile" @change="changeImage($event)" >
+                  <label class="custom-file-label" for="customFile" v-text='product.image'></label>
+                </div>
+              </div>
+              <div class="col-2 position-relative"><img class="position-absolute w-100" :src="product.image64" alt=""></div>
+            </b-form-row>
+            
+            <b-form-row class="mb-2">
+              <div class="col-2 text-right py-1">关键词</div>
+              <div class="col-4"><b-form-input size='sm' v-model="product.keywords" type="text"></b-form-input></div>
+            </b-form-row>
+            <b-form-row class="mb-2">
+              <div class="col-2 text-right py-1">描述</div>
+              <div class="col-4"><b-form-textarea size='sm' v-model="product.description":rows="3" :max-rows="5"></b-form-textarea></div>
+            </b-form-row>
+            <b-form-row class="mb-2">
+              <div class="col-2 text-right py-1">排序</div>
+              <div class="col-4"><b-form-input size='sm' v-model="product.sort" type="text"></b-form-input></div>
             </b-form-row>
             <b-form-row>
               <div class="col-2 text-right py-1"></div>
@@ -84,8 +89,6 @@ export default {
   },
   data(){
     return {
-
-
       manager:{id:1,name:'admin2'},
       menu:[
         [{
@@ -95,7 +98,7 @@ export default {
           text:'系统设置',link:'system.html',active:false},{
           text:'导航栏',link:'nav.html',active:false},{
           text:'轮播图',link:'carousel.html',active:false},{
-          text:'单页面',link:'page.html',active:true
+          text:'单页面',link:'page.html',active:false
         }],
         [{
           text:'管理员',link:'manager.html',active:false},{
@@ -108,22 +111,23 @@ export default {
         }],
         [{
           text:'产品分类',link:'product_group.html',active:false},{
-          text:'产品列表',link:'product.html',active:false
+          text:'产品列表',link:'product.html',active:true
         }],
       ],
       items: [{
         text: '网站管理中心',active: true},{
-        text: '编辑单页面',active: true
+        text: '编辑产品',active: true
       }],
-      page:{
+      product:{
+        group:'',
+        groupOps:[{ value:0,text:'无'},{value:1,text:'公司动态'},{value:2,text:'行业新闻'}],
         title:'',
-        banner:'',
-        banner64:'',
-        type:'',
-        typeOps:[{ value:0,text:'cn'},{value:1,text:'en'}],
+        content:'<p>请编辑内容</p>',
+        image:'',
+        image64:'',
         keywords:'',
         description:'',
-        content:'<p>请编辑内容</p>'
+        sort:''
       },
       
     }
@@ -132,18 +136,18 @@ export default {
   methods:{
     changeImage(e) {
       var file = e.target.files[0]
-      this.page.banner=file.name;
+      this.article.image=file.name;
       var reader = new FileReader()
       var that = this
       reader.readAsDataURL(file)
       reader.onload = function(e) {
         var imgFile = e.target.result;
         console.log(imgFile);
-        that.page.banner64=imgFile;
+        that.article.image64=imgFile;
       }
     },
     listenEditor(data){
-      this.page.content=data;
+      this.article.content=data;
     },
     onSubmit(e){
       e.preventDefault();

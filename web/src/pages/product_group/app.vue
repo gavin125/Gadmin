@@ -9,21 +9,23 @@
     <div class="xggMain bg-white pb-2 border-left border-bottom">
       <b-breadcrumb :items="items" class="rounded-0 border-bottom py-2 bg-light"/>
       <div class="container-fluid">
-        <h3 class="border-bottom pb-2 mb-4 text-secondary">{{items[items.length-1].text}}</h3>
+        <h3 class="border-bottom pb-2 mb-4 text-secondary">{{items[items.length-1].text}} <a href="product_group_edit.html" class="btn btn-success float-right px-4">新增</a></h3>
         <div class="py-3 text-center ">
           <table class="table table-bordered">
             <tr class="bg-light">
-             <th width="120">文件名</th>
-             <th>大小</th>
-             <th>备份日期</th>
-             <th>操作</th>
+             <th width="120">编号</th>
+             <th>分类名称</th>
+             <th>父级分类</th>
+             <th>排序</th>
+             <th width="150">操作</th>
             </tr>
             <tbody>
             <tr>
-             <td>case.sql</td>
-             <td>1.59K</td>
-             <td>2018-05-15 09:40:40</td>
-             <td><a href="#">导入</a> | <a href="#">下载</a> | <a href="#">删除</a></td>
+             <td>1</td>
+             <td>产品分类1</td>
+             <td>无</td>
+             <td>10</td>
+             <td><a href="product_group.html">编辑</a> | <a href="#">删除</a></td>
             </tr>
             </tbody>
           </table>
@@ -68,20 +70,20 @@ export default {
         [{
           text:'管理员',link:'manager.html',active:false},{
           text:'操作记录',link:'log.html',active:false},{
-          text:'数据备份',link:'backup.html',active:true
+          text:'数据备份',link:'backup.html',active:false
         }],
         [{
           text:'文章分类',link:'article_group.html',active:false},{
           text:'文章列表',link:'article.html',active:false
         }],
         [{
-          text:'产品分类',link:'product_group.html',active:false},{
+          text:'产品分类',link:'product_group.html',active:true},{
           text:'产品列表',link:'product.html',active:false
         }],
       ],
       items: [{
         text: '网站管理中心',active: true},{
-        text: '恢复备份',active: true
+        text: '产品分类',active: true
       }]
     }
   },
