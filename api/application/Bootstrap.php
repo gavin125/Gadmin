@@ -8,6 +8,7 @@
  * 调用的次序, 和申明的次序相同
  */
 require_once 'plugins/_PDO.php';
+require_once 'plugins/_Session.php';
 
 
 class Bootstrap extends Yaf_Bootstrap_Abstract {
@@ -25,6 +26,8 @@ class Bootstrap extends Yaf_Bootstrap_Abstract {
 		// $dispatcher->registerPlugin($objSamplePlugin);
 		$pdo=_PDO::getInstance()->connect($this->_db->host,$this->_db->name,$this->_db->user,$this->_db->pass);
 		Yaf_Registry::set('pdo', $pdo);
+		$ses=new _Session();
+		Yaf_Registry::set('ses', $ses);
 	}
 
 	public function _initRoute(Yaf_Dispatcher $dispatcher) {

@@ -14,7 +14,7 @@ class IndexModel {
   }   
   
   public function get($id) {
-  	$sth=$this->_pdo->prepare('SELECT * FROM xz_admin WHERE user_id=?');
+  	$sth=$this->_pdo->prepare('SELECT * FROM xgg_admin WHERE id=?');
   	$sth->execute(array($id));
   	return $sth->fetch(PDO::FETCH_ASSOC);
 

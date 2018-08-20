@@ -39,7 +39,6 @@ class IndexController extends Yaf_Controller_Abstract {
 
 	private function _createJson($code, $msg = '', $data = array()){
     if(!is_numeric($code)) {return '';}//如果状态码不是数字就返回空
-    //构造返回数据格式数组
     $result = array('errcode' => $code,'errmsg' =>$msg,'data' => $data);
     return json_encode($result,JSON_UNESCAPED_UNICODE);//中文不转码unicode
   }
