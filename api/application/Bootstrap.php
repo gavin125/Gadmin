@@ -10,6 +10,8 @@
 require_once 'plugins/_PDO.php';
 require_once 'plugins/_Session.php';
 
+header("Access-Control-Allow-Origin: *");
+
 
 class Bootstrap extends Yaf_Bootstrap_Abstract {
 

@@ -123,6 +123,7 @@
 import xggHead from '../../components/xggHead.vue'
 import xggMenu from '../../components/xggMenu.vue'
 import xggFoot from '../../components/xggFoot.vue'
+let _API='http://192.168.2.52/Gadmin/api/';
 
 export default {
   components: {
@@ -165,7 +166,7 @@ export default {
   },
 
   mounted () {
-    
+    // 获取管理员信息
     
   },
 

@@ -15,27 +15,27 @@ class ConfigController extends Yaf_Controller_Abstract {
 
   /*权限验证*/
 	private function _isAdmin(){
-		var_dump($this->getRequest()->getCookie(''));exit();
-    return true;
+
+		$model = new ConfigModel();
+    return $model->isadmin();
   }
 
 
-	/*获取*/
-	public function getAction(){
+	/*获取全部*/
+	public function getallAction(){
 
 		$model = new ConfigModel();
-		if($res=$model->get()){// 检查用户名是否存在
+		if($res=$model->getall()){// 获取配置信息
 			echo $this->_createJson(0,'',$res);
 		}
 		return false;
 	}
 
-
 	/*设置*/
 	public function updateAction(){
 
-		if(!$this->_isAdmin()){echo $this->_createJson(403,'没有权限');}
-
+		if(!$this->_isAdmin()){echo $this->_createJson(403,'没有权限');exit();}
+		echo $this->_createJson(0,'可以更新');
 		// $user_name = $this->getRequest()->getPost("user_name");
 		// $pass_word = $this->getRequest()->getPost("pass_word");
 		// $eamil = $this->getRequest()->getPost("eamil");
