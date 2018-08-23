@@ -110,6 +110,9 @@
 
     <!-- foot -->
     <xggFoot></xggFoot>
+    
+    <!-- alert -->
+    <b-alert class='alert' variant="danger" dismissible :show="alert.show">{{alert.msg}}</b-alert>
 
   </div>
 </template>
@@ -123,7 +126,7 @@
 import xggHead from '../../components/xggHead.vue'
 import xggMenu from '../../components/xggMenu.vue'
 import xggFoot from '../../components/xggFoot.vue'
-let _API='http://192.168.2.52/Gadmin/api/';
+let _API='http://localhost/Gadmin/api/';
 
 export default {
   components: {
@@ -133,7 +136,8 @@ export default {
   },
   data () {
     return {
-      manager:{id:1,name:'admin2'},
+      alert:{show:false,msg:'这是一个错误提示！'},
+      manager:{id:0,name:''},
       menu:[
         [{
           text:'管理首页',link:'index.html',active:true
@@ -167,6 +171,12 @@ export default {
 
   mounted () {
     // 获取管理员信息
+    this.$axios.get(_API+"admin/get")
+    .then((res)=>{
+      if(res.data.errcode==0){
+        this.manager={id:res.data.data.id,name:res.data.data.user_name};
+      };
+    }).catch(function(err){console.log(err);})
     
   },
 

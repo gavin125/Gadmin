@@ -9,7 +9,7 @@
 class AdminModel {
   public function __construct() {
   	$this->_pdo=Yaf_Registry::get('pdo');
-  	$this->_ses=Yaf_Registry::get('ses');
+  	$this->_mem=Yaf_Registry::get('mem');
   }
 
   public $errcode=0,$errmsg='';
@@ -26,7 +26,7 @@ class AdminModel {
   }
 
   private function _isadmin() {
-    if($this->_ses->get('id')){return true;}
+    if($this->_mem->get('id')){return true;}
     return false;
   }
 
@@ -44,8 +44,8 @@ class AdminModel {
       $this->errmsg='密码不正确';
       return false;
   	}
-  	$this->_ses->set('id',$res['id']);
-    $this->_ses->set('uname',$uname);
+    $this->_mem->set('id',$res['id']);
+  	$this->_mem->set('name',$res['user_name']);
     $sth=$this->_pdo->prepare('UPDATE xgg_admin SET last_login=?,last_ip=? WHERE id=?');
     $sth->execute(array(time(),$ip,$res['id']));
     return true;
@@ -57,15 +57,16 @@ class AdminModel {
       $this->errmsg='没有权限';
       return false;
     }
-    $id=$this->_ses->get('id');
-    $sth=$this->_pdo->prepare('SELECT * FROM xgg_admin WHERE id=?');
-    $sth->execute(array($id));
+    
+    $sth=$this->_pdo->prepare('SELECT id,user_name FROM xgg_admin WHERE id=?');
+    $sth->execute(array($this->_mem->get('id')));
     $res=$sth->fetch(PDO::FETCH_ASSOC);
     if(!$res){
       $this->errcode=403;
-      $this->errmsg='id不争取';
+      $this->errmsg='信息不存在';
       return false;
     }
+    return $res;
   }
 
   // public function register($uname,$upw,$email,$aclist) {

@@ -14,14 +14,15 @@
         <b-form-row class="mb-3">
           <b-button type="submit" class="btn-block" variant="success">登录</b-button>
         </b-form-row>
-        <b-form-row class="justify-content-center">
+        <!-- <b-form-row class="justify-content-center">
           <a class='text-secondary px-2' href="reset.html">忘记密码？</a> | <a class='text-secondary px-2' href="">返回首页</a>
-        </b-form-row>
+        </b-form-row> -->
       </b-form>
 
       <!-- foot -->
       <xggFoot></xggFoot>
     </div>
+    <!-- alert -->
     <b-alert class='alert' variant="danger" dismissible :show="alert.show">{{alert.msg}}</b-alert>
   </div>
 </template>
@@ -37,7 +38,7 @@
 <script>
 
 import xggFoot from '../../components/xggFoot.vue';
-let _API='http://192.168.2.52/Gadmin/api/';
+let _API='http://localhost/Gadmin/api/';
 
 export default {
   components: {
@@ -51,6 +52,7 @@ export default {
   },
 
   mounted () {},
+
   methods:{
     _transformRequest:function(data){//转换josn数据
       let ret = ''
@@ -64,6 +66,7 @@ export default {
       }else{
         this.$axios.post(_API+"admin/login",this._transformRequest(this.manager))
         .then((res)=>{
+          console.log(res.data);
           if(res.data.errcode!=0){
             this.alert={show:true,msg:res.data.errmsg};
           }else{

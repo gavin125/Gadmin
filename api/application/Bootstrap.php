@@ -8,9 +8,10 @@
  * 调用的次序, 和申明的次序相同
  */
 require_once 'plugins/_PDO.php';
-require_once 'plugins/_Session.php';
+require_once 'plugins/_Memcache.php';
 
-header("Access-Control-Allow-Origin: *");
+
+header("Access-Control-Allow-Origin: http://localhost:8080");
 
 
 class Bootstrap extends Yaf_Bootstrap_Abstract {
@@ -20,6 +21,7 @@ class Bootstrap extends Yaf_Bootstrap_Abstract {
   public function _initConfig() {
 		//把配置保存起来
 		$this->_db = Yaf_Application::app()->getConfig()->db;
+		$this->_mem = Yaf_Application::app()->getConfig()->mem;
 	}
 
 	public function _initPlugin(Yaf_Dispatcher $dispatcher) {
@@ -28,8 +30,8 @@ class Bootstrap extends Yaf_Bootstrap_Abstract {
 		// $dispatcher->registerPlugin($objSamplePlugin);
 		$pdo=_PDO::getInstance()->connect($this->_db->host,$this->_db->name,$this->_db->user,$this->_db->pass);
 		Yaf_Registry::set('pdo', $pdo);
-		$ses=new _Session();
-		Yaf_Registry::set('ses', $ses);
+		$mem=_Memcache::getInstance()->connect($this->_mem->host,$this->_mem->port);
+		Yaf_Registry::set('mem', $mem);
 	}
 
 	public function _initRoute(Yaf_Dispatcher $dispatcher) {
