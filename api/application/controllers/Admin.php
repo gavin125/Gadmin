@@ -33,10 +33,22 @@ class AdminController extends Yaf_Controller_Abstract {
 
 
 	/*获取信息*/
-	public function getAction(){
+	public function getnameAction(){
 		
 		$model = new AdminModel();
-		if($res=$model->get()){
+		if($res=$model->getname()){
+			echo $this->_createJson(0,'',$res);
+		}else{
+			echo $this->_createJson($model->errcode,$model->errmsg);
+		}
+		return false;
+	}
+
+	/*获取信息*/
+	public function logoutAction(){
+		
+		$model = new AdminModel();
+		if($res=$model->logout()){
 			echo $this->_createJson(0,'',$res);
 		}else{
 			echo $this->_createJson($model->errcode,$model->errmsg);

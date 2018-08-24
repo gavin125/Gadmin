@@ -26,7 +26,7 @@ class AdminModel {
   }
 
   private function _isadmin() {
-    if($this->_mem->get('id')){return true;}
+    if($this->_mem->get('uid')){return true;}
     return false;
   }
 
@@ -44,28 +44,29 @@ class AdminModel {
       $this->errmsg='密码不正确';
       return false;
   	}
-    $this->_mem->set('id',$res['id']);
-  	$this->_mem->set('name',$res['user_name']);
+    $this->_mem->set('uid',$res['id']);
+  	$this->_mem->set('uname',$res['user_name']);
     $sth=$this->_pdo->prepare('UPDATE xgg_admin SET last_login=?,last_ip=? WHERE id=?');
     $sth->execute(array(time(),$ip,$res['id']));
+
+    // 添加日志
+    $sth=$this->_pdo->prepare('INSERT INTO xgg_admin_log (user_id,add_time,action,last_ip) VALUES (?,?,?,?)');
+    $sth->execute(array($res['id'],time(),'管理员登录成功',$ip));
     return true;
   }
 
-  public function get(){
+  public function getname(){
     if(!$this->_isadmin()){
       $this->errcode=403;
       $this->errmsg='没有权限';
       return false;
     }
-    
-    $sth=$this->_pdo->prepare('SELECT id,user_name FROM xgg_admin WHERE id=?');
-    $sth->execute(array($this->_mem->get('id')));
-    $res=$sth->fetch(PDO::FETCH_ASSOC);
-    if(!$res){
-      $this->errcode=403;
-      $this->errmsg='信息不存在';
-      return false;
-    }
+    return array('uid'=>$this->_mem->get('uid'),'uname'=>$this->_mem->get('uname'));
+  }
+
+  public function logout(){
+    $this->_mem->delete('uid');
+    $this->_mem->delete('uname');
     return $res;
   }
 

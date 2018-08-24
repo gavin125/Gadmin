@@ -9,37 +9,35 @@
 
 
 class IndexController extends Yaf_Controller_Abstract {
-	public function init(){
-		
-	}
 
-	public function indexAction() {
-		return $this->addAction();
-	}
-
-	public function addAction(){
-		// 检查权限
-		if(!$this->_isAdmin()){echo $this->_createJson(401,'没有权限');}
-		//获取参数
-		$id = $this->getRequest()->getQuery("id");
-		//调用Model，返回数据
-		$model = new IndexModel();
-		if($text=$model->get(1)){
-			echo $this->_createJson(0,'',$text);
-		}
-
-		return false;
-	}
-
-
-	private function _isAdmin(){
-		return true;
-	}
-
-
+	/*生成JSON*/
 	private function _createJson($code, $msg = '', $data = array()){
     if(!is_numeric($code)) {return '';}//如果状态码不是数字就返回空
     $result = array('errcode' => $code,'errmsg' =>$msg,'data' => $data);
     return json_encode($result,JSON_UNESCAPED_UNICODE);//中文不转码unicode
   }
+
+	public function getwebsiteAction() {
+
+		$model = new IndexModel();
+		if($res=$model->getwebsite()){
+			echo $this->_createJson(0,'',$res);
+		}else{
+			echo $this->_createJson($model->errcode,$model->errmsg);
+		}
+		return false;
+	}
+
+	public function getloginlogAction() {
+
+		$model = new IndexModel();
+		if($res=$model->getloginlog()){
+			echo $this->_createJson(0,'',$res);
+		}else{
+			echo $this->_createJson($model->errcode,$model->errmsg);
+		}
+		return false;
+	}
+
+	
 }

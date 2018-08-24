@@ -10,64 +10,60 @@
 
     <!-- main -->
     <div class="xggMain bg-white pb-2 border-left border-bottom">
-      <b-breadcrumb :items="items" class="rounded-0 border-bottom py-2 bg-light"/>
-      <div class="container-fluid">
-        <h3 class="border-bottom pb-2 mb-4 text-secondary">{{items[items.length-1].text}}</h3>
+      <b-breadcrumb :items="items" class="rounded-0 border-bottom py-2 px-4 bg-light"/>
+      <div class="container-fluid px-4">
+        <h3 class="border-bottom pb-2 mb-5 text-secondary">{{items[items.length-1].text}}</h3>
         <b-tabs class="h6">
           <b-tab title="常规设置" active>
             <div class="py-3">
               <b-form>
                 <b-form-row class="mb-2">
                   <div class="col-2 text-right py-1">站点标题</div>
-                  <div class="col-4"><b-form-input size='sm' v-model="defualt.title" type="text"></b-form-input></div>
+                  <div class="col-4"><b-form-input size='sm' v-model="defaults.title" type="text"></b-form-input></div>
                 </b-form-row>
                 <b-form-row class="mb-2">
                   <div class="col-2 text-right py-1">站点关键词</div>
-                  <div class="col-4"><b-form-input size='sm' v-model="defualt.keywords" type="text"></b-form-input></div>
+                  <div class="col-4"><b-form-input size='sm' v-model="defaults.keywords" type="text"></b-form-input></div>
                 </b-form-row>
                 <b-form-row class="mb-2">
                   <div class="col-2 text-right py-1">站点描述</div>
-                  <div class="col-4"><b-form-textarea size='sm' v-model="defualt.description":rows="3" :max-rows="5"></b-form-textarea></div>
+                  <div class="col-4"><b-form-textarea size='sm' v-model="defaults.description":rows="3" :max-rows="5"></b-form-textarea></div>
                 </b-form-row>
                 <b-form-row class="mb-2">
                   <div class="col-2 text-right py-1">站点LOGO</div>
                   <div class="col-4">
                     <div class="custom-file">
                       <input type="file" class="custom-file-input" id="customFile" @change="changeImage($event)">
-                      <label class="custom-file-label" for="customFile" v-text='defualt.logo'> </label>
+                      <label class="custom-file-label" for="customFile" v-text='defaults.logo'> </label>
                     </div>
                   </div>
-                  <div class="col-2 position-relative"><img class="position-absolute w-100" :src="defualt.logo64" alt=""></div>
+                  <div class="col-2 position-relative"><img class="position-absolute w-100" :src="defaults.logo64" alt=""></div>
                 </b-form-row>
                 <b-form-row class="mb-2">
                   <div class="col-2 text-right py-1">公司地址</div>
-                  <div class="col-4"><b-form-input size='sm' v-model="defualt.address" type="text"></b-form-input></div>
+                  <div class="col-4"><b-form-input size='sm' v-model="defaults.address" type="text"></b-form-input></div>
                 </b-form-row>
                 <b-form-row class="mb-2">
                   <div class="col-2 text-right py-1">备案号</div>
-                  <div class="col-4"><b-form-input size='sm' v-model="defualt.icp" type="text"></b-form-input></div>
+                  <div class="col-4"><b-form-input size='sm' v-model="defaults.icp" type="text"></b-form-input></div>
                 </b-form-row>
                 <b-form-row class="mb-2">
                   <div class="col-2 text-right py-1">服务热线</div>
-                  <div class="col-4"><b-form-input size='sm' v-model="defualt.tel" type="text"></b-form-input></div>
+                  <div class="col-4"><b-form-input size='sm' v-model="defaults.tel" type="text"></b-form-input></div>
                 </b-form-row>
                 <b-form-row class="mb-2">
                   <div class="col-2 text-right py-1">邮箱地址</div>
-                  <div class="col-4"><b-form-input size='sm' v-model="defualt.email" type="text"></b-form-input></div>
+                  <div class="col-4"><b-form-input size='sm' v-model="defaults.email" type="text"></b-form-input></div>
                 </b-form-row>
                 <b-form-row class="mb-2">
-                  <div class="col-2 text-right py-1">系统语言</div>
-                  <div class="col-4"><b-form-select size='sm' v-model="defualt.language" :options="defualt.languageOps" /></div>
-                </b-form-row>
-                <b-form-row class="mb-2">
-                  <div class="col-2 text-right py-1">启用网站地图</div>
+                  <div class="col-2 text-right py-1">是否开启网站</div>
                   <div class="col-4 py-1">
-                    <b-form-radio-group plain v-model="defualt.map" :options="defualt.mapOps" name="radioInline"></b-form-radio-group>
+                    <b-form-radio-group plain v-model="defaults.on_off" :options="defaults.on_offOps" name="radioInline"></b-form-radio-group>
                   </div>
                 </b-form-row>
                 <b-form-row class="mb-2">
                   <div class="col-2 text-right py-1">统计/客服代码</div>
-                  <div class="col-4"><b-form-textarea size='sm' v-model="defualt.code":rows="5" :max-rows="8"></b-form-textarea></div>
+                  <div class="col-4"><b-form-textarea size='sm' v-model="defaults.code":rows="5" :max-rows="8"></b-form-textarea></div>
                 </b-form-row>
                 <b-form-row>
                   <div class="col-2 text-right py-1"></div>
@@ -114,9 +110,9 @@
             <div class="py-3 Xggfz14">
               <b-form>
                 <b-form-row class="mb-2">
-                  <div class="col-2 text-right py-1">启用手机版</div>
+                  <div class="col-2 text-right py-1">是否开启</div>
                   <div class="col-4 py-1">
-                    <b-form-radio-group plain v-model="mobile.open" :options="mobile.openOps" name="radioInline"></b-form-radio-group>
+                    <b-form-radio-group plain v-model="mobile.on_off" :options="mobile.on_offOps" name="radioInline"></b-form-radio-group>
                   </div>
                 </b-form-row>
                 <b-form-row class="mb-2">
@@ -188,6 +184,7 @@
 import xggHead from '../../components/xggHead.vue'
 import xggMenu from '../../components/xggMenu.vue'
 import xggFoot from '../../components/xggFoot.vue'
+let _API='http://localhost/Gadmin/api/';
 
 export default {
   components: {
@@ -226,7 +223,7 @@ export default {
         text: '网站管理中心',active: true},{
         text: '系统设置',active: true
       }],
-      defualt:{
+      defaults:{
         title:'小古哥',
         keywords:'',
         description:'',
@@ -236,10 +233,8 @@ export default {
         icp:'',
         tel:'',
         email:'',
-        language:null,
-        languageOps:[{ value:'cn',text:'cn'},{value:'en',text:'en'}],
-        map:1,
-        mapOps:[{ value:1,text:'是'},{value:0,text:'否'}],
+        on_off:'on',
+        on_offOps:[{ value:'on',text:'是'},{value:'off',text:'否'}],
         code:''
       },
       display:{
@@ -251,8 +246,8 @@ export default {
         proNum:3,
       },
       mobile:{
-        open:1,
-        openOps:[{ value:1,text:'是'},{value:0,text:'否'}],
+        on_off:'on',
+        on_offOps:[{ value:'on',text:'是'},{value:'off',text:'否'}],
         title:'小古哥',
         keywords:'',
         description:'',
@@ -269,7 +264,31 @@ export default {
   computed:{
     year:()=>{return new Date().getFullYear();}
   },
-  mounted () {},
+  mounted () {
+    // 获取管理员信息
+    this.$axios.get(_API+"admin/getname")
+    .then((res)=>{
+      if(res.data.errcode==0){
+        this.manager={id:res.data.data.uid,name:res.data.data.uname};
+      }else if(res.data.errcode==403){
+        window.location.href='login.html'; 
+      };
+    }).catch(function(err){console.log(err);})
+
+    // 获取配置
+    this.$axios.get(_API+"config/getall")
+    .then((res)=>{
+      if(res.data.errcode==0){
+        console.log(res.data.data);
+        this.defaults=this._copyObj(this.defaults,res.data.data.defaults);
+        this.mobile=this._copyObj(this.mobile,res.data.data.mobile);
+        // this.manager={id:res.data.data.uid,name:res.data.data.uname};
+      }else if(res.data.errcode==403){
+        window.location.href='login.html'; 
+      };
+    }).catch(function(err){console.log(err);})
+
+  },
   methods:{
     changeImage(e) {
       var file = e.target.files[0]
@@ -282,6 +301,11 @@ export default {
         console.log(imgFile);
         that.defualt.logo64=imgFile;
       }
+    },
+
+    _copyObj(o1,o2){
+      for(var x in o2){o1[x]=o2[x];}
+      return o1;
     }
   }
 

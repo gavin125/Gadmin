@@ -8,111 +8,54 @@
 
     <!-- main -->
     <div class="xggMain bg-white pb-2 border-left border-bottom">
-      <b-breadcrumb :items="items" class="rounded-0 border-bottom py-2 bg-light"/>
-      <div class="container-fluid">
-        <h4 class="border-bottom pb-2 mb-4 text-secondary">{{items[items.length-1].text}}</h4>
-        <h5 class="border-bottom pb-2 text-muted">单页面管理</h5>
+      <b-breadcrumb :items="items" class="rounded-0 border-bottom py-2 px-4 bg-light"/>
+      <div class="container-fluid px-4">
+        <h3 class="border-bottom pb-2 mb-5 text-secondary">{{items[items.length-1].text}}</h3>
+        <h5 class="border-bottom pb-2 my-3 text-muted">单页面快速管理</h5>
         <div class="mb-4">
-          <a href="" class="btn btn-dark mr-2 px-4">公司介绍</a>
-          <a href="" class="btn btn-dark mr-2 px-4">联系方式</a>
+          <a href="" class="btn btn-secondary mr-3 px-4" v-for='p in pages' v-text='p.name'></a>
         </div>
         <div class="row">
           <div class="col-8">
-            <h5 class="border-bottom pb-2 text-muted">网站基本信息</h5>
-            <table class="table table-bordered rounded">
-             <tbody><tr>
-              <td width="120">单页面数：</td>
-              <td><strong>6</strong></td>
-              <td width="100">文章总数：</td>
-              <td><strong>2</strong></td>
-             </tr>
-             <tr>
-              <td>商品总数：</td>
-              <td><strong>3</strong></td>
-              <td>系统语言：</td>
-              <td><strong>zh_cn</strong></td>
-             </tr>
-             <tr>
-              <td>URL 重写：</td>
-              <td><strong>关闭</strong></td>
-              <td>编码：</td>
-              <td><strong>UTF-8</strong></td>
-             </tr>
-             <tr>
-              <td>站点地图：</td>
-              <td><strong>开启</strong></td>
-              <td>站点模板：</td>
-              <td><strong>default</strong></td>
-             </tr>
-             <tr>
-              <td>DouPHP版本：</td>
-              <td><strong>v1.3 Release 20170424</strong></td>
-              <td>安装日期：</td>
-              <td><strong>2017-11-06</strong></td>
-             </tr>
-            </tbody></table>
+            <h5 class="border-bottom pb-2 mt-2 text-muted">网站信息</h5>
+            <table class="table table-bordered">
+
+              <tbody>
+                <tr><td width="120">网站名称</td><td colspan="3">{{website.name}}</td></tr>
+                <tr><td>文章数量</td><td>{{website.num_article}}</td><td width="120">文章组数</td><td>{{website.num_article_group}}</td></tr>
+                <tr><td>产品数量</td><td>{{website.num_product}}</td><td>产品组数</td><td>{{website.num_product_group}}</td></tr>
+                <tr><td>单页面数</td><td>{{website.num_page}}</td><td>日志数量</td><td>{{website.num_log}}</td></tr>
+              </tbody>
+            </table>
           </div>
           <div class="col-4">
-            <h5 class="border-bottom pb-2 text-muted">登录记录</h5>
-
+            <h5 class="border-bottom pb-2 mt-2 text-muted">登录记录</h5>
             <table class="table table-bordered">
               <thead>
-                <tr class="bg-light">
-                  <th>IP地址</th>
-                  <th>操作时间</th>
-                </tr>
+                <tr class="bg-light"><th width="120">IP地址</th><th>操作时间</th></tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>127.0.0.1</td>
-                  <td>2018-08-08 12:01:26</td>
-                </tr>
-                <tr>
-                  <td>127.0.0.1</td>
-                  <td>2018-08-08 12:01:26</td>
-                </tr>
-                <tr>
-                  <td>127.0.0.1</td>
-                  <td>2018-08-08 12:01:26</td>
-                </tr>
-                <tr>
-                  <td>127.0.0.1</td>
-                  <td>2018-08-08 12:01:26</td>
-                </tr>
+                <tr v-for='ll in login_log'><td>{{ll.last_ip}}</td><td>{{ll.add_time}}</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="col-12">
+            <h5 class="border-bottom pb-2 mt-2 text-muted">服务器信息</h5>
+            <table class="table table-bordered">
+              <tbody>
+                <tr><td>PHP版本</td><td>{{website.php_ver}}</td><td>MySQL版本</td><td>{{website.mysql_ver}}</td><td>服务器操作系统</td><td>{{website.os_ip}}</td></tr>
+                <tr><td>服务器版本</td><td colspan="3">{{website.server_ver}}</td><td>文件上传限制</td><td>{{website.max_filesize}}</td></tr>
               </tbody>
             </table>
           </div>
         </div>
-
-        <h5 class="border-bottom pb-2 text-muted">服务器信息</h5>
-        <table class="table table-bordered">
-          <tbody><tr>
-           <td width="130" valign="top">PHP 版本：</td>
-           <td valign="top">5.6.28 </td>
-           <td width="130" valign="top">MySQL 版本：</td>
-           <td valign="top">5.5.5-10.1.19-MariaDB</td>
-           <td width="150" valign="top">服务器操作系统：</td>
-           <td valign="top">WINNT(127.0.0.1)</td>
-          </tr>
-          <tr>
-           <td valign="top">文件上传限制：</td>
-           <td valign="top">2M</td>
-           <td valign="top">GD 库支持：</td>
-           <td valign="top">是</td>
-           <td valign="top">Web 服务器：</td>
-           <td valign="top">Apache/2.4.23 (Win32) OpenSSL/1.0.2h PHP/5.6.28</td>
-          </tr>
-         </tbody></table>
-        
       </div>
-
     </div>
 
     <!-- foot -->
     <xggFoot></xggFoot>
     
-    <!-- alert -->
-    <b-alert class='alert' variant="danger" dismissible :show="alert.show">{{alert.msg}}</b-alert>
 
   </div>
 </template>
@@ -136,7 +79,6 @@ export default {
   },
   data () {
     return {
-      alert:{show:false,msg:'这是一个错误提示！'},
       manager:{id:0,name:''},
       menu:[
         [{
@@ -165,19 +107,69 @@ export default {
       items: [{
         text: '网站管理中心',active: true},{
         text: '管理首页',active: true
-      }]
+      }],
+      pages:[{id:1,name:'单页名称'}],
+      website:{
+        name:'',
+        num_article:0,
+        num_article_group:0,
+        num_product:0,
+        num_product_group:0,
+        num_page:0,
+        num_log:0,
+
+        php_ver:'',
+        mysql_ver:'',
+        server_ver:'',
+        os_ip:'',
+        max_filesize:''
+      },
+
+      login_log:[{last_ip:'-',add_time:'-'},{last_ip:'-',add_time:'-'},{last_ip:'-',add_time:'-'}]
     }
   },
 
   mounted () {
     // 获取管理员信息
-    this.$axios.get(_API+"admin/get")
+    this.$axios.get(_API+"admin/getname")
     .then((res)=>{
       if(res.data.errcode==0){
-        this.manager={id:res.data.data.id,name:res.data.data.user_name};
+        this.manager={id:res.data.data.uid,name:res.data.data.uname};
+      }else if(res.data.errcode==403){
+        window.location.href='login.html'; 
       };
     }).catch(function(err){console.log(err);})
     
+    //获取单页面信息
+    this.$axios.get(_API+"page/getindex")
+    .then((res)=>{
+      if(res.data.errcode==0){
+        this.pages=res.data.data;
+      }else if(res.data.errcode==403){
+        window.location.href='login.html'; 
+      };
+    }).catch(function(err){console.log(err);})
+
+    //获取网站和服务器信息
+    this.$axios.get(_API+"index/getwebsite")
+    .then((res)=>{
+      if(res.data.errcode==0){
+        this.website=res.data.data;
+      }else if(res.data.errcode==403){
+        window.location.href='login.html'; 
+      };
+    }).catch(function(err){console.log(err);})
+
+    //获取网站和服务器信息
+    this.$axios.get(_API+"index/getloginlog")
+    .then((res)=>{
+      if(res.data.errcode==0){
+        console.log(res.data.data);
+        this.login_log=res.data.data;
+      }else if(res.data.errcode==403){
+        window.location.href='login.html'; 
+      };
+    }).catch(function(err){console.log(err);})
   },
 
 };

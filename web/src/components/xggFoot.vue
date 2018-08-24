@@ -1,6 +1,6 @@
 <template>
   <div class="text-secondary text-center py-2 Xggfz14">
-    Copyright © 2015-{{year}} <a class="text-success" href="https://www.xiaoguge.cn">小古哥</a> 版权所有
+    <small>Copyright © 2015-{{year}} <a class="text-success" href="https://www.xiaoguge.cn">小古哥</a> 版权所有</small>
   </div>
 </template>
 
