@@ -15,7 +15,13 @@
         <b-tabs class="h6">
           <b-tab title="常规设置" active>
             <div class="py-3">
-              <b-form>
+              <b-form @submit.prevent="onDefaults">
+                <b-form-row class="mb-2">
+                  <div class="col-2 text-right py-1">是否开启网站</div>
+                  <div class="col-4 py-1">
+                    <b-form-radio-group plain v-model="defaults.on_off" :options="defaults.on_offOps" name="radioInline"></b-form-radio-group>
+                  </div>
+                </b-form-row>
                 <b-form-row class="mb-2">
                   <div class="col-2 text-right py-1">站点标题</div>
                   <div class="col-4"><b-form-input size='sm' v-model="defaults.title" type="text"></b-form-input></div>
@@ -55,12 +61,6 @@
                   <div class="col-4"><b-form-input size='sm' v-model="defaults.email" type="text"></b-form-input></div>
                 </b-form-row>
                 <b-form-row class="mb-2">
-                  <div class="col-2 text-right py-1">是否开启网站</div>
-                  <div class="col-4 py-1">
-                    <b-form-radio-group plain v-model="defaults.on_off" :options="defaults.on_offOps" name="radioInline"></b-form-radio-group>
-                  </div>
-                </b-form-row>
-                <b-form-row class="mb-2">
                   <div class="col-2 text-right py-1">统计/客服代码</div>
                   <div class="col-4"><b-form-textarea size='sm' v-model="defaults.code":rows="5" :max-rows="8"></b-form-textarea></div>
                 </b-form-row>
@@ -73,7 +73,7 @@
           </b-tab>
           <b-tab title="显示设置">
             <div class="py-3 Xggfz14">
-              <b-form>
+              <b-form  @submit.prevent="onDisplay">
                 <b-form-row class="mb-2">
                   <div class="col-2 text-right py-1">缩略图宽度</div>
                   <div class="col-4"><b-form-input size='sm' v-model="display.w" type="text"></b-form-input></div>
@@ -92,11 +92,11 @@
                 </b-form-row>
                 <b-form-row class="mb-2">
                   <div class="col-2 text-right py-1">商品列表数量</div>
-                  <div class="col-4"><b-form-input size='sm' v-model="display.artSize" type="text"></b-form-input></div>
+                  <div class="col-4"><b-form-input size='sm' v-model="display.proSize" type="text"></b-form-input></div>
                 </b-form-row>
                 <b-form-row class="mb-2">
                   <div class="col-2 text-right py-1">商品首页数量</div>
-                  <div class="col-4"><b-form-input size='sm' v-model="display.artNum" type="text"></b-form-input></div>
+                  <div class="col-4"><b-form-input size='sm' v-model="display.proNum" type="text"></b-form-input></div>
                 </b-form-row>
                 <b-form-row>
                   <div class="col-2 text-right py-1"></div>
@@ -107,9 +107,9 @@
           </b-tab>
           <b-tab title="手机版设置">
             <div class="py-3 Xggfz14">
-              <b-form>
+              <b-form @submit.prevent="onMobile">
                 <b-form-row class="mb-2">
-                  <div class="col-2 text-right py-1">是否开启</div>
+                  <div class="col-2 text-right py-1">是否开启手机版</div>
                   <div class="col-4 py-1">
                     <b-form-radio-group plain v-model="mobile.on_off" :options="mobile.on_offOps" name="radioInline"></b-form-radio-group>
                   </div>
@@ -146,11 +146,11 @@
                 </b-form-row>
                 <b-form-row class="mb-2">
                   <div class="col-2 text-right py-1">商品列表数量</div>
-                  <div class="col-4"><b-form-input size='sm' v-model="mobile.artSize" type="text"></b-form-input></div>
+                  <div class="col-4"><b-form-input size='sm' v-model="mobile.proSize" type="text"></b-form-input></div>
                 </b-form-row>
                 <b-form-row class="mb-2">
                   <div class="col-2 text-right py-1">商品首页数量</div>
-                  <div class="col-4"><b-form-input size='sm' v-model="mobile.artNum" type="text"></b-form-input></div>
+                  <div class="col-4"><b-form-input size='sm' v-model="mobile.proNum" type="text"></b-form-input></div>
                 </b-form-row>
                 <b-form-row>
                   <div class="col-2 text-right py-1"></div>
@@ -193,7 +193,6 @@ export default {
   },
   data () {
     return {
-      manager:{id:1,name:'admin2'},
       menu:[
         [{
           text:'管理首页',link:'index.html',active:false
@@ -222,7 +221,11 @@ export default {
         text: '网站管理中心',active: true},{
         text: '系统设置',active: true
       }],
+
+      manager:{uid:0,uname:''},
       defaults:{
+        on_off:'on',
+        on_offOps:[{ value:'on',text:'是'},{value:'off',text:'否'}],
         title:'小古哥',
         keywords:'',
         description:'',
@@ -232,8 +235,6 @@ export default {
         icp:'',
         tel:'',
         email:'',
-        on_off:'on',
-        on_offOps:[{ value:'on',text:'是'},{value:'off',text:'否'}],
         code:''
       },
       display:{
@@ -265,27 +266,24 @@ export default {
   },
   mounted () {
     // 获取管理员信息
-    this.$axios.get(_API+"admin/getname")
+    this.$axios.get(_API+"config")
     .then((res)=>{
       if(res.data.errcode==0){
-        this.manager={id:res.data.data.uid,name:res.data.data.uname};
+        this.manager=res.data.data.manager;
+
+        this.defaults=this._copyObj(this.defaults,res.data.data.defaults);
+        console.log(this.defaults);
+        this.display=JSON.parse(res.data.data.defaults.display);
+        this.mobile=this._copyObj(this.mobile,res.data.data.mobile);
+        var m_dispaly=JSON.parse(res.data.data.mobile.display);
+        for(var x in m_dispaly){
+          this.mobile[x]=m_dispaly[x];
+        }
       }else if(res.data.errcode==403){
         window.location.href='login.html'; 
       };
     }).catch(function(err){console.log(err);})
 
-    // 获取配置
-    this.$axios.get(_API+"config/getall")
-    .then((res)=>{
-      if(res.data.errcode==0){
-        console.log(res.data.data);
-        this.defaults=this._copyObj(this.defaults,res.data.data.defaults);
-        this.mobile=this._copyObj(this.mobile,res.data.data.mobile);
-        // this.manager={id:res.data.data.uid,name:res.data.data.uname};
-      }else if(res.data.errcode==403){
-        window.location.href='login.html'; 
-      };
-    }).catch(function(err){console.log(err);})
 
   },
   methods:{
@@ -303,9 +301,34 @@ export default {
     },
 
     _copyObj(o1,o2){
-      for(var x in o2){o1[x]=o2[x];}
+      for(var x in o1){
+        if(o2.hasOwnProperty(x)){o1[x]=o2[x]}
+      }
       return o1;
-    }
+    },
+
+    onDefaults(){
+      let formData = new FormData();
+      formData.append('title', this.defaults.title);
+      formData.append('keywords', this.defaults.keywords);
+      // formData.append('file', this.file);
+      let config = {headers: {'Content-Type': 'multipart/form-data'}}
+
+      this.$axios.post(_API+"config/defualts",formData, config)
+      .then((res)=>{
+        if(res.data.errcode==0){
+          console.log(res.data.data);
+        }else if(res.data.errcode==403){
+          window.location.href='login.html'; 
+        };
+      }).catch(function(err){console.log(err);})
+    },
+
+    onDisplay(){},
+
+    onMobile(){}
+
+
   }
 
 };

@@ -18,7 +18,6 @@ class IndexController extends Yaf_Controller_Abstract {
   }
 
   public function indexAction() {
-
 		$model = new adminModel();
 		$manager = $model->getname();
 		if(!$manager){echo $this->_createJson($model->errcode,$model->errmsg);}

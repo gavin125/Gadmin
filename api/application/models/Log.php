@@ -27,7 +27,7 @@ class LogModel {
       $this->errmsg='没有权限';
       return false;
     }
-    $sth=$this->_pdo->prepare('SELECT add_time,last_ip FROM xgg_admin_log WHERE id=? ORDER BY add_time DESC LIMIT 3');
+    $sth=$this->_pdo->prepare('SELECT add_time,last_ip FROM xgg_admin_log WHERE user_id=? ORDER BY add_time DESC LIMIT 3');
     $sth->execute(array($this->_mem->get('uid')));
     $res=$sth->fetchAll(PDO::FETCH_ASSOC);
     foreach ($res as $k => $v) {

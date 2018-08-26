@@ -107,6 +107,7 @@ export default {
         text: '网站管理中心',active: true},{
         text: '管理首页',active: true
       }],
+      
       manager:{uid:0,uname:''},
       pages:[{id:1,name:'单页名称'}],
       total:{

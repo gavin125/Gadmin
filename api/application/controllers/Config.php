@@ -14,18 +14,29 @@ class ConfigController extends Yaf_Controller_Abstract {
   }
 
 
-	/*获取*/
-	public function getallAction(){
+	public function indexAction(){
+		$model = new adminModel();
+		$manager = $model->getname();
+		if(!$manager){echo $this->_createJson($model->errcode,$model->errmsg);}
 
-		$model = new ConfigModel();
-		if($res=$model->getall()){
-			echo $this->_createJson(0,'',$res);
-		}
+		$model = new configModel();
+		$defaults = $model->getdefaults();
+		if(!$defaults){echo $this->_createJson($model->errcode,$model->errmsg);}
+		$mobile = $model->getmobile();
+		if(!$mobile){echo $this->_createJson($model->errcode,$model->errmsg);}
+		
+		echo $this->_createJson(0,'',array(
+			'manager'=>$manager,
+			'defaults'=>$defaults,
+			'mobile'=>$mobile
+		));
 		return false;
 	}
 
 	/*设置*/
-	public function updateAction(){
+	public function defualtsAction(){
+		// $obj=json_decode($this->getRequest()->getPost());
+		var_dump($this->getRequest()->getPost());exit();
 		$user_name = $this->getRequest()->getPost("user_name");
 		
 		$model = new ConfigModel();

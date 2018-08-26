@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 2018-08-26 08:27:15
+-- Generation Time: 2018-08-26 17:19:45
 -- 服务器版本： 10.1.34-MariaDB
 -- PHP Version: 7.2.8
 
@@ -168,7 +168,7 @@ INSERT INTO `xgg_config` (`id`, `name`, `value`, `type`, `module`) VALUES
 (7, 'tel', '15000902705', 'string', 1),
 (8, 'address', '上海浦东新区杨高南路799号', 'string', 1),
 (9, 'email', 'gulei125@163.com', 'string', 1),
-(10, 'code', '', 'code', 1),
+(10, 'code', '1', 'code', 1),
 (6, 'qq', '278033412', 'number', 1),
 (11, 'display', '', 'json', 1),
 (12, 'on_off', 'on', 'string', 1),
@@ -177,8 +177,8 @@ INSERT INTO `xgg_config` (`id`, `name`, `value`, `type`, `module`) VALUES
 (15, 'description', '全栈开发工程师，先后从事美术设计与技术开发等相关工作，熟练掌握多种设计软件和编程语言。对常见互联网产品的用户体验和研发流程有深入理解，精通各类网站/H5/小程序/APP的制作与开发。', 'string', 2),
 (16, 'logo', 'logo.png', 'src', 2),
 (17, 'on_off', 'on', 'string', 2),
-(18, 'display', '', 'json', 1),
-(19, 'display', '', 'json', 2);
+(18, 'display', '{\"w\": 412,\"h\": 300,\"artSize\": 6,\"artNum\":4,\"proSize\":5,\"proNum\":3}', 'json', 1),
+(19, 'display', '{\"artSize\": 3,\"artNum\":4,\"proSize\":6,\"proNum\":3}', 'json', 2);
 
 -- --------------------------------------------------------
 
