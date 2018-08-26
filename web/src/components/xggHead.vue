@@ -7,7 +7,7 @@
         <b-nav-item href="#">清除缓存</b-nav-item>
       </b-navbar-nav>
       <b-navbar-nav class="ml-auto">
-        <b-nav-item-dropdown :text='"管理员 "+manager.name' right>
+        <b-nav-item-dropdown :text='"管理员 "+manager.uname' right>
           <b-dropdown-item href="#">编辑资料</b-dropdown-item>
           <b-dropdown-item href="#">退出</b-dropdown-item>
         </b-nav-item-dropdown>

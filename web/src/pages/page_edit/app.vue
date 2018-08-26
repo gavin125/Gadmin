@@ -92,7 +92,7 @@ export default {
           text:'管理首页',link:'index.html',active:false
         }],
         [{
-          text:'系统设置',link:'system.html',active:false},{
+          text:'系统设置',link:'config.html',active:false},{
           text:'导航栏',link:'nav.html',active:false},{
           text:'轮播图',link:'carousel.html',active:false},{
           text:'单页面',link:'page.html',active:true

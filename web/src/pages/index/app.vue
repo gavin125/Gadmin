@@ -21,10 +21,10 @@
             <table class="table table-bordered">
 
               <tbody>
-                <tr><td width="120">网站名称</td><td colspan="3">{{website.name}}</td></tr>
-                <tr><td>文章数量</td><td>{{website.num_article}}</td><td width="120">文章组数</td><td>{{website.num_article_group}}</td></tr>
-                <tr><td>产品数量</td><td>{{website.num_product}}</td><td>产品组数</td><td>{{website.num_product_group}}</td></tr>
-                <tr><td>单页面数</td><td>{{website.num_page}}</td><td>日志数量</td><td>{{website.num_log}}</td></tr>
+                <tr><td width="120">网站名称</td><td colspan="3">{{total.name}}</td></tr>
+                <tr><td>文章数量</td><td>{{total.num_article}}</td><td width="120">文章组数</td><td>{{total.num_article_group}}</td></tr>
+                <tr><td>产品数量</td><td>{{total.num_product}}</td><td>产品组数</td><td>{{total.num_product_group}}</td></tr>
+                <tr><td>单页面数</td><td>{{total.num_page}}</td><td>日志数量</td><td>{{total.num_log}}</td></tr>
               </tbody>
             </table>
           </div>
@@ -44,8 +44,8 @@
             <h5 class="border-bottom pb-2 mt-2 text-muted">服务器信息</h5>
             <table class="table table-bordered">
               <tbody>
-                <tr><td>PHP版本</td><td>{{website.php_ver}}</td><td>MySQL版本</td><td>{{website.mysql_ver}}</td><td>服务器操作系统</td><td>{{website.os_ip}}</td></tr>
-                <tr><td>服务器版本</td><td colspan="3">{{website.server_ver}}</td><td>文件上传限制</td><td>{{website.max_filesize}}</td></tr>
+                <tr><td>PHP版本</td><td>{{server.php_ver}}</td><td>MySQL版本</td><td>{{server.mysql_ver}}</td><td>服务器操作系统</td><td>{{server.os_ip}}</td></tr>
+                <tr><td>服务器版本</td><td colspan="3">{{server.server_ver}}</td><td>文件上传限制</td><td>{{server.max_filesize}}</td></tr>
               </tbody>
             </table>
           </div>
@@ -79,13 +79,12 @@ export default {
   },
   data () {
     return {
-      manager:{id:0,name:''},
       menu:[
         [{
           text:'管理首页',link:'index.html',active:true
         }],
         [{
-          text:'系统设置',link:'system.html',active:false},{
+          text:'系统设置',link:'config.html',active:false},{
           text:'导航栏',link:'nav.html',active:false},{
           text:'轮播图',link:'carousel.html',active:false},{
           text:'单页面',link:'page.html',active:false
@@ -108,8 +107,9 @@ export default {
         text: '网站管理中心',active: true},{
         text: '管理首页',active: true
       }],
+      manager:{uid:0,uname:''},
       pages:[{id:1,name:'单页名称'}],
-      website:{
+      total:{
         name:'',
         num_article:0,
         num_article_group:0,
@@ -117,55 +117,27 @@ export default {
         num_product_group:0,
         num_page:0,
         num_log:0,
-
+      },
+      server:{
         php_ver:'',
         mysql_ver:'',
         server_ver:'',
         os_ip:'',
         max_filesize:''
       },
-
       login_log:[{last_ip:'-',add_time:'-'},{last_ip:'-',add_time:'-'},{last_ip:'-',add_time:'-'}]
     }
   },
 
   mounted () {
-    // 获取管理员信息
-    this.$axios.get(_API+"admin/getname")
+    this.$axios.get(_API+"index")
     .then((res)=>{
       if(res.data.errcode==0){
-        this.manager={id:res.data.data.uid,name:res.data.data.uname};
-      }else if(res.data.errcode==403){
-        window.location.href='login.html'; 
-      };
-    }).catch(function(err){console.log(err);})
-    
-    //获取单页面信息
-    this.$axios.get(_API+"page/getindex")
-    .then((res)=>{
-      if(res.data.errcode==0){
-        this.pages=res.data.data;
-      }else if(res.data.errcode==403){
-        window.location.href='login.html'; 
-      };
-    }).catch(function(err){console.log(err);})
-
-    //获取网站和服务器信息
-    this.$axios.get(_API+"index/getwebsite")
-    .then((res)=>{
-      if(res.data.errcode==0){
-        this.website=res.data.data;
-      }else if(res.data.errcode==403){
-        window.location.href='login.html'; 
-      };
-    }).catch(function(err){console.log(err);})
-
-    //获取网站和服务器信息
-    this.$axios.get(_API+"index/getloginlog")
-    .then((res)=>{
-      if(res.data.errcode==0){
-        console.log(res.data.data);
-        this.login_log=res.data.data;
+        this.manager=res.data.data.manager;
+        this.pages=res.data.data.pages;
+        this.total=res.data.data.total;
+        this.server=res.data.data.server;
+        this.login_log=res.data.data.login_log;
       }else if(res.data.errcode==403){
         window.location.href='login.html'; 
       };

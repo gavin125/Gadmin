@@ -7,7 +7,6 @@
     <xggMenu :menu='menu'></xggMenu>
     
 
-
     <!-- main -->
     <div class="xggMain bg-white pb-2 border-left border-bottom">
       <b-breadcrumb :items="items" class="rounded-0 border-bottom py-2 px-4 bg-light"/>
@@ -200,7 +199,7 @@ export default {
           text:'管理首页',link:'index.html',active:false
         }],
         [{
-          text:'系统设置',link:'system.html',active:true},{
+          text:'系统设置',link:'config.html',active:true},{
           text:'导航栏',link:'nav.html',active:false},{
           text:'轮播图',link:'carousel.html',active:false},{
           text:'单页面',link:'page.html',active:false

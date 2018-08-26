@@ -1,6 +1,6 @@
 <?php
 /**
- * @name 管理员信息
+ * @name 单页面信息
  * @author gulei
  */
 

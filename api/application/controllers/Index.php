@@ -17,25 +17,33 @@ class IndexController extends Yaf_Controller_Abstract {
     return json_encode($result,JSON_UNESCAPED_UNICODE);//中文不转码unicode
   }
 
-	public function getwebsiteAction() {
+  public function indexAction() {
 
-		$model = new IndexModel();
-		if($res=$model->getwebsite()){
-			echo $this->_createJson(0,'',$res);
-		}else{
-			echo $this->_createJson($model->errcode,$model->errmsg);
-		}
-		return false;
-	}
+		$model = new adminModel();
+		$manager = $model->getname();
+		if(!$manager){echo $this->_createJson($model->errcode,$model->errmsg);}
 
-	public function getloginlogAction() {
+		$model = new pageModel();
+		$pages = $model->getindex();
+		if(!$pages){echo $this->_createJson($model->errcode,$model->errmsg);}
 
-		$model = new IndexModel();
-		if($res=$model->getloginlog()){
-			echo $this->_createJson(0,'',$res);
-		}else{
-			echo $this->_createJson($model->errcode,$model->errmsg);
-		}
+		$model = new _websiteModel();
+		$total = $model->gettotal();
+		if(!$total){echo $this->_createJson($model->errcode,$model->errmsg);}
+		$server = $model->getserver();
+		if(!$server){echo $this->_createJson($model->errcode,$model->errmsg);}
+
+		$model = new logModel();
+		$login_log = $model->getloginlog();
+		if(!$login_log){echo $this->_createJson($model->errcode,$model->errmsg);}
+
+		echo $this->_createJson(0,'',array(
+			'manager'=>$manager,
+			'pages'=>$pages,
+			'total'=>$total,
+			'server'=>$server,
+			'login_log'=>$login_log,
+		));
 		return false;
 	}
 

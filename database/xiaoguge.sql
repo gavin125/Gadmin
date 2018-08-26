@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.1
--- http://www.phpmyadmin.net
+-- version 4.8.2
+-- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 2018-08-24 12:22:54
--- 服务器版本： 10.1.19-MariaDB
--- PHP Version: 5.6.28
+-- Generation Time: 2018-08-26 08:27:15
+-- 服务器版本： 10.1.34-MariaDB
+-- PHP Version: 7.2.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -42,7 +44,7 @@ CREATE TABLE `xgg_admin` (
 --
 
 INSERT INTO `xgg_admin` (`id`, `user_name`, `pass_word`, `email`, `action_list`, `add_time`, `last_login`, `last_ip`) VALUES
-(1, 'admin', '04eb952966a62f2c777e416846b14f04', '', 'ALL', 1509980132, 1535093846, '::1'),
+(1, 'admin', '04eb952966a62f2c777e416846b14f04', '', 'ALL', 1509980132, 1535254266, '::1'),
 (2, 'gavin', '04eb952966a62f2c777e416846b14f04', '', 'ALL', 1534746630, NULL, NULL);
 
 -- --------------------------------------------------------
@@ -65,7 +67,8 @@ CREATE TABLE `xgg_admin_log` (
 
 INSERT INTO `xgg_admin_log` (`id`, `user_id`, `add_time`, `action`, `last_ip`) VALUES
 (1, 1, 1535092861, '管理员登录成功', '::1'),
-(2, 1, 1535093846, '管理员登录成功', '::1');
+(2, 1, 1535093846, '管理员登录成功', '::1'),
+(3, 1, 1535254266, '管理员登录成功', '::1');
 
 -- --------------------------------------------------------
 
@@ -149,7 +152,7 @@ CREATE TABLE `xgg_config` (
   `name` varchar(50) NOT NULL COMMENT '属性',
   `value` text NOT NULL COMMENT '值',
   `type` varchar(10) NOT NULL COMMENT '类型',
-  `module` tinyint(1) NOT NULL DEFAULT '1' COMMENT '模块（1default|2dispaly|3mobile）'
+  `module` tinyint(1) NOT NULL DEFAULT '1' COMMENT '模块（1default|2mobile）'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='配置';
 
 --
@@ -169,13 +172,13 @@ INSERT INTO `xgg_config` (`id`, `name`, `value`, `type`, `module`) VALUES
 (6, 'qq', '278033412', 'number', 1),
 (11, 'display', '', 'json', 1),
 (12, 'on_off', 'on', 'string', 1),
-(13, 'title', '小古哥M', 'string', 3),
-(14, 'keywords', '小古哥 全栈工程师 网站开发建设 网站定制开发 HTML5 H5游戏 APP开发 Android IOS', 'string', 3),
-(15, 'description', '全栈开发工程师，先后从事美术设计与技术开发等相关工作，熟练掌握多种设计软件和编程语言。对常见互联网产品的用户体验和研发流程有深入理解，精通各类网站/H5/小程序/APP的制作与开发。', 'string', 3),
-(16, 'logo', 'logo.png', 'src', 3),
-(17, 'on_off', 'on', 'string', 3),
-(18, 'display', '', 'json', 2),
-(19, 'display', '', 'json', 3);
+(13, 'title', '小古哥M', 'string', 2),
+(14, 'keywords', '小古哥 全栈工程师 网站开发建设 网站定制开发 HTML5 H5游戏 APP开发 Android IOS', 'string', 2),
+(15, 'description', '全栈开发工程师，先后从事美术设计与技术开发等相关工作，熟练掌握多种设计软件和编程语言。对常见互联网产品的用户体验和研发流程有深入理解，精通各类网站/H5/小程序/APP的制作与开发。', 'string', 2),
+(16, 'logo', 'logo.png', 'src', 2),
+(17, 'on_off', 'on', 'string', 2),
+(18, 'display', '', 'json', 1),
+(19, 'display', '', 'json', 2);
 
 -- --------------------------------------------------------
 
@@ -288,28 +291,6 @@ CREATE TABLE `xgg_product_group` (
 -- --------------------------------------------------------
 
 --
--- 表的结构 `xgg_session`
---
-
-CREATE TABLE `xgg_session` (
-  `id` int(11) NOT NULL COMMENT 'ID',
-  `uid` int(11) NOT NULL COMMENT '账号ID',
-  `utype` tinyint(1) NOT NULL COMMENT '账号种类（1admin|2user）',
-  `token` varchar(44) NOT NULL COMMENT 'Token',
-  `reg_time` int(11) NOT NULL COMMENT '生成时间',
-  `expire` int(11) NOT NULL COMMENT '过期时长'
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COMMENT='Session';
-
---
--- 转存表中的数据 `xgg_session`
---
-
-INSERT INTO `xgg_session` (`id`, `uid`, `utype`, `token`, `reg_time`, `expire`) VALUES
-(2, 1, 1, 'fd6293bd52295d2e484da6c984d17fd7:1', 1535019093, 1440);
-
--- --------------------------------------------------------
-
---
 -- 表的结构 `xgg_show`
 --
 
@@ -407,12 +388,6 @@ ALTER TABLE `xgg_product_group`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `xgg_session`
---
-ALTER TABLE `xgg_session`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `xgg_show`
 --
 ALTER TABLE `xgg_show`
@@ -427,71 +402,80 @@ ALTER TABLE `xgg_show`
 --
 ALTER TABLE `xgg_admin`
   MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=4;
+
 --
 -- 使用表AUTO_INCREMENT `xgg_admin_log`
 --
 ALTER TABLE `xgg_admin_log`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=4;
+
 --
 -- 使用表AUTO_INCREMENT `xgg_article`
 --
 ALTER TABLE `xgg_article`
   MODIFY `id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID';
+
 --
 -- 使用表AUTO_INCREMENT `xgg_article_group`
 --
 ALTER TABLE `xgg_article_group`
   MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT;
+
 --
 -- 使用表AUTO_INCREMENT `xgg_case`
 --
 ALTER TABLE `xgg_case`
   MODIFY `id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=2;
+
 --
 -- 使用表AUTO_INCREMENT `xgg_case_group`
 --
 ALTER TABLE `xgg_case_group`
   MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT;
+
 --
 -- 使用表AUTO_INCREMENT `xgg_config`
 --
 ALTER TABLE `xgg_config`
   MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=20;
+
 --
 -- 使用表AUTO_INCREMENT `xgg_link`
 --
 ALTER TABLE `xgg_link`
   MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=3;
+
 --
 -- 使用表AUTO_INCREMENT `xgg_nav`
 --
 ALTER TABLE `xgg_nav`
   MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=4;
+
 --
 -- 使用表AUTO_INCREMENT `xgg_page`
 --
 ALTER TABLE `xgg_page`
   MODIFY `id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 --
 -- 使用表AUTO_INCREMENT `xgg_product`
 --
 ALTER TABLE `xgg_product`
   MODIFY `id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=4;
+
 --
 -- 使用表AUTO_INCREMENT `xgg_product_group`
 --
 ALTER TABLE `xgg_product_group`
   MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT;
---
--- 使用表AUTO_INCREMENT `xgg_session`
---
-ALTER TABLE `xgg_session`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=3;
+
 --
 -- 使用表AUTO_INCREMENT `xgg_show`
 --
 ALTER TABLE `xgg_show`
   MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=3;
+COMMIT;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
