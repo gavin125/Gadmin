@@ -1,15 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.2
--- https://www.phpmyadmin.net/
+-- version 4.5.1
+-- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 2018-08-26 17:19:45
--- 服务器版本： 10.1.34-MariaDB
--- PHP Version: 7.2.8
+-- Generation Time: 2018-08-27 12:34:18
+-- 服务器版本： 10.1.19-MariaDB
+-- PHP Version: 5.6.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -44,7 +42,7 @@ CREATE TABLE `xgg_admin` (
 --
 
 INSERT INTO `xgg_admin` (`id`, `user_name`, `pass_word`, `email`, `action_list`, `add_time`, `last_login`, `last_ip`) VALUES
-(1, 'admin', '04eb952966a62f2c777e416846b14f04', '', 'ALL', 1509980132, 1535254266, '::1'),
+(1, 'admin', '04eb952966a62f2c777e416846b14f04', '', 'ALL', 1509980132, 1535365622, '192.168.2.52'),
 (2, 'gavin', '04eb952966a62f2c777e416846b14f04', '', 'ALL', 1534746630, NULL, NULL);
 
 -- --------------------------------------------------------
@@ -68,7 +66,20 @@ CREATE TABLE `xgg_admin_log` (
 INSERT INTO `xgg_admin_log` (`id`, `user_id`, `add_time`, `action`, `last_ip`) VALUES
 (1, 1, 1535092861, '管理员登录成功', '::1'),
 (2, 1, 1535093846, '管理员登录成功', '::1'),
-(3, 1, 1535254266, '管理员登录成功', '::1');
+(3, 1, 1535254266, '管理员登录成功', '::1'),
+(4, 1, 1535360899, '管理员登录成功', '::1'),
+(5, 1, 1535361259, '编辑PC配置', '::1'),
+(6, 1, 1535361284, '编辑PC配置', '::1'),
+(7, 1, 1535361342, '编辑PC配置', '::1'),
+(8, 1, 1535361641, '编辑PC配置', '::1'),
+(9, 1, 1535362031, '编辑PC配置', '::1'),
+(10, 1, 1535362043, '编辑PC配置', '::1'),
+(11, 1, 1535363504, '编辑H5配置', '::1'),
+(12, 1, 1535363519, '编辑H5配置', '::1'),
+(13, 1, 1535363556, '编辑H5配置', '::1'),
+(14, 1, 1535364732, '编辑PC配置', '::1'),
+(15, 1, 1535364740, '编辑PC配置', '::1'),
+(16, 1, 1535365622, '管理员登录成功', '192.168.2.52');
 
 -- --------------------------------------------------------
 
@@ -148,37 +159,27 @@ CREATE TABLE `xgg_case_group` (
 --
 
 CREATE TABLE `xgg_config` (
-  `id` smallint(5) UNSIGNED NOT NULL COMMENT 'ID',
-  `name` varchar(50) NOT NULL COMMENT '属性',
-  `value` text NOT NULL COMMENT '值',
-  `type` varchar(10) NOT NULL COMMENT '类型',
-  `module` tinyint(1) NOT NULL DEFAULT '1' COMMENT '模块（1default|2mobile）'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='配置';
+  `id` tinyint(4) NOT NULL COMMENT 'ID（1PC|2H5）',
+  `on_off` varchar(8) DEFAULT 'on' COMMENT '开关：on|off',
+  `title` varchar(32) NOT NULL COMMENT '标题',
+  `keywords` varchar(128) NOT NULL COMMENT '关键词',
+  `description` varchar(256) NOT NULL COMMENT '描述',
+  `logo` varchar(64) DEFAULT NULL COMMENT 'LOGO图',
+  `address` varchar(64) DEFAULT NULL COMMENT '地址',
+  `icp` varchar(32) DEFAULT NULL COMMENT '备案号',
+  `tel` varchar(32) DEFAULT NULL COMMENT '电话',
+  `email` varchar(32) DEFAULT NULL COMMENT '邮箱',
+  `code` varchar(256) DEFAULT NULL COMMENT '脚本代码',
+  `display` varchar(256) NOT NULL COMMENT '显示设置'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `xgg_config`
 --
 
-INSERT INTO `xgg_config` (`id`, `name`, `value`, `type`, `module`) VALUES
-(1, 'title', '小古哥-全栈工程师', 'string', 1),
-(2, 'keywords', '小古哥 全栈工程师 网站开发建设 网站定制开发 HTML5 H5游戏 APP开发 Android IOS', 'string', 1),
-(3, 'description', '全栈开发工程师，先后从事美术设计与技术开发等相关工作，熟练掌握多种设计软件和编程语言。对常见互联网产品的用户体验和研发流程有深入理解，精通各类网站/H5/小程序/APP的制作与开发。', 'string', 1),
-(4, 'logo', 'logo.png', 'src', 1),
-(5, 'icp', '沪ICP备17025818号-1', 'string', 1),
-(7, 'tel', '15000902705', 'string', 1),
-(8, 'address', '上海浦东新区杨高南路799号', 'string', 1),
-(9, 'email', 'gulei125@163.com', 'string', 1),
-(10, 'code', '1', 'code', 1),
-(6, 'qq', '278033412', 'number', 1),
-(11, 'display', '', 'json', 1),
-(12, 'on_off', 'on', 'string', 1),
-(13, 'title', '小古哥M', 'string', 2),
-(14, 'keywords', '小古哥 全栈工程师 网站开发建设 网站定制开发 HTML5 H5游戏 APP开发 Android IOS', 'string', 2),
-(15, 'description', '全栈开发工程师，先后从事美术设计与技术开发等相关工作，熟练掌握多种设计软件和编程语言。对常见互联网产品的用户体验和研发流程有深入理解，精通各类网站/H5/小程序/APP的制作与开发。', 'string', 2),
-(16, 'logo', 'logo.png', 'src', 2),
-(17, 'on_off', 'on', 'string', 2),
-(18, 'display', '{\"w\": 412,\"h\": 300,\"artSize\": 6,\"artNum\":4,\"proSize\":5,\"proNum\":3}', 'json', 1),
-(19, 'display', '{\"artSize\": 3,\"artNum\":4,\"proSize\":6,\"proNum\":3}', 'json', 2);
+INSERT INTO `xgg_config` (`id`, `on_off`, `title`, `keywords`, `description`, `logo`, `address`, `icp`, `tel`, `email`, `code`, `display`) VALUES
+(1, 'on', '小古哥-全栈工程师', '小古哥 全栈工程师 网站开发建设 网站定制开发 HTML5 H5游戏 APP开发 Android IOS', '全栈开发工程师，先后从事美术设计与技术开发等相关工作，熟练掌握多种设计软件和编程语言。对常见互联网产品的用户体验和研发流程有深入理解，精通各类网站/H5/小程序/APP的制作与开发。', 'upload/1535361342.jpg', '上海浦东新区杨高南路799号', '沪ICP备17025818号-1', '15000902705', 'gulei125@163.com', '1233567', '{"w":"415","h":300,"artSize":6,"artNum":4,"proSize":5,"proNum":3}'),
+(2, 'on', '小古哥M1-全栈工程师', '小古哥 全栈工程师 网站开发建设 网站定制开发 HTML5 H5游戏 APP开发 Android IOS', '全栈开发工程师，先后从事美术设计与技术开发等相关工作，熟练掌握多种设计软件和编程语言。对常见互联网产品的用户体验和研发流程有深入理解，精通各类网站/H5/小程序/APP的制作与开发。', 'upload/1535363556.png', NULL, NULL, NULL, NULL, NULL, '{"artSize":"6","artNum":"4","proSize":"5","proNum":3}');
 
 -- --------------------------------------------------------
 
@@ -210,9 +211,9 @@ INSERT INTO `xgg_link` (`id`, `name`, `link`, `img`, `sort`) VALUES
 
 CREATE TABLE `xgg_nav` (
   `id` smallint(5) UNSIGNED NOT NULL COMMENT 'ID',
-  `name` varchar(50) NOT NULL COMMENT '名称',
-  `site` varchar(10) NOT NULL DEFAULT 'main' COMMENT '位置：top|main|bottom',
-  `link` varchar(255) NOT NULL COMMENT '链接',
+  `name` varchar(64) NOT NULL COMMENT '名称',
+  `site` varchar(8) NOT NULL DEFAULT 'main' COMMENT '位置：top|main|bottom|mobile',
+  `link` varchar(256) NOT NULL COMMENT '链接',
   `sort` tinyint(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '排序'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='导航栏';
 
@@ -223,7 +224,10 @@ CREATE TABLE `xgg_nav` (
 INSERT INTO `xgg_nav` (`id`, `name`, `site`, `link`, `sort`) VALUES
 (1, '首页', 'main', '#', 10),
 (2, '产品中心', 'main', 'product.html', 0),
-(3, '联系我们', 'main', 'contact.html', 0);
+(3, '联系我们', 'main', 'contact.html', 0),
+(4, '产品中心', 'top', 'product.html', 0),
+(5, '产品中心', 'bottom', 'product.html', 0),
+(6, '产品中心', 'mobile', 'product.html', 0);
 
 -- --------------------------------------------------------
 
@@ -402,80 +406,66 @@ ALTER TABLE `xgg_show`
 --
 ALTER TABLE `xgg_admin`
   MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=4;
-
 --
 -- 使用表AUTO_INCREMENT `xgg_admin_log`
 --
 ALTER TABLE `xgg_admin_log`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=4;
-
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=17;
 --
 -- 使用表AUTO_INCREMENT `xgg_article`
 --
 ALTER TABLE `xgg_article`
   MODIFY `id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID';
-
 --
 -- 使用表AUTO_INCREMENT `xgg_article_group`
 --
 ALTER TABLE `xgg_article_group`
   MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT;
-
 --
 -- 使用表AUTO_INCREMENT `xgg_case`
 --
 ALTER TABLE `xgg_case`
   MODIFY `id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=2;
-
 --
 -- 使用表AUTO_INCREMENT `xgg_case_group`
 --
 ALTER TABLE `xgg_case_group`
   MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT;
-
 --
 -- 使用表AUTO_INCREMENT `xgg_config`
 --
 ALTER TABLE `xgg_config`
-  MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=20;
-
+  MODIFY `id` tinyint(4) NOT NULL AUTO_INCREMENT COMMENT 'ID（1PC|2H5）', AUTO_INCREMENT=3;
 --
 -- 使用表AUTO_INCREMENT `xgg_link`
 --
 ALTER TABLE `xgg_link`
   MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=3;
-
 --
 -- 使用表AUTO_INCREMENT `xgg_nav`
 --
 ALTER TABLE `xgg_nav`
-  MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=4;
-
+  MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=7;
 --
 -- 使用表AUTO_INCREMENT `xgg_page`
 --
 ALTER TABLE `xgg_page`
   MODIFY `id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
 --
 -- 使用表AUTO_INCREMENT `xgg_product`
 --
 ALTER TABLE `xgg_product`
   MODIFY `id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=4;
-
 --
 -- 使用表AUTO_INCREMENT `xgg_product_group`
 --
 ALTER TABLE `xgg_product_group`
   MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT;
-
 --
 -- 使用表AUTO_INCREMENT `xgg_show`
 --
 ALTER TABLE `xgg_show`
   MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=3;
-COMMIT;
-
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
