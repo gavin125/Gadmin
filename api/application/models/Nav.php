@@ -1,12 +1,12 @@
 <?php
 /**
- * @name 网站设置
+ * @name 导航
  * @author gulei
  */
 
 
 
-class ConfigModel {
+class NavModel {
 
   public function __construct() {
     $this->_pdo=Yaf_Registry::get('pdo');
@@ -20,47 +20,53 @@ class ConfigModel {
     return false;
   }
 
-  private function _upload($file) {
-    if ($file['error'] > 0){//如果错误抛出错误代码
-      $this->errcode=403;
-      $this->errmsg=$file['error'];
-      return false;
-    }else{
-      $dir = "../upload/";
-      if(!file_exists($dir)){mkdir($dir,0777,true);}
-      $img_name = explode(".", $file['name']);
-      $img_type = '.'.$img_name[count($img_name)-1];
-      if(!move_uploaded_file($file['tmp_name'],$dir.time().$img_type)){
-        $this->errcode=403;
-        $this->errmsg='存储文件错误';
-        return false;
-      }
-      return $dir.time().$img_type;
-    }
-  }
 
   /*获取*/
-  public function getPC() {
+  public function getmain() {
     if(!$this->_isadmin()){
       $this->errcode=403;
       $this->errmsg='没有权限';
       return false;
     }
-    $sth=$this->_pdo->prepare('SELECT * FROM xgg_config WHERE id=?');
-    $sth->execute(array(1));//1PC
-    return $sth->fetch(PDO::FETCH_ASSOC);
+    $sth=$this->_pdo->prepare('SELECT * FROM xgg_nav WHERE site=? ORDER BY sort');
+    $sth->execute(array('main'));
+    return $sth->fetchAll(PDO::FETCH_ASSOC);
   }
 
-  public function getH5() {
+  public function gettop() {
     if(!$this->_isadmin()){
       $this->errcode=403;
       $this->errmsg='没有权限';
       return false;
     }
-    $sth=$this->_pdo->prepare('SELECT * FROM xgg_config WHERE id=?');
-    $sth->execute(array(2));//2H5
-    return $sth->fetch(PDO::FETCH_ASSOC);
+    $sth=$this->_pdo->prepare('SELECT * FROM xgg_nav WHERE site=? ORDER BY sort');
+    $sth->execute(array('top'));
+    return $sth->fetchAll(PDO::FETCH_ASSOC);
   }
+
+  public function getbottom() {
+    if(!$this->_isadmin()){
+      $this->errcode=403;
+      $this->errmsg='没有权限';
+      return false;
+    }
+    $sth=$this->_pdo->prepare('SELECT * FROM xgg_nav WHERE site=? ORDER BY sort');
+    $sth->execute(array('bottom'));
+    return $sth->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  public function getmobile() {
+    if(!$this->_isadmin()){
+      $this->errcode=403;
+      $this->errmsg='没有权限';
+      return false;
+    }
+    $sth=$this->_pdo->prepare('SELECT * FROM xgg_nav WHERE site=? ORDER BY sort');
+    $sth->execute(array('mobile'));
+    return $sth->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+
 
   /*编辑*/
   public function setPC($on_off,$title,$keywords,$description,$address,$icp,$tel,$email,$code,$logofile) {

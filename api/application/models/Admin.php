@@ -45,13 +45,14 @@ class AdminModel {
       return false;
   	}
     $this->_mem->set('uid',$res['id']);
-  	$this->_mem->set('uname',$res['user_name']);
+    $this->_mem->set('uname',$res['user_name']);
+  	$this->_mem->set('uip',$ip);
     $sth=$this->_pdo->prepare('UPDATE xgg_admin SET last_login=?,last_ip=? WHERE id=?');
     $sth->execute(array(time(),$ip,$res['id']));
 
     // 添加日志
     $sth=$this->_pdo->prepare('INSERT INTO xgg_admin_log (user_id,add_time,action,last_ip) VALUES (?,?,?,?)');
-    $sth->execute(array($res['id'],time(),'管理员登录成功',$ip));
+    $sth->execute(array($this->_mem->get('uid'),time(),'管理员登录成功',$this->_mem->get('uip')));
     return true;
   }
 

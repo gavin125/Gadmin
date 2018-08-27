@@ -2,14 +2,15 @@
   <div class="xggWrap">
     <!-- head -->
     <xggHead :manager='manager'></xggHead>
+
     <!-- menu -->
     <xggMenu :menu='menu'></xggMenu>
     
     <!-- main -->
     <div class="xggMain bg-white pb-2 border-left border-bottom">
-      <b-breadcrumb :items="items" class="rounded-0 border-bottom py-2 bg-light"/>
-      <div class="container-fluid">
-        <h3 class="border-bottom pb-2 mb-4 text-secondary">{{items[items.length-1].text}} <a href="nav_edit.html" class="btn btn-success float-right px-4">新增</a></h3>
+      <b-breadcrumb :items="items" class="rounded-0 border-bottom py-2 px-4 bg-light"/>
+      <div class="container-fluid px-4">
+        <h3 class="border-bottom pb-2 mb-5 text-secondary">{{items[items.length-1].text}} <a href="nav_edit.html" class="btn btn-success float-right px-4">新增</a></h3>
         <b-tabs>
           <b-tab title="主导航" active>
             <div class="py-3 text-center">
@@ -115,6 +116,7 @@
 import xggHead from '../../components/xggHead.vue'
 import xggMenu from '../../components/xggMenu.vue'
 import xggFoot from '../../components/xggFoot.vue'
+let _API='http://localhost/Gadmin/api/';
 
 export default {
   components: {
@@ -124,7 +126,6 @@ export default {
   },
   data () {
     return {
-      manager:{id:1,name:'admin2'},
       menu:[
         [{
           text:'管理首页',link:'index.html',active:false
@@ -152,12 +153,28 @@ export default {
       items: [{
         text: '网站管理中心',active: true},{
         text: '导航栏',active: true
-      }]
+      }],
+
+      manager:{uid:0,uname:''},
+      nav:{
+        main:[],
+        top:[],
+        bottom:[],
+        mobile:[]
+      }
     }
   },
 
   mounted () {
-    
+    this.$axios.get(_API+"nav")
+    .then((res)=>{
+      if(res.data.errcode==0){
+        this.manager=res.data.data.manager;
+        
+      }else if(res.data.errcode==403){
+        window.location.href='login.html'; 
+      };
+    }).catch(function(err){console.log(err);})
     
   },
 

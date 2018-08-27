@@ -13,34 +13,42 @@ class ConfigController extends Yaf_Controller_Abstract {
     return json_encode($result,JSON_UNESCAPED_UNICODE);//中文不转码unicode
   }
 
-
+  /*获取全部*/
 	public function indexAction(){
 		$model = new adminModel();
 		$manager = $model->getname();
 		if(!$manager){echo $this->_createJson($model->errcode,$model->errmsg);}
 
 		$model = new configModel();
-		$defaults = $model->getdefaults();
-		if(!$defaults){echo $this->_createJson($model->errcode,$model->errmsg);}
-		$mobile = $model->getmobile();
-		if(!$mobile){echo $this->_createJson($model->errcode,$model->errmsg);}
+		$PC = $model->getPC();
+		if(!$PC){echo $this->_createJson($model->errcode,$model->errmsg);}
+		$H5 = $model->getH5();
+		if(!$H5){echo $this->_createJson($model->errcode,$model->errmsg);}
 		
 		echo $this->_createJson(0,'',array(
 			'manager'=>$manager,
-			'defaults'=>$defaults,
-			'mobile'=>$mobile
+			'PC'=>$PC,
+			'H5'=>$H5
 		));
 		return false;
 	}
 
-	/*设置*/
-	public function defualtsAction(){
-		// $obj=json_decode($this->getRequest()->getPost());
-		var_dump($this->getRequest()->getPost());exit();
-		$user_name = $this->getRequest()->getPost("user_name");
+	/*设置1*/
+	public function PCAction(){
+		$on_off = $this->getRequest()->getPost("on_off");
+		$title = $this->getRequest()->getPost("title");
+		$keywords = $this->getRequest()->getPost("keywords");
+		$description = $this->getRequest()->getPost("description");
+		$address = $this->getRequest()->getPost("address");
+		$icp = $this->getRequest()->getPost("icp");
+		$tel = $this->getRequest()->getPost("tel");
+		$email = $this->getRequest()->getPost("email");
+		$code = $this->getRequest()->getPost("code");
+
+		$logofile=$this->getRequest()->getFiles('logofile');
 		
 		$model = new ConfigModel();
-		if($model->update()){
+		if($model->setPC($on_off,$title,$keywords,$description,$address,$icp,$tel,$email,$code,$logofile)){
 			echo $this->_createJson(0,'');
 		}else{
 			echo $this->_createJson($model->errcode,$model->errmsg);
@@ -48,4 +56,35 @@ class ConfigController extends Yaf_Controller_Abstract {
 		return false;
 	}
 
+	/*设置2*/
+	public function displayAction(){
+		$display=$this->getRequest()->getPost('display');
+
+		$model = new ConfigModel();
+		if($model->setdisplay($display)){
+			echo $this->_createJson(0,'');
+		}else{
+			echo $this->_createJson($model->errcode,$model->errmsg);
+		}
+		return false;
+	}
+
+	/*设置3*/
+	public function H5Action(){
+		$on_off = $this->getRequest()->getPost("on_off");
+		$title = $this->getRequest()->getPost("title");
+		$keywords = $this->getRequest()->getPost("keywords");
+		$description = $this->getRequest()->getPost("description");
+		$display=$this->getRequest()->getPost('display');
+
+		$logofile=$this->getRequest()->getFiles('logofile');
+		
+		$model = new ConfigModel();
+		if($model->setH5($on_off,$title,$keywords,$description,$display,$logofile)){
+			echo $this->_createJson(0,'');
+		}else{
+			echo $this->_createJson($model->errcode,$model->errmsg);
+		}
+		return false;
+	}
 }

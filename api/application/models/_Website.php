@@ -25,7 +25,7 @@ class _WebsiteModel {
       $this->errmsg='没有权限';
       return false;
     }
-  	$res['name']=$this->_pdo->query('SELECT value FROM xgg_config WHERE id=1')->fetch(PDO::FETCH_ASSOC)['value'];
+  	$res['name']=$this->_pdo->query('SELECT title FROM xgg_config WHERE id=1')->fetch(PDO::FETCH_ASSOC)['title'];
     $res['num_log']=$this->_pdo->query('SELECT * FROM xgg_admin_log')->rowCount();
     $res['num_page']=$this->_pdo->query('SELECT * FROM xgg_page')->rowCount();
     $res['num_article']=$this->_pdo->query('SELECT * FROM xgg_article')->rowCount();

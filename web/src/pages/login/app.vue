@@ -23,7 +23,7 @@
       <xggFoot></xggFoot>
     </div>
     <!-- alert -->
-    <b-alert class='alert' variant="danger" dismissible :show="alert.show">{{alert.msg}}</b-alert>
+    <b-alert class='alert' :variant="alert.type" dismissible :show="alert.show">{{alert.msg}}</b-alert>
   </div>
 </template>
 
@@ -47,7 +47,7 @@ export default {
   data () {
     return {
       manager:{user_name:'',pass_word:''},
-      alert:{show:false,msg:'这是一个错误提示！'}
+      alert:{show:false,type:'danger',msg:'这是一个错误提示！'}
     }
   },
 
@@ -68,7 +68,7 @@ export default {
         .then((res)=>{
           console.log(res.data);
           if(res.data.errcode!=0){
-            this.alert={show:true,msg:res.data.errmsg};
+            this.alert={show:true,type:'danger',msg:res.data.errmsg};
           }else{
             window.location.href='index.html'; 
           };
