@@ -20,27 +20,25 @@
           </b-form>
           <table class="table table-bordered">
             <tr class="bg-light">
-             <th><input type="checkbox">全选</th>
-             <th>编号</th>
-             <th>缩略图</th>
-             <th class="text-left">名称</th>
-             <th>分类</th>
-             <th>添加日期</th>
-             <th>浏览量</th>
-             <th>操作</th>
+              <th><input type="checkbox">全选</th>
+              <th>编号</th>
+              <th>缩略图</th>
+              <th class="text-left">名称</th>
+              <th>分类</th>
+              <th>添加日期</th>
+              <th>浏览量</th>
+              <th>操作</th>
             </tr>
-            <tbody>
-            <tr>
-             <td class="align-middle"><input type="checkbox"></td>
-             <td class="align-middle">11</td>
-             <td><img src="../../assets/20130514acunau_thumb.jpg" alt=""></td>
-             <td class="align-middle text-left">哈工智能 | 相约恰佩克 预见新未来</td>
-             <td class="align-middle">行业新闻</td>
-             <td class="align-middle">2018-05-18</td>
-             <td class="align-middle">125</td>
-             <td class="align-middle"><a href="article_edit.html">编辑</a> | <a href="#">删除</a></td>
+            <tr v-for='item in articles'>
+              <td class="align-middle"><input type="checkbox"></td>
+              <td class="align-middle">{{item.id}}</td>
+              <td><img :src="item.src" alt=""></td>
+              <td class="align-middle text-left">{{item.title}}</td>
+              <td class="align-middle">{{item.name}}</td>
+              <td class="align-middle">{{item.add_time}}</td>
+              <td class="align-middle">{{item.click}}</td>
+              <td class="align-middle"><a href="article_edit.html?id='+item.id">编辑</a> | <span class='btn-link' v-on:click="del(item.id)">删除</span></td>
             </tr>
-            </tbody>
           </table>
           <b-form @submit.prevent="onExecute">
             <b-form-row class='mb-3'>
@@ -97,6 +95,7 @@ export default {
         group:'',
         groupOps:[{ value:0,text:'无'},{value:1,text:'公司动态'},{value:2,text:'行业新闻'}],
       },
+      articles:[{id:0,src:'',title:'',name:'',add_time:'',click:''}],
       pagination:{
         current:1,
         totel:10
@@ -104,9 +103,32 @@ export default {
     }
   },
 
-  mounted () {},
+  mounted () {
+    //获取信息进行编辑
+    let page=this.getQueryString("page")?this.getQueryString("page"):'1';
+    
+    this.$axios.get(_API+"article?page="+page)
+    .then((res)=>{
+      if(res.data.errcode==0){
+        this.manager=res.data.data.manager;
+        this.articles=res.data.data.articles;
+        this.pagination=res.data.data.pagination;
+
+      }else if(res.data.errcode==403){
+        window.location.href='login.html'; 
+      };
+    }).catch(function(err){console.log(err);})
+  },
 
   methods:{
+    //解析url参数
+    getQueryString(name){
+      var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+      var r = window.location.search.substr(1).match(reg);
+      if (r != null) {return unescape(r[2]); }
+      return null;
+    },
+
     onFilter:function(){
       console.log(this.filter);
     },
@@ -114,6 +136,7 @@ export default {
       console.log(this.execute);
     },
   }
+
 
 };
 

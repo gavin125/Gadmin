@@ -71,8 +71,16 @@ class ManagerModel {
       $this->errmsg='没有权限';
       return false;
     }
-    $res=$this->_pdo->query('SELECT id,user_name,email,add_time,last_login FROM xgg_manager');
-    return $res->fetchAll(PDO::FETCH_ASSOC);
+    $sth=$this->_pdo->query('SELECT id,user_name,email,add_time,last_login FROM xgg_manager');
+    $res=$sth->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($res as $k => $v) {
+      foreach ($v as $k1 => $v1) {  
+        if($k1=='add_time'||$k1=='last_login'){
+          if($v1!=null){$res[$k][$k1]=date("Y-m-d H:i:s", $v1);}
+        }
+      }
+    }
+    return $res;
   }
 
   /*删除*/

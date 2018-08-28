@@ -1,10 +1,10 @@
 <?php
 /**
- * @name 文章组
+ * @name 文章
  * @author gulei
  */
 
-class Article_groupController extends Yaf_Controller_Abstract {
+class ArticleController extends Yaf_Controller_Abstract {
 
 	/*生成JSON*/
 	private function _createJson($code, $msg = '', $data = array()){
@@ -17,17 +17,25 @@ class Article_groupController extends Yaf_Controller_Abstract {
 
 	/*获取*/
 	public function indexAction(){
+		$page = $this->getRequest()->get("page");
+		$size = $this->getRequest()->get("size")?$this->getRequest()->get("size"):10;
+
 		$model = new managerModel();
 		$manager = $model->getname();
 		if(!$manager){echo $this->_createJson($model->errcode,$model->errmsg);}
 
-		$model = new Article_groupModel();
-		$article_group = $model->getgroupgetgroup();
-		if(!$article_group){echo $this->_createJson($model->errcode,$model->errmsg);}
+		$model = new ArticleModel();
+		$articles = $model->getarticles($page,$size);
+		if(!$articles){echo $this->_createJson($model->errcode,$model->errmsg);}
+		$pagination=array(
+			'current'=>intval($page),
+			'totel'=>ceil($model->gettotel()/$size)
+		);
 
 		echo $this->_createJson(0,'',array(
 			'manager'=>$manager,
-			'article_group'=>$article_group
+			'articles'=>$articles,
+			'pagination'=>$pagination
 		));
 		return false;
 	}

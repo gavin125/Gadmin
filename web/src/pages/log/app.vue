@@ -69,7 +69,7 @@ export default {
 
   mounted () {
 		//获取信息进行编辑
-		let page=this._getQueryString("page")?this._getQueryString("page"):'1';
+		let page=this._etQueryString("page")?this.getQueryString("page"):'1';
 		
 		this.$axios.get(_API+"log?page="+page)
 		.then((res)=>{
@@ -85,7 +85,7 @@ export default {
 	},
 	methods:{
 		//解析url参数
-		_getQueryString(name){
+		getQueryString(name){
 			var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
 			var r = window.location.search.substr(1).match(reg);
 			if (r != null) {return unescape(r[2]); }

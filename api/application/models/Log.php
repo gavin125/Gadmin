@@ -27,7 +27,13 @@ class LogModel {
     }
   	$sth=$this->_pdo->prepare('SELECT l.id,l.add_time,l.action,m.user_name,l.last_ip FROM xgg_log AS l,xgg_manager AS m WHERE l.user_id=m.id AND l.user_id=? LIMIT '.($page-1)*$size.','.$size);
     $sth->execute(array($this->_mem->get('uid')));
-    return $sth->fetchAll(PDO::FETCH_ASSOC);
+    $res=$sth->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($res as $k => $v) {
+      foreach ($v as $k1 => $v1) {  
+        if($k1=='add_time'){$res[$k][$k1]=date("Y-m-d H:i:s", $v1);}
+      }
+    }
+    return $res;
   }
 
   public function gettotel() {
@@ -48,7 +54,13 @@ class LogModel {
     }
     $sth=$this->_pdo->prepare('SELECT add_time,last_ip FROM xgg_log WHERE action=? AND user_id=? LIMIT 3');
     $sth->execute(array('管理员登录成功',$this->_mem->get('uid')));
-    return $sth->fetchAll(PDO::FETCH_ASSOC);
+    $res=$sth->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($res as $k => $v) {
+      foreach ($v as $k1 => $v1) {  
+        if($k1=='add_time'){$res[$k][$k1]=date("Y-m-d H:i:s", $v1);}
+      }
+    }
+    return $res;
   }
   
 
