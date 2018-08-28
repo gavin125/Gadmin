@@ -3,13 +3,13 @@
     <!-- head -->
     <xggHead :manager='manager'></xggHead>
     <!-- menu -->
-    <xggMenu :menu='menu'></xggMenu>
+    <xggMenu :menucurr='menucurr'></xggMenu>
     
     <!-- main -->
     <div class="xggMain bg-white pb-2 border-left border-bottom">
-      <b-breadcrumb :items="items" class="rounded-0 border-bottom py-2 bg-light"/>
-      <div class="container-fluid">
-        <h3 class="border-bottom pb-2 mb-4 text-secondary">{{items[items.length-1].text}} <a href="article_group_edit.html" class="btn btn-success float-right px-4">新增</a></h3>
+      <b-breadcrumb :items="items" class="rounded-0 border-bottom py-2 px-4 bg-light"/>
+      <div class="container-fluid px-4">
+        <h3 class="border-bottom pb-2 mb-5 text-secondary">{{items[items.length-1].text}} <a href="article_group_edit.html" class="btn btn-success float-right px-4">新增</a></h3>
         <div class="py-3 text-center ">
           <table class="table table-bordered">
             <tr class="bg-light">
@@ -20,12 +20,12 @@
              <th width="150">操作</th>
             </tr>
             <tbody>
-            <tr>
-             <td>1</td>
-             <td>公司动态</td>
-             <td>无</td>
-             <td>10</td>
-             <td><a href="article_group.html">编辑</a> | <a href="#">删除</a></td>
+            <tr v-for='item in article_group'>
+             <td>{{item.id}}</td>
+             <td>{{item.name}}</td>
+             <td>{{item.parent_id}}</td>
+             <td>{{item.sort}}</td>
+             <td><a href="article_group.html?id='+item.id">编辑</a> | <span class='btn-link' v-on:click="del(item.id)">删除</span></td>
             </tr>
             </tbody>
           </table>
@@ -47,6 +47,7 @@
 import xggHead from '../../components/xggHead.vue'
 import xggMenu from '../../components/xggMenu.vue'
 import xggFoot from '../../components/xggFoot.vue'
+let _API='http://localhost/Gadmin/api/';
 
 export default {
   components: {
@@ -56,42 +57,59 @@ export default {
   },
   data () {
     return {
-      manager:{id:1,name:'admin2'},
-      menu:[
-        [{
-          text:'管理首页',link:'index.html',active:false
-        }],
-        [{
-          text:'系统设置',link:'config.html',active:false},{
-          text:'导航栏',link:'nav.html',active:false},{
-          text:'轮播图',link:'carousel.html',active:false},{
-          text:'单页面',link:'page.html',active:false
-        }],
-        [{
-          text:'管理员',link:'manager.html',active:false},{
-          text:'操作记录',link:'log.html',active:false},{
-          text:'数据备份',link:'backup.html',active:false
-        }],
-        [{
-          text:'文章分类',link:'article_group.html',active:true},{
-          text:'文章列表',link:'article.html',active:false
-        }],
-        [{
-          text:'产品分类',link:'product_group.html',active:false},{
-          text:'产品列表',link:'product.html',active:false
-        }],
-      ],
-      items: [{
-        text: '网站管理中心',active: true},{
-        text: '文章分类',active: true
-      }]
+      menucurr:'文章分类',
+      items: [{text: '网站管理中心',active: true},{text: '文章分类',active: true}],
+      
+      manager:{uid:0,uname:''},
+			article_group:[{id:0,name:'1',parent_id:'2',sort:'3'}]
     }
   },
 
   mounted () {
-    
+    this.$axios.get(_API+"articlegroup")
+    .then((res)=>{
+    	if(res.data.errcode==0){
+    		this.manager=res.data.data.manager;
+    		this.article_group=res.data.data.article_group;
+
+    	}else if(res.data.errcode==403){
+    		window.location.href='login.html'; 
+    	};
+    }).catch(function(err){console.log(err);})
     
   },
+	methods:{
+		timer(n,msg){
+			var that=this;
+			if(n>0){
+				that.alert={show:true,type:'success',msg:msg+'~ '+n+'后自动关闭'};
+				setTimeout(function(){that._timer(n-1,msg)},1000);
+			}else{
+				that.alert.show=false;
+			}
+		},
+
+		update(id){
+			let that=this;
+			for(let x in that.nav){
+				that.nav[x].forEach(function(v,i){
+					if(v.id==id){that.nav[x].splice(i,1);}
+				})
+			}
+		},
+
+		del(id){
+			this.$axios.get(_API+"nav/del?id="+id)
+			.then((res)=>{
+				if(res.data.errcode==0){
+					this.timer(3,'删除导航成功');
+					this.update(id);
+				}else if(res.data.errcode==403){
+					window.location.href='login.html'; 
+				};
+			}).catch(function(err){console.log(err);})
+		}
+	},
 
 };
 

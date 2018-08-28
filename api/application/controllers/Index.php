@@ -18,16 +18,16 @@ class IndexController extends Yaf_Controller_Abstract {
   }
 
   public function indexAction() {
-		$model = new adminModel();
+		$model = new managerModel();
 		$manager = $model->getname();
 		if(!$manager){echo $this->_createJson($model->errcode,$model->errmsg);}
 
 		$model = new pageModel();
-		$pages = $model->getindex();
+		$pages = $model->getpages();
 		if(!$pages){echo $this->_createJson($model->errcode,$model->errmsg);}
 
 		$model = new _websiteModel();
-		$total = $model->gettotal();
+		$total = $model->gettotel();
 		if(!$total){echo $this->_createJson($model->errcode,$model->errmsg);}
 		$server = $model->getserver();
 		if(!$server){echo $this->_createJson($model->errcode,$model->errmsg);}

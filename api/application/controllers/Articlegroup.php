@@ -1,10 +1,10 @@
 <?php
 /**
- * @name 单页面
+ * @name 文章组
  * @author gulei
  */
 
-class PageController extends Yaf_Controller_Abstract {
+class ArticlegroupController extends Yaf_Controller_Abstract {
 
 	/*生成JSON*/
 	private function _createJson($code, $msg = '', $data = array()){
@@ -21,29 +21,19 @@ class PageController extends Yaf_Controller_Abstract {
 		$manager = $model->getname();
 		if(!$manager){echo $this->_createJson($model->errcode,$model->errmsg);}
 
-		$model = new PageModel();
-		$pages = $model->getpages();
-		if(!$pages){echo $this->_createJson($model->errcode,$model->errmsg);}
+		$model = new ArticlegroupModel();
+		$article_group = $model->getgroup();
+		if(!$article_group){echo $this->_createJson($model->errcode,$model->errmsg);}
 
 		echo $this->_createJson(0,'',array(
 			'manager'=>$manager,
-			'pages'=>$pages
+			'article_group'=>$article_group
 		));
 		return false;
 	}
+	
 
-	/*删除*/
-	public function delAction(){
-		$id = $this->getRequest()->get("id");
 
-		$model = new PageModel();
-		if($model->del($id)){
-			echo $this->_createJson(0,'');
-		}else{
-			echo $this->_createJson($model->errcode,$model->errmsg);
-		}
-		return false;
-	}
 
 	
 }

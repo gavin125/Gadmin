@@ -6,7 +6,7 @@
 
 
 
-class AdminModel {
+class ManagerModel {
   public function __construct() {
   	$this->_pdo=Yaf_Registry::get('pdo');
   	$this->_mem=Yaf_Registry::get('mem');
@@ -19,7 +19,7 @@ class AdminModel {
   }
 
   private function _isuname($uname) {
-  	$sth=$this->_pdo->prepare('SELECT id FROM xgg_admin WHERE user_name=?');
+  	$sth=$this->_pdo->prepare('SELECT id FROM xgg_manager WHERE user_name=?');
   	$sth->execute(array($uname));
   	if($sth->fetch(PDO::FETCH_ASSOC)){return true;}
     return false;
@@ -36,7 +36,7 @@ class AdminModel {
       $this->errmsg='用户名不存在';
       return false;
     }
-  	$sth=$this->_pdo->prepare('SELECT id,user_name FROM xgg_admin WHERE user_name=? AND pass_word=?');
+  	$sth=$this->_pdo->prepare('SELECT id,user_name FROM xgg_manager WHERE user_name=? AND pass_word=?');
   	$sth->execute(array($uname,$this->_addSalt($upw)));
   	$res=$sth->fetch(PDO::FETCH_ASSOC);
   	if(!$res){
@@ -47,11 +47,11 @@ class AdminModel {
     $this->_mem->set('uid',$res['id']);
     $this->_mem->set('uname',$res['user_name']);
   	$this->_mem->set('uip',$ip);
-    $sth=$this->_pdo->prepare('UPDATE xgg_admin SET last_login=?,last_ip=? WHERE id=?');
+    $sth=$this->_pdo->prepare('UPDATE xgg_manager SET last_login=?,last_ip=? WHERE id=?');
     $sth->execute(array(time(),$ip,$res['id']));
 
     // 添加日志
-    $sth=$this->_pdo->prepare('INSERT INTO xgg_admin_log (user_id,add_time,action,last_ip) VALUES (?,?,?,?)');
+    $sth=$this->_pdo->prepare('INSERT INTO xgg_log (user_id,add_time,action,last_ip) VALUES (?,?,?,?)');
     $sth->execute(array($this->_mem->get('uid'),time(),'管理员登录成功',$this->_mem->get('uip')));
     return true;
   }
@@ -64,6 +64,29 @@ class AdminModel {
     }
     return array('uid'=>$this->_mem->get('uid'),'uname'=>$this->_mem->get('uname'));
   }
+
+  public function getmanagers(){
+    if(!$this->_isadmin()){
+      $this->errcode=403;
+      $this->errmsg='没有权限';
+      return false;
+    }
+    $res=$this->_pdo->query('SELECT id,user_name,email,add_time,last_login FROM xgg_manager');
+    return $res->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  /*删除*/
+  public function del($id) {
+    if(!$this->_isadmin()){
+      $this->errcode=403;
+      $this->errmsg='没有权限';
+      return false;
+    }
+    $sth=$this->_pdo->prepare('DELETE FROM xgg_manager WHERE id=?');
+    $sth->execute(array($id));
+    return true;
+  }
+
 
   public function logout(){
     $this->_mem->delete('uid');

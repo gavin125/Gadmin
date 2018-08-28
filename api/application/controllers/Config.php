@@ -15,7 +15,7 @@ class ConfigController extends Yaf_Controller_Abstract {
 
   /*获取全部*/
 	public function indexAction(){
-		$model = new adminModel();
+		$model = new managerModel();
 		$manager = $model->getname();
 		if(!$manager){echo $this->_createJson($model->errcode,$model->errmsg);}
 

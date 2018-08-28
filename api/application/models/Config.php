@@ -77,7 +77,7 @@ class ConfigModel {
     }
 
     // 添加日志
-    $sth=$this->_pdo->prepare('INSERT INTO xgg_admin_log (user_id,add_time,action,last_ip) VALUES (?,?,?,?)');
+    $sth=$this->_pdo->prepare('INSERT INTO xgg_log (user_id,add_time,action,last_ip) VALUES (?,?,?,?)');
     $sth->execute(array($this->_mem->get('uid'),time(),'编辑PC配置',$this->_mem->get('uip')));
     return true;
   }
@@ -87,7 +87,7 @@ class ConfigModel {
     $sth->execute(array($display,1));//1PC
 
     // 添加日志
-    $sth=$this->_pdo->prepare('INSERT INTO xgg_admin_log (user_id,add_time,action,last_ip) VALUES (?,?,?,?)');
+    $sth=$this->_pdo->prepare('INSERT INTO xgg_log (user_id,add_time,action,last_ip) VALUES (?,?,?,?)');
     $sth->execute(array($this->_mem->get('uid'),time(),'编辑显示配置',$this->_mem->get('uip')));
   }
 
@@ -105,7 +105,7 @@ class ConfigModel {
     }
 
     // 添加日志
-    $sth=$this->_pdo->prepare('INSERT INTO xgg_admin_log (user_id,add_time,action,last_ip) VALUES (?,?,?,?)');
+    $sth=$this->_pdo->prepare('INSERT INTO xgg_log (user_id,add_time,action,last_ip) VALUES (?,?,?,?)');
     $sth->execute(array($this->_mem->get('uid'),time(),'编辑H5配置',$this->_mem->get('uip')));
     return true;
   }

@@ -3,33 +3,29 @@
     <!-- head -->
     <xggHead :manager='manager'></xggHead>
     <!-- menu -->
-    <xggMenu :menu='menu'></xggMenu>
+    <xggMenu :menucurr='menucurr'></xggMenu>
     
     <!-- main -->
     <div class="xggMain bg-white pb-2 border-left border-bottom">
-      <b-breadcrumb :items="items" class="rounded-0 border-bottom py-2 bg-light"/>
-      <div class="container-fluid">
-        <h3 class="border-bottom pb-2 mb-4 text-secondary">{{items[items.length-1].text}} <a href="manager_edit.html" class="btn btn-success float-right px-4">新增</a></h3>
+      <b-breadcrumb :items="items" class="rounded-0 border-bottom py-2 px-4 bg-light"/>
+      <div class="container-fluid px-4">
+        <h3 class="border-bottom pb-2 mb-5 text-secondary">{{items[items.length-1].text}} <a href="manager_edit.html" class="btn btn-success float-right px-4">新增</a></h3>
         <div class="py-3 text-center ">
           <table class="table table-bordered">
             <tr class="bg-light">
-             <th width="120">编号</th>
-             <th>管理员</th>
-             <th>email</th>
-             <th>添加时间</th>
-             <th>最后登录时间</th>
-             <th width="150">操作</th>
+              <th>管理员</th>
+              <th>email</th>
+              <th>添加时间</th>
+              <th>最后登录时间</th>
+              <th width="150">操作</th>
             </tr>
-            <tbody>
-            <tr>
-             <td>1</td>
-             <td>admin</td>
-             <td>123@123.com</td>
-             <td>2018-08-06 12:05:50</td>
-             <td>2018-08-06 12:05:50</td>
-             <td><a href="manager_edit.html">编辑</a> | <a href="#">删除</a></td>
+            <tr v-for="item in managers">
+             <td>{{item.user_name}}</td>
+             <td>{{item.email}}</td>
+             <td>{{item.add_time}}</td>
+             <td>{{item.last_login}}</td>
+             <td><a href="manager_edit.html?id='+item.id">编辑</a><span v-if="item.id!=manager.uid"> | <span class='btn-link' v-on:click="del(item.id)">删除</span></span></td>
             </tr>
-            </tbody>
           </table>
         </div>     
       </div>
@@ -37,6 +33,9 @@
 
     <!-- foot -->
     <xggFoot></xggFoot>
+
+    <!-- alert -->
+    <b-alert class='alert' :variant="alert.type" :show="alert.show">{{alert.msg}}</b-alert>
   </div>
 </template>
 
@@ -49,6 +48,7 @@
 import xggHead from '../../components/xggHead.vue'
 import xggMenu from '../../components/xggMenu.vue'
 import xggFoot from '../../components/xggFoot.vue'
+let _API='http://localhost/Gadmin/api/';
 
 export default {
   components: {
@@ -58,41 +58,58 @@ export default {
   },
   data () {
     return {
-      manager:{id:1,name:'admin2'},
-      menu:[
-        [{
-          text:'管理首页',link:'index.html',active:false
-        }],
-        [{
-          text:'系统设置',link:'config.html',active:false},{
-          text:'导航栏',link:'nav.html',active:false},{
-          text:'轮播图',link:'carousel.html',active:false},{
-          text:'单页面',link:'page.html',active:false
-        }],
-        [{
-          text:'管理员',link:'manager.html',active:true},{
-          text:'操作记录',link:'log.html',active:false},{
-          text:'数据备份',link:'backup.html',active:false
-        }],
-        [{
-          text:'文章分类',link:'article_group.html',active:false},{
-          text:'文章列表',link:'article.html',active:false
-        }],
-        [{
-          text:'产品分类',link:'product_group.html',active:false},{
-          text:'产品列表',link:'product.html',active:false
-        }],
-      ],
-      items: [{
-        text: '网站管理中心',active: true},{
-        text: '管理员',active: true
-      }]
+      menucurr:'管理员',
+      items: [{text: '网站管理中心',active: true},{text: '管理员',active: true}],
+      
+      manager:{uid:0,uname:''},
+      managers:[{id:0,user_name:'1',email:'2',add_time:'3',last_login:'4'}],
+			
+			alert:{show:false,type:'danger',msg:'这是一个错误提示！'},
     }
   },
 
   mounted () {
+    this.$axios.get(_API+"manager")
+    .then((res)=>{
+      if(res.data.errcode==0){
+        this.manager=res.data.data.manager;
+        this.managers=res.data.data.managers;  
+      }else if(res.data.errcode==403){
+        window.location.href='login.html'; 
+      };
+    }).catch(function(err){console.log(err);})
     
-    
+  },
+
+  methods:{
+    _timer(n,msg){
+      var that=this;
+      if(n>0){
+        that.alert={show:true,type:'success',msg:msg+'~ '+n+'后自动关闭'};
+        setTimeout(function(){that._timer(n-1,msg)},1000);
+      }else{
+        that.alert.show=false;
+      }
+    },
+
+    update(id){
+      let that=this;
+      that.managers.forEach(function(v,i){
+        if(v.id==id){that.managers.splice(i,1);}
+      })
+    },
+
+    del(id){
+      this.$axios.get(_API+"manager/del?id="+id)
+      .then((res)=>{
+        if(res.data.errcode==0){
+          this._timer(3,'删除管理员成功');
+          this.update(id);
+        }else if(res.data.errcode==403){
+          window.location.href='login.html'; 
+        };
+      }).catch(function(err){console.log(err);})
+    }
   },
 
 };

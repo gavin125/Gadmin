@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 2018-08-27 12:34:18
+-- Generation Time: 2018-08-28 12:31:09
 -- 服务器版本： 10.1.19-MariaDB
 -- PHP Version: 5.6.28
 
@@ -19,67 +19,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `xiaoguge`
 --
-
--- --------------------------------------------------------
-
---
--- 表的结构 `xgg_admin`
---
-
-CREATE TABLE `xgg_admin` (
-  `id` smallint(5) UNSIGNED NOT NULL COMMENT 'ID',
-  `user_name` varchar(32) NOT NULL COMMENT '账号',
-  `pass_word` varchar(32) NOT NULL COMMENT '密码',
-  `email` varchar(60) DEFAULT NULL COMMENT '邮箱',
-  `action_list` text NOT NULL COMMENT '权限',
-  `add_time` int(10) UNSIGNED NOT NULL COMMENT '注册时间',
-  `last_login` int(10) UNSIGNED DEFAULT NULL COMMENT '最后登录时间',
-  `last_ip` varchar(15) DEFAULT NULL COMMENT '最后登录IP'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='管理员';
-
---
--- 转存表中的数据 `xgg_admin`
---
-
-INSERT INTO `xgg_admin` (`id`, `user_name`, `pass_word`, `email`, `action_list`, `add_time`, `last_login`, `last_ip`) VALUES
-(1, 'admin', '04eb952966a62f2c777e416846b14f04', '', 'ALL', 1509980132, 1535365622, '192.168.2.52'),
-(2, 'gavin', '04eb952966a62f2c777e416846b14f04', '', 'ALL', 1534746630, NULL, NULL);
-
--- --------------------------------------------------------
-
---
--- 表的结构 `xgg_admin_log`
---
-
-CREATE TABLE `xgg_admin_log` (
-  `id` int(10) UNSIGNED NOT NULL COMMENT 'ID',
-  `user_id` tinyint(3) UNSIGNED NOT NULL COMMENT '管理员ID',
-  `add_time` int(10) UNSIGNED NOT NULL COMMENT '时间',
-  `action` varchar(255) NOT NULL COMMENT '动作',
-  `last_ip` varchar(15) NOT NULL COMMENT 'IP'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='日志';
-
---
--- 转存表中的数据 `xgg_admin_log`
---
-
-INSERT INTO `xgg_admin_log` (`id`, `user_id`, `add_time`, `action`, `last_ip`) VALUES
-(1, 1, 1535092861, '管理员登录成功', '::1'),
-(2, 1, 1535093846, '管理员登录成功', '::1'),
-(3, 1, 1535254266, '管理员登录成功', '::1'),
-(4, 1, 1535360899, '管理员登录成功', '::1'),
-(5, 1, 1535361259, '编辑PC配置', '::1'),
-(6, 1, 1535361284, '编辑PC配置', '::1'),
-(7, 1, 1535361342, '编辑PC配置', '::1'),
-(8, 1, 1535361641, '编辑PC配置', '::1'),
-(9, 1, 1535362031, '编辑PC配置', '::1'),
-(10, 1, 1535362043, '编辑PC配置', '::1'),
-(11, 1, 1535363504, '编辑H5配置', '::1'),
-(12, 1, 1535363519, '编辑H5配置', '::1'),
-(13, 1, 1535363556, '编辑H5配置', '::1'),
-(14, 1, 1535364732, '编辑PC配置', '::1'),
-(15, 1, 1535364740, '编辑PC配置', '::1'),
-(16, 1, 1535365622, '管理员登录成功', '192.168.2.52');
 
 -- --------------------------------------------------------
 
@@ -109,9 +48,41 @@ CREATE TABLE `xgg_article` (
 CREATE TABLE `xgg_article_group` (
   `id` smallint(5) UNSIGNED NOT NULL,
   `name` varchar(50) NOT NULL COMMENT '名称',
-  `parent_id` smallint(5) NOT NULL DEFAULT '0' COMMENT '父级ID',
+  `parent_id` smallint(5) DEFAULT NULL COMMENT '父级ID',
   `sort` tinyint(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '排序'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='页面';
+
+--
+-- 转存表中的数据 `xgg_article_group`
+--
+
+INSERT INTO `xgg_article_group` (`id`, `name`, `parent_id`, `sort`) VALUES
+(1, '公司动态', NULL, 0),
+(2, '行业新闻', NULL, 0),
+(3, '公司公告', 1, 0);
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `xgg_carousel`
+--
+
+CREATE TABLE `xgg_carousel` (
+  `id` smallint(5) UNSIGNED NOT NULL COMMENT 'ID',
+  `name` varchar(64) NOT NULL DEFAULT '' COMMENT '名称',
+  `link` varchar(256) NOT NULL DEFAULT '' COMMENT '链接',
+  `src` varchar(256) NOT NULL COMMENT '图片',
+  `type` varchar(8) NOT NULL COMMENT '类型（PC|H5）',
+  `sort` tinyint(3) UNSIGNED NOT NULL DEFAULT '50' COMMENT '排序'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='轮播图';
+
+--
+-- 转存表中的数据 `xgg_carousel`
+--
+
+INSERT INTO `xgg_carousel` (`id`, `name`, `link`, `src`, `type`, `sort`) VALUES
+(1, 'banner1', 'http://www.baidu.com', 'banner/1.jpg', 'PC', 10),
+(2, 'banner2', 'http://www.163.com', 'banner/2.jpg', 'PC', 20);
 
 -- --------------------------------------------------------
 
@@ -189,9 +160,9 @@ INSERT INTO `xgg_config` (`id`, `on_off`, `title`, `keywords`, `description`, `l
 
 CREATE TABLE `xgg_link` (
   `id` smallint(5) UNSIGNED NOT NULL COMMENT 'ID',
-  `name` varchar(60) NOT NULL DEFAULT '' COMMENT '名称',
-  `link` varchar(255) NOT NULL DEFAULT '' COMMENT '链接',
-  `img` varchar(255) NOT NULL COMMENT '图片',
+  `name` varchar(64) NOT NULL DEFAULT '' COMMENT '名称',
+  `link` varchar(256) NOT NULL DEFAULT '' COMMENT '链接',
+  `src` varchar(256) NOT NULL COMMENT '图片',
   `sort` tinyint(3) UNSIGNED NOT NULL DEFAULT '50' COMMENT '排序'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='友情链接';
 
@@ -199,9 +170,70 @@ CREATE TABLE `xgg_link` (
 -- 转存表中的数据 `xgg_link`
 --
 
-INSERT INTO `xgg_link` (`id`, `name`, `link`, `img`, `sort`) VALUES
+INSERT INTO `xgg_link` (`id`, `name`, `link`, `src`, `sort`) VALUES
 (1, '百度', 'http://www.baidu.com', 'link/1.png', 10),
 (2, '网易', 'http://www.163.com', 'link/2.png', 10);
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `xgg_log`
+--
+
+CREATE TABLE `xgg_log` (
+  `id` int(10) UNSIGNED NOT NULL COMMENT 'ID',
+  `add_time` int(10) UNSIGNED NOT NULL COMMENT '时间',
+  `action` varchar(255) NOT NULL COMMENT '动作',
+  `user_id` tinyint(3) UNSIGNED NOT NULL COMMENT '管理员ID',
+  `last_ip` varchar(15) NOT NULL COMMENT 'IP'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='日志';
+
+--
+-- 转存表中的数据 `xgg_log`
+--
+
+INSERT INTO `xgg_log` (`id`, `add_time`, `action`, `user_id`, `last_ip`) VALUES
+(1, 1535092861, '管理员登录成功', 1, '::1'),
+(2, 1535093846, '管理员登录成功', 1, '::1'),
+(3, 1535254266, '管理员登录成功', 1, '::1'),
+(4, 1535360899, '管理员登录成功', 1, '::1'),
+(5, 1535361259, '编辑PC配置', 1, '::1'),
+(6, 1535361284, '编辑PC配置', 1, '::1'),
+(7, 1535361342, '编辑PC配置', 1, '::1'),
+(8, 1535361641, '编辑PC配置', 1, '::1'),
+(9, 1535362031, '编辑PC配置', 1, '::1'),
+(10, 1535362043, '编辑PC配置', 1, '::1'),
+(11, 1535363504, '编辑H5配置', 1, '::1'),
+(12, 1535363519, '编辑H5配置', 1, '::1'),
+(13, 1535363556, '编辑H5配置', 1, '::1'),
+(14, 1535364732, '编辑PC配置', 1, '::1'),
+(15, 1535364740, '编辑PC配置', 1, '::1'),
+(16, 1535365622, '管理员登录成功', 1, '192.168.2.52');
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `xgg_manager`
+--
+
+CREATE TABLE `xgg_manager` (
+  `id` smallint(5) UNSIGNED NOT NULL COMMENT 'ID',
+  `user_name` varchar(32) NOT NULL COMMENT '账号',
+  `pass_word` varchar(32) NOT NULL COMMENT '密码',
+  `email` varchar(60) DEFAULT NULL COMMENT '邮箱',
+  `action_list` text NOT NULL COMMENT '权限',
+  `add_time` int(10) UNSIGNED NOT NULL COMMENT '注册时间',
+  `last_login` int(10) UNSIGNED DEFAULT NULL COMMENT '最后登录时间',
+  `last_ip` varchar(15) DEFAULT NULL COMMENT '最后登录IP'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='管理员';
+
+--
+-- 转存表中的数据 `xgg_manager`
+--
+
+INSERT INTO `xgg_manager` (`id`, `user_name`, `pass_word`, `email`, `action_list`, `add_time`, `last_login`, `last_ip`) VALUES
+(1, 'admin', '04eb952966a62f2c777e416846b14f04', '1', 'ALL', 1509980132, 1535365622, '192.168.2.52'),
+(2, 'gavin', '04eb952966a62f2c777e416846b14f04', '2', 'ALL', 1534746630, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -211,6 +243,7 @@ INSERT INTO `xgg_link` (`id`, `name`, `link`, `img`, `sort`) VALUES
 
 CREATE TABLE `xgg_nav` (
   `id` smallint(5) UNSIGNED NOT NULL COMMENT 'ID',
+  `parent_id` int(11) NOT NULL DEFAULT '0' COMMENT '父级ID',
   `name` varchar(64) NOT NULL COMMENT '名称',
   `site` varchar(8) NOT NULL DEFAULT 'main' COMMENT '位置：top|main|bottom|mobile',
   `link` varchar(256) NOT NULL COMMENT '链接',
@@ -221,13 +254,14 @@ CREATE TABLE `xgg_nav` (
 -- 转存表中的数据 `xgg_nav`
 --
 
-INSERT INTO `xgg_nav` (`id`, `name`, `site`, `link`, `sort`) VALUES
-(1, '首页', 'main', '#', 10),
-(2, '产品中心', 'main', 'product.html', 0),
-(3, '联系我们', 'main', 'contact.html', 0),
-(4, '产品中心', 'top', 'product.html', 0),
-(5, '产品中心', 'bottom', 'product.html', 0),
-(6, '产品中心', 'mobile', 'product.html', 0);
+INSERT INTO `xgg_nav` (`id`, `parent_id`, `name`, `site`, `link`, `sort`) VALUES
+(7, 0, '首页1', 'main', 'index.html', 0),
+(2, 0, '产品中心', 'main', 'product.html', 0),
+(3, 0, '联系我们', 'main', 'contact.html', 0),
+(4, 0, '产品中心1', 'top', 'product.html', 0),
+(5, 0, '产品中心2', 'bottom', 'product.html', 0),
+(6, 0, '产品中心3', 'mobile', 'product.html', 0),
+(8, 0, '首页2', 'main', 'index.html', 0);
 
 -- --------------------------------------------------------
 
@@ -237,20 +271,20 @@ INSERT INTO `xgg_nav` (`id`, `name`, `site`, `link`, `sort`) VALUES
 
 CREATE TABLE `xgg_page` (
   `id` mediumint(8) UNSIGNED NOT NULL,
-  `name` varchar(50) NOT NULL COMMENT '名称',
-  `banenr` varchar(255) NOT NULL COMMENT 'banner',
+  `name` varchar(64) NOT NULL COMMENT '名称',
+  `src` varchar(256) NOT NULL COMMENT 'banner',
   `content` longtext NOT NULL COMMENT '页面内容',
-  `keywords` varchar(255) NOT NULL DEFAULT '',
-  `description` varchar(255) NOT NULL DEFAULT ''
+  `keywords` varchar(128) NOT NULL DEFAULT '',
+  `description` varchar(256) NOT NULL DEFAULT ''
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='页面';
 
 --
 -- 转存表中的数据 `xgg_page`
 --
 
-INSERT INTO `xgg_page` (`id`, `name`, `banenr`, `content`, `keywords`, `description`) VALUES
-(1, '公司介绍', 'page/1.jpg', '这里是公司的详细介绍信息，这里是公司的详细介绍信息，这里是公司的详细介绍信息，这里是公司的详细介绍信息，', '介绍信息', '这里是公司的详细介绍信息'),
-(2, '联系我们', 'page/2.jpg', '这里是详细的联系方式信息，这里是详细的联系方式信息，这里是详细的联系方式信息，这里是详细的联系方式信息，这里是详细的联系方式信息，', '联系方式信息', '这里是详细的联系方式信息');
+INSERT INTO `xgg_page` (`id`, `name`, `src`, `content`, `keywords`, `description`) VALUES
+(1, '公司介绍', '20130514acunau_thumb.jpg', '这里是公司的详细介绍信息，这里是公司的详细介绍信息，这里是公司的详细介绍信息，这里是公司的详细介绍信息，', '介绍信息', '这里是公司的详细介绍信息'),
+(2, '联系我们', '20130514acunau_thumb.jpg', '这里是详细的联系方式信息，这里是详细的联系方式信息，这里是详细的联系方式信息，这里是详细的联系方式信息，这里是详细的联系方式信息，', '联系方式信息', '这里是详细的联系方式信息');
 
 -- --------------------------------------------------------
 
@@ -292,44 +326,17 @@ CREATE TABLE `xgg_product_group` (
   `sort` tinyint(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '排序'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='页面';
 
--- --------------------------------------------------------
-
 --
--- 表的结构 `xgg_show`
+-- 转存表中的数据 `xgg_product_group`
 --
 
-CREATE TABLE `xgg_show` (
-  `id` smallint(5) UNSIGNED NOT NULL COMMENT 'ID',
-  `name` varchar(60) NOT NULL DEFAULT '' COMMENT '名称',
-  `link` varchar(255) NOT NULL DEFAULT '' COMMENT '链接',
-  `img` varchar(255) NOT NULL COMMENT '图片',
-  `type` varchar(10) NOT NULL COMMENT '类型',
-  `sort` tinyint(3) UNSIGNED NOT NULL DEFAULT '50' COMMENT '排序'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='轮播图';
-
---
--- 转存表中的数据 `xgg_show`
---
-
-INSERT INTO `xgg_show` (`id`, `name`, `link`, `img`, `type`, `sort`) VALUES
-(1, 'banner1', 'http://www.baidu.com', 'banner/1.jpg', 'PC', 10),
-(2, 'banner2', 'http://www.163.com', 'banner/2.jpg', 'PC', 20);
+INSERT INTO `xgg_product_group` (`id`, `name`, `parent_id`, `sort`) VALUES
+(1, '解决方案', 0, 0),
+(2, '定制开发', 0, 0);
 
 --
 -- Indexes for dumped tables
 --
-
---
--- Indexes for table `xgg_admin`
---
-ALTER TABLE `xgg_admin`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `xgg_admin_log`
---
-ALTER TABLE `xgg_admin_log`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `xgg_article`
@@ -341,6 +348,12 @@ ALTER TABLE `xgg_article`
 -- Indexes for table `xgg_article_group`
 --
 ALTER TABLE `xgg_article_group`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `xgg_carousel`
+--
+ALTER TABLE `xgg_carousel`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -368,6 +381,18 @@ ALTER TABLE `xgg_link`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `xgg_log`
+--
+ALTER TABLE `xgg_log`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `xgg_manager`
+--
+ALTER TABLE `xgg_manager`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `xgg_nav`
 --
 ALTER TABLE `xgg_nav`
@@ -392,25 +417,9 @@ ALTER TABLE `xgg_product_group`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `xgg_show`
---
-ALTER TABLE `xgg_show`
-  ADD PRIMARY KEY (`id`);
-
---
 -- 在导出的表使用AUTO_INCREMENT
 --
 
---
--- 使用表AUTO_INCREMENT `xgg_admin`
---
-ALTER TABLE `xgg_admin`
-  MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=4;
---
--- 使用表AUTO_INCREMENT `xgg_admin_log`
---
-ALTER TABLE `xgg_admin_log`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=17;
 --
 -- 使用表AUTO_INCREMENT `xgg_article`
 --
@@ -420,7 +429,12 @@ ALTER TABLE `xgg_article`
 -- 使用表AUTO_INCREMENT `xgg_article_group`
 --
 ALTER TABLE `xgg_article_group`
-  MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- 使用表AUTO_INCREMENT `xgg_carousel`
+--
+ALTER TABLE `xgg_carousel`
+  MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=11;
 --
 -- 使用表AUTO_INCREMENT `xgg_case`
 --
@@ -442,15 +456,25 @@ ALTER TABLE `xgg_config`
 ALTER TABLE `xgg_link`
   MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=3;
 --
+-- 使用表AUTO_INCREMENT `xgg_log`
+--
+ALTER TABLE `xgg_log`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=17;
+--
+-- 使用表AUTO_INCREMENT `xgg_manager`
+--
+ALTER TABLE `xgg_manager`
+  MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=6;
+--
 -- 使用表AUTO_INCREMENT `xgg_nav`
 --
 ALTER TABLE `xgg_nav`
-  MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=7;
+  MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=10;
 --
 -- 使用表AUTO_INCREMENT `xgg_page`
 --
 ALTER TABLE `xgg_page`
-  MODIFY `id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- 使用表AUTO_INCREMENT `xgg_product`
 --
@@ -460,12 +484,7 @@ ALTER TABLE `xgg_product`
 -- 使用表AUTO_INCREMENT `xgg_product_group`
 --
 ALTER TABLE `xgg_product_group`
-  MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT;
---
--- 使用表AUTO_INCREMENT `xgg_show`
---
-ALTER TABLE `xgg_show`
-  MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=3;
+  MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

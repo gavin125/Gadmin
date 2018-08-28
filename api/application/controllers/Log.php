@@ -1,10 +1,10 @@
 <?php
 /**
- * @name 单页面
+ * @name 日志
  * @author gulei
  */
 
-class PageController extends Yaf_Controller_Abstract {
+class LogController extends Yaf_Controller_Abstract {
 
 	/*生成JSON*/
 	private function _createJson($code, $msg = '', $data = array()){
@@ -17,33 +17,31 @@ class PageController extends Yaf_Controller_Abstract {
 
 	/*获取*/
 	public function indexAction(){
+		$page = $this->getRequest()->get("page");
+		$size = $this->getRequest()->get("size")?$this->getRequest()->get("size"):10;
+
 		$model = new managerModel();
 		$manager = $model->getname();
 		if(!$manager){echo $this->_createJson($model->errcode,$model->errmsg);}
 
-		$model = new PageModel();
-		$pages = $model->getpages();
-		if(!$pages){echo $this->_createJson($model->errcode,$model->errmsg);}
+		$model = new LogModel();
+		$logs = $model->getlogs($page,$size);
+		if(!$logs){echo $this->_createJson($model->errcode,$model->errmsg);}
+		$pagination=array(
+			'current'=>intval($page),
+			'totel'=>ceil($model->gettotel()/$size)
+		);
 
 		echo $this->_createJson(0,'',array(
 			'manager'=>$manager,
-			'pages'=>$pages
+			'logs'=>$logs,
+			'pagination'=>$pagination
 		));
 		return false;
 	}
+	
+	
 
-	/*删除*/
-	public function delAction(){
-		$id = $this->getRequest()->get("id");
-
-		$model = new PageModel();
-		if($model->del($id)){
-			echo $this->_createJson(0,'');
-		}else{
-			echo $this->_createJson($model->errcode,$model->errmsg);
-		}
-		return false;
-	}
 
 	
 }

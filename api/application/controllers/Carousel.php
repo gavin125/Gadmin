@@ -1,10 +1,10 @@
 <?php
 /**
- * @name 单页面
+ * @name 导航
  * @author gulei
  */
 
-class PageController extends Yaf_Controller_Abstract {
+class CarouselController extends Yaf_Controller_Abstract {
 
 	/*生成JSON*/
 	private function _createJson($code, $msg = '', $data = array()){
@@ -13,21 +13,23 @@ class PageController extends Yaf_Controller_Abstract {
     return json_encode($result,JSON_UNESCAPED_UNICODE);//中文不转码unicode
   }
 
-
-
-	/*获取*/
+  /*获取全部*/
 	public function indexAction(){
 		$model = new managerModel();
 		$manager = $model->getname();
 		if(!$manager){echo $this->_createJson($model->errcode,$model->errmsg);}
 
-		$model = new PageModel();
-		$pages = $model->getpages();
-		if(!$pages){echo $this->_createJson($model->errcode,$model->errmsg);}
-
+		$model = new CarouselModel();
+		$PC = $model->getPC();
+		if(!$PC){echo $this->_createJson($model->errcode,$model->errmsg);}
+		$H5 = $model->getH5();
+		if(!$H5){echo $this->_createJson($model->errcode,$model->errmsg);}
+		
 		echo $this->_createJson(0,'',array(
 			'manager'=>$manager,
-			'pages'=>$pages
+			'carousel'=>array(
+				'PC'=>$PC,
+				'H5'=>$H5)
 		));
 		return false;
 	}
@@ -36,7 +38,7 @@ class PageController extends Yaf_Controller_Abstract {
 	public function delAction(){
 		$id = $this->getRequest()->get("id");
 
-		$model = new PageModel();
+		$model = new CarouselModel();
 		if($model->del($id)){
 			echo $this->_createJson(0,'');
 		}else{

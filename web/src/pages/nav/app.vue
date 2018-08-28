@@ -2,9 +2,8 @@
   <div class="xggWrap">
     <!-- head -->
     <xggHead :manager='manager'></xggHead>
-
     <!-- menu -->
-    <xggMenu :menu='menu'></xggMenu>
+    <xggMenu :menucurr='menucurr'></xggMenu>
     
     <!-- main -->
     <div class="xggMain bg-white pb-2 border-left border-bottom">
@@ -16,19 +15,17 @@
             <div class="py-3 text-center">
               <table class="table table-bordered">
                 <tr class="bg-light">
-                 <th width="150">导航名称</th>
-                 <th class="text-left">链接地址</th>
-                 <th width="80">排序</th>
-                 <th width="150">操作</th>
+                  <th width="150">导航名称</th>
+                  <th class="text-left">链接地址</th>
+                  <th width="80">排序</th>
+                  <th width="150">操作</th>
                 </tr>
-                <tbody>
-                <tr>
-                 <td>手机版1</td>
-                 <td class="text-left">http://www.gavin.com/0018/m</td>
-                 <td align="center">10</td>
-                 <td align="center"><a href="nav_edit.html">编辑</a> | <a href="#">删除</a></td>
+                <tr v-for="item in nav.main">
+                  <td>{{item.name}}</td>
+                  <td class="text-left">{{item.link}}</td>
+                  <td align="center">{{item.sort}}</td>
+                  <td align="center"><a :href="'nav_edit.html?id='+item.id">编辑</a> | <span class='btn-link' v-on:click="deletenav(item.id)">删除</span></td>
                 </tr>
-                </tbody>
               </table>
             </div>
           </b-tab>
@@ -36,19 +33,17 @@
             <div class="py-3 text-center">
               <table class="table table-bordered">
                 <tr class="bg-light">
-                 <th width="150">导航名称</th>
-                 <th class="text-left">链接地址</th>
-                 <th width="80">排序</th>
-                 <th width="150">操作</th>
+                  <th width="150">导航名称</th>
+                  <th class="text-left">链接地址</th>
+                  <th width="80">排序</th>
+                  <th width="150">操作</th>
                 </tr>
-                <tbody>
-                <tr>
-                 <td> 手机版2</td>
-                 <td class="text-left">http://www.gavin.com/0018/m</td>
-                 <td align="center">10</td>
-                 <td align="center"><a href="nav_edit.html">编辑</a> | <a href="#">删除</a></td>
+                <tr v-for="item in nav.top">
+                  <td>{{item.name}}</td>
+                  <td class="text-left">{{item.link}}</td>
+                  <td align="center">{{item.sort}}</td>
+                  <td align="center"><a :href="'nav_edit.html?id='+item.id">编辑</a> | <span class='btn-link' v-on:click="del(item.id)">删除</span></td>
                 </tr>
-                </tbody>
               </table>
             </div>
           </b-tab>
@@ -56,19 +51,17 @@
             <div class="py-3 text-center">
               <table class="table table-bordered">
                 <tr class="bg-light">
-                 <th width="150">导航名称</th>
-                 <th class="text-left">链接地址</th>
-                 <th width="80">排序</th>
-                 <th width="150">操作</th>
+                  <th width="150">导航名称</th>
+                  <th class="text-left">链接地址</th>
+                  <th width="80">排序</th>
+                  <th width="150">操作</th>
                 </tr>
-                <tbody>
-                <tr>
-                 <td> 手机版3</td>
-                 <td class="text-left">http://www.gavin.com/0018/m</td>
-                 <td align="center">10</td>
-                 <td align="center"><a href="nav_edit.html">编辑</a> | <a href="#">删除</a></td>
+                <tr v-for="item in nav.bottom">
+                  <td>{{item.name}}</td>
+                  <td class="text-left">{{item.link}}</td>
+                  <td align="center">{{item.sort}}</td>
+                  <td align="center"><a :href="'nav_edit.html?id='+item.id">编辑</a> | <span class='btn-link' v-on:click="del(item.id)">删除</span></td>
                 </tr>
-                </tbody>
               </table>
             </div>
           </b-tab>
@@ -76,34 +69,30 @@
             <div class="py-3 text-center">
               <table class="table table-bordered">
                 <tr class="bg-light">
-                 <th width="150">导航名称</th>
-                 <th class="text-left">链接地址</th>
-                 <th width="80">排序</th>
-                 <th width="150">操作</th>
+                  <th width="150">导航名称</th>
+                  <th class="text-left">链接地址</th>
+                  <th width="80">排序</th>
+                  <th width="150">操作</th>
                 </tr>
-                <tbody>
-                <tr>
-                 <td> 手机版3</td>
-                 <td class="text-left">http://www.gavin.com/0018/m</td>
-                 <td align="center">10</td>
-                 <td align="center"><a href="nav_edit.html">编辑</a> | <a href="#">删除</a></td>
+                <tr v-for="item in nav.mobile">
+                  <td>{{item.name}}</td>
+                  <td class="text-left">{{item.link}}</td>
+                  <td align="center">{{item.sort}}</td>
+                  <td align="center"><a :href="'nav_edit.html?id='+item.id">编辑</a> | <span class='btn-link' v-on:click="del(item.id)">删除</span></td>
                 </tr>
-                </tbody>
               </table>
             </div>
           </b-tab>
         </b-tabs>
-        
-
-       
-        
       </div>
 
     </div>
 
     <!-- foot -->
     <xggFoot></xggFoot>
-
+    
+    <!-- alert -->
+    <b-alert class='alert' :variant="alert.type" :show="alert.show">{{alert.msg}}</b-alert>
   </div>
 </template>
 
@@ -126,42 +115,18 @@ export default {
   },
   data () {
     return {
-      menu:[
-        [{
-          text:'管理首页',link:'index.html',active:false
-        }],
-        [{
-          text:'系统设置',link:'config.html',active:false},{
-          text:'导航栏',link:'nav.html',active:true},{
-          text:'轮播图',link:'carousel.html',active:false},{
-          text:'单页面',link:'page.html',active:false
-        }],
-        [{
-          text:'管理员',link:'manager.html',active:false},{
-          text:'操作记录',link:'log.html',active:false},{
-          text:'数据备份',link:'backup.html',active:false
-        }],
-        [{
-          text:'文章分类',link:'article_group.html',active:false},{
-          text:'文章列表',link:'article.html',active:false
-        }],
-        [{
-          text:'产品分类',link:'product_group.html',active:false},{
-          text:'产品列表',link:'product.html',active:false
-        }],
-      ],
-      items: [{
-        text: '网站管理中心',active: true},{
-        text: '导航栏',active: true
-      }],
-
+      menucurr:'导航栏',
+      items: [{text: '网站管理中心',active: true},{text: '导航栏',active: true}],
+      
       manager:{uid:0,uname:''},
       nav:{
-        main:[],
-        top:[],
-        bottom:[],
-        mobile:[]
-      }
+        main:[{id: "5", name: "产品中心1",link: "product.html",sort: "10"}],
+        top:[{id: "5", name: "产品中心2",link: "product.html",sort: "10"}],
+        bottom:[{id: "5", name: "产品中心3",link: "product.html",sort: "10"}],
+        mobile:[{id: "5", name: "产品中心4",link: "product.html",sort: "10"}]
+      },
+			
+			alert:{show:false,type:'danger',msg:'这是一个错误提示！'},
     }
   },
 
@@ -170,6 +135,7 @@ export default {
     .then((res)=>{
       if(res.data.errcode==0){
         this.manager=res.data.data.manager;
+        this.nav=res.data.data.nav;
         
       }else if(res.data.errcode==403){
         window.location.href='login.html'; 
@@ -177,6 +143,41 @@ export default {
     }).catch(function(err){console.log(err);})
     
   },
+
+  methods:{
+    timer(n,msg){
+      var that=this;
+      if(n>0){
+        that.alert={show:true,type:'success',msg:msg+'~ '+n+'后自动关闭'};
+        setTimeout(function(){that._timer(n-1,msg)},1000);
+      }else{
+        that.alert.show=false;
+      }
+    },
+
+    update(id){
+      let that=this;
+      for(let x in that.nav){
+        that.nav[x].forEach(function(v,i){
+          if(v.id==id){that.nav[x].splice(i,1);}
+        })
+      }
+    },
+
+    del(id){
+      this.$axios.get(_API+"nav/del?id="+id)
+      .then((res)=>{
+        if(res.data.errcode==0){
+          this.timer(3,'删除导航成功');
+          this.update(id);
+        }else if(res.data.errcode==403){
+          window.location.href='login.html'; 
+        };
+      }).catch(function(err){console.log(err);})
+    }
+  },
+
+ 
 
 };
 

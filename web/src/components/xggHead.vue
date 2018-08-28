@@ -1,7 +1,7 @@
 <template>
     <!-- head -->
     <b-navbar toggleable="md" type="dark" variant="success" class="px-0">
-      <b-navbar-brand class="m-0 p-0 text-center column" href="#">内容管理系统 <sup>Beta-V0.1</sup></b-navbar-brand>
+      <b-navbar-brand class="m-0 p-0 text-center column" href="#">内容管理系统 <sup>Beta-V1.0</sup></b-navbar-brand>
       <b-navbar-nav>
         <b-nav-item href="#">查看网站</b-nav-item>
         <b-nav-item href="#">清除缓存</b-nav-item>

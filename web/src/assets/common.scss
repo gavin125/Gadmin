@@ -3,3 +3,9 @@ html {font-size: 14px; background: #f3f3f3;}
 
 .xggWrap .column{ width: 180px;}
 .xggMain{ margin-left: 180px; min-height:700px;}
+.alert{ position: absolute; top:50%; left: 50%; transform: translate(-50%,0); }
+.btn-link{ cursor: pointer; }
+
+.page-link{color: #28a745;}
+.page-item.active .page-link{background-color: #28a745; border-color: #28a745;}
+.custom-file-label::after{content: '浏览'}

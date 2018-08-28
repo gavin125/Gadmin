@@ -4,7 +4,7 @@
  * @author gulei
  */
 
-class AdminController extends Yaf_Controller_Abstract {
+class ManagerController extends Yaf_Controller_Abstract {
 
 	/*生成JSON*/
 	private function _createJson($code, $msg = '', $data = array()){
@@ -13,7 +13,34 @@ class AdminController extends Yaf_Controller_Abstract {
     return json_encode($result,JSON_UNESCAPED_UNICODE);//中文不转码unicode
   }
 
+  /*获取*/
+	public function indexAction(){
+		$model = new managerModel();
+		$manager = $model->getname();
+		if(!$manager){echo $this->_createJson($model->errcode,$model->errmsg);}
+		$managers = $model->getmanagers();
+		if(!$managers){echo $this->_createJson($model->errcode,$model->errmsg);}
 
+		echo $this->_createJson(0,'',array(
+			'manager'=>$manager,
+			'managers'=>$managers
+		));
+		return false;
+	}
+
+	/*删除*/
+	public function delAction(){
+		$id = $this->getRequest()->get("id");
+
+		$model = new managerModel();
+		if($model->del($id)){
+			echo $this->_createJson(0,'');
+		}else{
+			echo $this->_createJson($model->errcode,$model->errmsg);
+		}
+		return false;
+	}
+	
 
 	/*登录*/
 	public function loginAction(){
@@ -22,7 +49,7 @@ class AdminController extends Yaf_Controller_Abstract {
 		$pass_word = $this->getRequest()->getPost("pass_word");
 		$ip=$this->getRequest()->getServer('REMOTE_ADDR');
 		
-		$model = new AdminModel();
+		$model = new managerModel();
 		if($model->login($user_name,$pass_word,$ip)){
 			echo $this->_createJson(0,'');
 		}else{
@@ -35,7 +62,7 @@ class AdminController extends Yaf_Controller_Abstract {
 	/*获取信息*/
 	public function getnameAction(){
 		
-		$model = new AdminModel();
+		$model = new managerModel();
 		if($res=$model->getname()){
 			echo $this->_createJson(0,'',$res);
 		}else{
@@ -47,7 +74,7 @@ class AdminController extends Yaf_Controller_Abstract {
 	/*获取信息*/
 	public function logoutAction(){
 		
-		$model = new AdminModel();
+		$model = new managerModel();
 		if($res=$model->logout()){
 			echo $this->_createJson(0,'',$res);
 		}else{

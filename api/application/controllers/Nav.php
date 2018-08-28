@@ -15,7 +15,7 @@ class NavController extends Yaf_Controller_Abstract {
 
   /*获取全部*/
 	public function indexAction(){
-		$model = new adminModel();
+		$model = new managerModel();
 		$manager = $model->getname();
 		if(!$manager){echo $this->_createJson($model->errcode,$model->errmsg);}
 
@@ -31,17 +31,26 @@ class NavController extends Yaf_Controller_Abstract {
 		
 		echo $this->_createJson(0,'',array(
 			'manager'=>$manager,
-			'main'=>$main,
-			'top'=>$top,
-			'bottom'=>$bottom,
-			'mobile'=>$mobile,
+			'nav'=>array(
+				'main'=>$main,
+				'top'=>$top,
+				'bottom'=>$bottom,
+				'mobile'=>$mobile)
 		));
 		return false;
 	}
 
-	/*设置1*/
-	public function setnavAction(){
+	/*删除*/
+	public function delAction(){
+		$id = $this->getRequest()->get("id");
 		
+		$model = new NavModel();
+		if($model->del($id)){
+			echo $this->_createJson(0,'');
+		}else{
+			echo $this->_createJson($model->errcode,$model->errmsg);
+		}
+		return false;
 	}
 
 	

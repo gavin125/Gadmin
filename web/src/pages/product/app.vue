@@ -3,13 +3,13 @@
     <!-- head -->
     <xggHead :manager='manager'></xggHead>
     <!-- menu -->
-    <xggMenu :menu='menu'></xggMenu>
+    <xggMenu :menucurr='menucurr'></xggMenu>
     
     <!-- main -->
     <div class="xggMain bg-white pb-2 border-left border-bottom">
-      <b-breadcrumb :items="items" class="rounded-0 border-bottom py-2 bg-light"/>
-      <div class="container-fluid">
-        <h3 class="border-bottom pb-2 mb-4 text-secondary">{{items[items.length-1].text}} <a href="product_edit.html" class="btn btn-success float-right px-4">新增</a></h3>
+      <b-breadcrumb :items="items" class="rounded-0 border-bottom py-2 px-4 bg-light"/>
+      <div class="container-fluid px-4">
+        <h3 class="border-bottom pb-2 mb-5 text-secondary">{{items[items.length-1].text}} <a href="product_edit.html" class="btn btn-success float-right px-4">新增</a></h3>
         <div class="py-3 text-center ">
           <b-form @submit.prevent="onFilter">
             <b-form-row class='mb-3'>
@@ -74,6 +74,7 @@
 import xggHead from '../../components/xggHead.vue'
 import xggMenu from '../../components/xggMenu.vue'
 import xggFoot from '../../components/xggFoot.vue'
+let _API='http://localhost/Gadmin/api/';
 
 export default {
   components: {
@@ -83,35 +84,10 @@ export default {
   },
   data () {
     return {
-      manager:{id:1,name:'admin2'},
-      menu:[
-        [{
-          text:'管理首页',link:'index.html',active:false
-        }],
-        [{
-          text:'系统设置',link:'config.html',active:false},{
-          text:'导航栏',link:'nav.html',active:false},{
-          text:'轮播图',link:'carousel.html',active:false},{
-          text:'单页面',link:'page.html',active:false
-        }],
-        [{
-          text:'管理员',link:'manager.html',active:false},{
-          text:'操作记录',link:'log.html',active:false},{
-          text:'数据备份',link:'backup.html',active:false
-        }],
-        [{
-          text:'文章分类',link:'article_group.html',active:false},{
-          text:'文章列表',link:'article.html',active:false
-        }],
-        [{
-          text:'产品分类',link:'product_group.html',active:false},{
-          text:'产品列表',link:'product.html',active:true
-        }],
-      ],
-      items: [{
-        text: '网站管理中心',active: true},{
-        text: '产品列表',active: true
-      }],
+      menucurr:'产品列表',
+      items: [{text: '网站管理中心',active: true},{text: '产品列表',active: true}],
+      
+      manager:{uid:0,uname:''},
       filter:{
         group:'',
         groupOps:[{ value:0,text:'无'},{value:1,text:'公司动态'},{value:2,text:'行业新闻'}],

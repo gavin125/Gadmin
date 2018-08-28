@@ -19,14 +19,14 @@ class _WebsiteModel {
     return false;
   }
 
-  public function gettotal() {
+  public function gettotel() {
     if(!$this->_isadmin()){
       $this->errcode=403;
       $this->errmsg='没有权限';
       return false;
     }
   	$res['name']=$this->_pdo->query('SELECT title FROM xgg_config WHERE id=1')->fetch(PDO::FETCH_ASSOC)['title'];
-    $res['num_log']=$this->_pdo->query('SELECT * FROM xgg_admin_log')->rowCount();
+    $res['num_log']=$this->_pdo->query('SELECT * FROM xgg_log')->rowCount();
     $res['num_page']=$this->_pdo->query('SELECT * FROM xgg_page')->rowCount();
     $res['num_article']=$this->_pdo->query('SELECT * FROM xgg_article')->rowCount();
     $res['num_article_group']=$this->_pdo->query('SELECT * FROM xgg_article_group')->rowCount();
