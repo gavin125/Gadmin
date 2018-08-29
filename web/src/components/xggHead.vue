@@ -8,21 +8,31 @@
       </b-navbar-nav>
       <b-navbar-nav class="ml-auto">
         <b-nav-item-dropdown :text='"管理员 "+manager.uname' right>
-          <b-dropdown-item href="#">编辑资料</b-dropdown-item>
-          <b-dropdown-item href="#">退出</b-dropdown-item>
+          <b-dropdown-item>编辑资料</b-dropdown-item>
+          <b-dropdown-item v-on:click='logout()'>退出</b-dropdown-item>
         </b-nav-item-dropdown>
       </b-navbar-nav>
     </b-navbar>
 </template>
 
 <script>
-
+let _API='http://localhost/Gadmin/api/';
 export default {
   props:['manager'],
   data () {
     return {}
   },
   mounted () {},
+	methods:{
+		logout(){
+			this.$axios.get(_API+"manager/logout")
+			.then((res)=>{
+				if(res.data.errcode==0){
+					window.location.href='login.html'; 
+				};
+			}).catch(function(err){console.log(err);})
+		}
+	}
 };
 
 </script>

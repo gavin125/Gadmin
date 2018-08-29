@@ -22,11 +22,11 @@ class LogController extends Yaf_Controller_Abstract {
 
 		$model = new managerModel();
 		$manager = $model->getname();
-		if(!$manager){echo $this->_createJson($model->errcode,$model->errmsg);}
+		if(!$manager){echo $this->_createJson($model->errcode,$model->errmsg);exit();}
 
 		$model = new LogModel();
 		$logs = $model->getlogs($page,$size);
-		if(!$logs){echo $this->_createJson($model->errcode,$model->errmsg);}
+		if(!$logs){echo $this->_createJson($model->errcode,$model->errmsg);exit();}
 		$pagination=array(
 			'current'=>intval($page),
 			'totel'=>ceil($model->gettotel()/$size)

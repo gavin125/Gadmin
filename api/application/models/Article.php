@@ -16,19 +16,17 @@ class ArticleModel {
 
   private function _isadmin() {
     if($this->_mem->get('uid')){return true;}
+    $this->errcode=401;
+    $this->errmsg='没有权限';
     return false;
   }
 
   public function getarticles($page,$size) {
-    if(!$this->_isadmin()){
-      $this->errcode=403;
-      $this->errmsg='没有权限';
-      return false;
-    }
-    // $sth=$this->_pdo->query('SELECT a.id,a.src,a.title,b.name AS group,a.add_time,a.click FROM xgg_article AS a,xgg_article_group AS b WHERE a.group_id=b.id LIMIT '.($page-1)*$size.','.$size);
-    $sth=$this->_pdo->query('SELECT a.id,a.src,a.title,a.add_time,a.click,b.name FROM xgg_article AS a,xgg_article_group AS b WHERE a.group_id=b.id LIMIT '.($page-1)*$size.','.$size);
+    if(!$this->_isadmin()){return false;}
+
+
+    $sth=$this->_pdo->query('SELECT a.id,a.src,a.title,a.add_time,a.sort,b.name FROM xgg_article AS a LEFT JOIN xgg_article_group AS b ON a.group_id=b.id LIMIT '.($page-1)*$size.','.$size);
     $res=$sth->fetchAll(PDO::FETCH_ASSOC);
-    var_dump($res);exit();
     foreach ($res as $k => $v) {
       foreach ($v as $k1 => $v1) {  
         if($k1=='add_time'){$res[$k][$k1]=date("Y-m-d H:i:s", $v1);}
@@ -38,13 +36,19 @@ class ArticleModel {
   }
 
   public function gettotel() {
-    if(!$this->_isadmin()){
-      $this->errcode=403;
-      $this->errmsg='没有权限';
-      return false;
-    }
+    if(!$this->_isadmin()){return false;}
+
     $sth=$this->_pdo->query('SELECT id FROM xgg_article');
     return $sth->rowCount();
+  }
+
+  /*删除*/
+  public function del($id) {
+    if(!$this->_isadmin()){return false;}
+    
+    $sth=$this->_pdo->prepare('DELETE FROM xgg_article WHERE id=?');
+    $sth->execute(array($id));
+    return true;
   }
   
   

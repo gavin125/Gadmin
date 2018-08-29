@@ -71,7 +71,7 @@ export default {
       if(res.data.errcode==0){
         this.manager=res.data.data.manager;
         this.pages=res.data.data.pages;  
-      }else if(res.data.errcode==403){
+      }else if(res.data.errcode==401){
         window.location.href='login.html'; 
       };
     }).catch(function(err){console.log(err);})
@@ -79,11 +79,11 @@ export default {
   },
 
   methods:{
-    _timer(n,msg){
+    timer(n,msg){
       var that=this;
       if(n>0){
         that.alert={show:true,type:'success',msg:msg+'~ '+n+'后自动关闭'};
-        setTimeout(function(){that._timer(n-1,msg)},1000);
+        setTimeout(function(){that.timer(n-1,msg)},1000);
       }else{
         that.alert.show=false;
       }
@@ -100,9 +100,9 @@ export default {
       this.$axios.get(_API+"page/del?id="+id)
       .then((res)=>{
         if(res.data.errcode==0){
-          this._timer(3,'删除单页面成功');
+          this.timer(3,'删除单页面成功');
           this.update(id);
-        }else if(res.data.errcode==403){
+        }else if(res.data.errcode==401){
           window.location.href='login.html'; 
         };
       }).catch(function(err){console.log(err);})

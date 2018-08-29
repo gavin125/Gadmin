@@ -20,21 +20,21 @@ class IndexController extends Yaf_Controller_Abstract {
   public function indexAction() {
 		$model = new managerModel();
 		$manager = $model->getname();
-		if(!$manager){echo $this->_createJson($model->errcode,$model->errmsg);}
+		if(!$manager){echo $this->_createJson($model->errcode,$model->errmsg); exit();}
 
 		$model = new pageModel();
 		$pages = $model->getpages();
-		if(!$pages){echo $this->_createJson($model->errcode,$model->errmsg);}
+		if(!$pages){echo $this->_createJson($model->errcode,$model->errmsg);exit();}
 
 		$model = new _websiteModel();
 		$total = $model->gettotel();
-		if(!$total){echo $this->_createJson($model->errcode,$model->errmsg);}
+		if(!$total){echo $this->_createJson($model->errcode,$model->errmsg);exit();}
 		$server = $model->getserver();
-		if(!$server){echo $this->_createJson($model->errcode,$model->errmsg);}
+		if(!$server){echo $this->_createJson($model->errcode,$model->errmsg);exit();}
 
 		$model = new logModel();
 		$login_log = $model->getloginlog();
-		if(!$login_log){echo $this->_createJson($model->errcode,$model->errmsg);}
+		if(!$login_log){echo $this->_createJson($model->errcode,$model->errmsg);exit();}
 
 		echo $this->_createJson(0,'',array(
 			'manager'=>$manager,

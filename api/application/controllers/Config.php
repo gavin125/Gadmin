@@ -17,13 +17,13 @@ class ConfigController extends Yaf_Controller_Abstract {
 	public function indexAction(){
 		$model = new managerModel();
 		$manager = $model->getname();
-		if(!$manager){echo $this->_createJson($model->errcode,$model->errmsg);}
+		if(!$manager){echo $this->_createJson($model->errcode,$model->errmsg);exit();}
 
 		$model = new configModel();
 		$PC = $model->getPC();
-		if(!$PC){echo $this->_createJson($model->errcode,$model->errmsg);}
+		if(!$PC){echo $this->_createJson($model->errcode,$model->errmsg);exit();}
 		$H5 = $model->getH5();
-		if(!$H5){echo $this->_createJson($model->errcode,$model->errmsg);}
+		if(!$H5){echo $this->_createJson($model->errcode,$model->errmsg);exit();}
 		
 		echo $this->_createJson(0,'',array(
 			'manager'=>$manager,

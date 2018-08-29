@@ -22,11 +22,11 @@ class ArticleController extends Yaf_Controller_Abstract {
 
 		$model = new managerModel();
 		$manager = $model->getname();
-		if(!$manager){echo $this->_createJson($model->errcode,$model->errmsg);}
+		if(!$manager){echo $this->_createJson($model->errcode,$model->errmsg);exit();}
 
 		$model = new ArticleModel();
 		$articles = $model->getarticles($page,$size);
-		if(!$articles){echo $this->_createJson($model->errcode,$model->errmsg);}
+		if(!$articles){echo $this->_createJson($model->errcode,$model->errmsg);exit();}
 		$pagination=array(
 			'current'=>intval($page),
 			'totel'=>ceil($model->gettotel()/$size)
@@ -40,6 +40,19 @@ class ArticleController extends Yaf_Controller_Abstract {
 		return false;
 	}
 	
+
+	/*删除*/
+	public function delAction(){
+		$id = $this->getRequest()->get("id");
+		
+		$model = new ArticleModel();
+		if($model->del($id)){
+			echo $this->_createJson(0,'');
+		}else{
+			echo $this->_createJson($model->errcode,$model->errmsg);
+		}
+		return false;
+	}
 
 
 

@@ -20,28 +20,25 @@
           </b-form>
           <table class="table table-bordered">
             <tr class="bg-light">
-             <th><input type="checkbox">全选</th>
-             <th>编号</th>
-             <th>缩略图</th>
-             <th class="text-left">名称</th>
-             <th>分类</th>
-             <th>添加日期</th>
-             <th>浏览量</th>
-             <th>操作</th>
-             <th>首页显示</th>
+            	<th><input type="checkbox">全选</th>
+            	<th>编号</th>
+            	<th>缩略图</th>
+            	<th class="text-left">名称</th>
+            	<th>分类</th>
+            	<th>添加日期</th>
+            	<th>排序</th>
+            	<th>操作</th>
             </tr>
-            <tbody>
-            <tr>
-             <td class="align-middle"><input type="checkbox"></td>
-             <td class="align-middle">11</td>
-             <td><img src="../../assets/20130514acunau_thumb.jpg" alt=""></td>
-             <td class="align-middle text-left">哈工智能</td>
-             <td class="align-middle">产品分类1</td>
-             <td class="align-middle">2018-05-18</td>
-             <td class="align-middle">125</td>
-             <td class="align-middle"><a href="product_edit.html">编辑</a> | <a href="#">删除</a></td>
+            <tr v-for='item in products'>
+            	<td class="align-middle"><input type="checkbox"></td>
+            	<td class="align-middle">{{item.id}}</td>
+            	<td><img :src="item.src" alt=""></td>
+            	<td class="align-middle text-left">{{item.title}}</td>
+            	<td class="align-middle">{{item.name}}</td>
+            	<td class="align-middle">{{item.add_time}}</td>
+            	<td class="align-middle">{{item.sort}}</td>
+            	<td class="align-middle"><a :href="'product_edit.html?id='+item.id">编辑</a> | <span class='btn-link' v-on:click="del(item.id)">删除</span></td>
             </tr>
-            </tbody>
           </table>
           <b-form @submit.prevent="onExecute">
             <b-form-row class='mb-3'>
@@ -60,6 +57,9 @@
 
     <!-- foot -->
     <xggFoot></xggFoot>
+		
+		<!-- alert -->
+		<b-alert class='alert' :variant="alert.type" :show="alert.show">{{alert.msg}}</b-alert>
   </div>
 </template>
 
@@ -88,34 +88,87 @@ export default {
       items: [{text: '网站管理中心',active: true},{text: '产品列表',active: true}],
       
       manager:{uid:0,uname:''},
+			products:[{id:0,src:'',title:'',name:'',add_time:'',sort:''}],
+			pagination:{current:1,totel:10},
       filter:{
-        group:'',
-        groupOps:[{ value:0,text:'无'},{value:1,text:'公司动态'},{value:2,text:'行业新闻'}],
-        text:''
+      	group:0,
+      	groupOps:[{ value:0,text:'无'},{value:1,text:'公司动态'},{value:2,text:'行业新闻'}],
+      	text:''
       },
       execute:{
-        action:'',
-        actionOps:[{value:1,text:'删除'},{value:2,text:'移动至分类'}],
-        group:'',
-        groupOps:[{ value:0,text:'无'},{value:1,text:'公司动态'},{value:2,text:'行业新闻'}],
+      	action:0,
+      	actionOps:[{value:0,text:'请选择操作'},{value:1,text:'删除'},{value:2,text:'移动至分类'}],
+      	group:0,
+      	groupOps:[{ value:0,text:'无'},{value:1,text:'公司动态'},{value:2,text:'行业新闻'}],
       },
-      pagination:{
-        current:1,
-        totel:10
-      }
+			
+			alert:{show:false,type:'danger',msg:'这是一个错误提示！'},
     }
   },
 
-  mounted () {},
-
-  methods:{
-    onFilter:function(){
-      console.log(this.filter);
+  mounted () {
+      //获取信息进行编辑
+      let page=this.getQueryString("page")?this.getQueryString("page"):'1';
+      
+      this.$axios.get(_API+"product?page="+page)
+      .then((res)=>{
+        if(res.data.errcode==0){
+          this.manager=res.data.data.manager;
+          this.products=res.data.data.products;
+          this.pagination=res.data.data.pagination;
+  
+        }else if(res.data.errcode==401){
+          window.location.href='login.html'; 
+        };
+      }).catch(function(err){console.log(err);})
     },
-    onExecute:function(){
-      console.log(this.execute);
-    },
-  }
+  
+    methods:{
+      //解析url参数
+      getQueryString(name){
+        var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) {return unescape(r[2]); }
+        return null;
+      },
+  		
+  		timer(n,msg){
+  			var that=this;
+  			if(n>0){
+  				that.alert={show:true,type:'success',msg:msg+'~ '+n+'后自动关闭'};
+  				setTimeout(function(){that.timer(n-1,msg)},1000);
+  			}else{
+  				that.alert.show=false;
+  			}
+  		},
+  
+  		update(id){
+  			let that=this;
+  			that.products.forEach(function(v,i){
+  				if(v.id==id){that.products.splice(i,1);}
+  			})
+  		},
+  
+  		del(id){
+  
+  			this.$axios.get(_API+"product/del?id="+id)
+  			.then((res)=>{
+  				if(res.data.errcode==0){
+  					this.timer(3,'删除产品成功');
+  					this.update(id);
+  				}else if(res.data.errcode==401){
+  					window.location.href='login.html'; 
+  				};
+  			}).catch(function(err){console.log(err);})
+  		},
+  			
+      onFilter:function(){
+        console.log(this.filter);
+      },
+      onExecute:function(){
+        console.log(this.execute);
+      },
+    }
 
 };
 

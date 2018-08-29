@@ -15,16 +15,20 @@
             <div class="py-3 text-center">
               <table class="table table-bordered">
                 <tr class="bg-light">
+									<th>编号</th>
                   <th width="150">导航名称</th>
                   <th class="text-left">链接地址</th>
+									<th>父级ID</th>
                   <th width="80">排序</th>
                   <th width="150">操作</th>
                 </tr>
                 <tr v-for="item in nav.main">
+                  <td>{{item.id}}</td>
                   <td>{{item.name}}</td>
                   <td class="text-left">{{item.link}}</td>
+									<td class="center">{{item.parent_id}}</td>
                   <td align="center">{{item.sort}}</td>
-                  <td align="center"><a :href="'nav_edit.html?id='+item.id">编辑</a> | <span class='btn-link' v-on:click="deletenav(item.id)">删除</span></td>
+                  <td align="center"><a :href="'nav_edit.html?id='+item.id">编辑</a> | <span class='btn-link' v-on:click="del(item.id)">删除</span></td>
                 </tr>
               </table>
             </div>
@@ -33,14 +37,18 @@
             <div class="py-3 text-center">
               <table class="table table-bordered">
                 <tr class="bg-light">
+									<th>编号</th>
                   <th width="150">导航名称</th>
                   <th class="text-left">链接地址</th>
+									<th>父级ID</th>
                   <th width="80">排序</th>
                   <th width="150">操作</th>
                 </tr>
                 <tr v-for="item in nav.top">
+                  <td>{{item.id}}</td>
                   <td>{{item.name}}</td>
                   <td class="text-left">{{item.link}}</td>
+									<td class="center">{{item.parent_id}}</td>
                   <td align="center">{{item.sort}}</td>
                   <td align="center"><a :href="'nav_edit.html?id='+item.id">编辑</a> | <span class='btn-link' v-on:click="del(item.id)">删除</span></td>
                 </tr>
@@ -51,14 +59,18 @@
             <div class="py-3 text-center">
               <table class="table table-bordered">
                 <tr class="bg-light">
+									<th>编号</th>
                   <th width="150">导航名称</th>
                   <th class="text-left">链接地址</th>
+									<th>父级ID</th>
                   <th width="80">排序</th>
                   <th width="150">操作</th>
                 </tr>
                 <tr v-for="item in nav.bottom">
+                  <td>{{item.id}}</td>
                   <td>{{item.name}}</td>
                   <td class="text-left">{{item.link}}</td>
+									<td class="center">{{item.parent_id}}</td>
                   <td align="center">{{item.sort}}</td>
                   <td align="center"><a :href="'nav_edit.html?id='+item.id">编辑</a> | <span class='btn-link' v-on:click="del(item.id)">删除</span></td>
                 </tr>
@@ -69,14 +81,18 @@
             <div class="py-3 text-center">
               <table class="table table-bordered">
                 <tr class="bg-light">
+									<th>编号</th>
                   <th width="150">导航名称</th>
                   <th class="text-left">链接地址</th>
+									<th>父级ID</th>
                   <th width="80">排序</th>
                   <th width="150">操作</th>
                 </tr>
                 <tr v-for="item in nav.mobile">
-                  <td>{{item.name}}</td>
+                  <td>{{item.id}}</td>
+									<td>{{item.name}}</td>
                   <td class="text-left">{{item.link}}</td>
+									<td class="center">{{item.parent_id}}</td>
                   <td align="center">{{item.sort}}</td>
                   <td align="center"><a :href="'nav_edit.html?id='+item.id">编辑</a> | <span class='btn-link' v-on:click="del(item.id)">删除</span></td>
                 </tr>
@@ -120,10 +136,10 @@ export default {
       
       manager:{uid:0,uname:''},
       nav:{
-        main:[{id: "5", name: "产品中心1",link: "product.html",sort: "10"}],
-        top:[{id: "5", name: "产品中心2",link: "product.html",sort: "10"}],
-        bottom:[{id: "5", name: "产品中心3",link: "product.html",sort: "10"}],
-        mobile:[{id: "5", name: "产品中心4",link: "product.html",sort: "10"}]
+        main:[{id: "5", name: "产品中心1",link: "product.html",parent_id:'',sort: "10"}],
+        top:[{id: "5", name: "产品中心2",link: "product.html",parent_id:'',sort: "10"}],
+        bottom:[{id: "5", name: "产品中心3",link: "product.html",parent_id:'',sort: "10"}],
+        mobile:[{id: "5", name: "产品中心4",link: "product.html",parent_id:'',sort: "10"}]
       },
 			
 			alert:{show:false,type:'danger',msg:'这是一个错误提示！'},
@@ -137,7 +153,7 @@ export default {
         this.manager=res.data.data.manager;
         this.nav=res.data.data.nav;
         
-      }else if(res.data.errcode==403){
+      }else if(res.data.errcode==401){
         window.location.href='login.html'; 
       };
     }).catch(function(err){console.log(err);})
@@ -149,7 +165,7 @@ export default {
       var that=this;
       if(n>0){
         that.alert={show:true,type:'success',msg:msg+'~ '+n+'后自动关闭'};
-        setTimeout(function(){that._timer(n-1,msg)},1000);
+        setTimeout(function(){that.timer(n-1,msg)},1000);
       }else{
         that.alert.show=false;
       }
@@ -170,7 +186,7 @@ export default {
         if(res.data.errcode==0){
           this.timer(3,'删除导航成功');
           this.update(id);
-        }else if(res.data.errcode==403){
+        }else if(res.data.errcode==401){
           window.location.href='login.html'; 
         };
       }).catch(function(err){console.log(err);})

@@ -27,12 +27,14 @@ class ManagerModel {
 
   private function _isadmin() {
     if($this->_mem->get('uid')){return true;}
+    $this->errcode=401;
+    $this->errmsg='没有权限';
     return false;
   }
 
   public function login($uname,$upw,$ip) {
     if(!$this->_isuname($uname)){ 
-      $this->errcode=400;
+      $this->errcode=403;
       $this->errmsg='用户名不存在';
       return false;
     }
@@ -57,20 +59,14 @@ class ManagerModel {
   }
 
   public function getname(){
-    if(!$this->_isadmin()){
-      $this->errcode=403;
-      $this->errmsg='没有权限';
-      return false;
-    }
+    if(!$this->_isadmin()){return false;}
+
     return array('uid'=>$this->_mem->get('uid'),'uname'=>$this->_mem->get('uname'));
   }
 
   public function getmanagers(){
-    if(!$this->_isadmin()){
-      $this->errcode=403;
-      $this->errmsg='没有权限';
-      return false;
-    }
+    if(!$this->_isadmin()){return false;}
+
     $sth=$this->_pdo->query('SELECT id,user_name,email,add_time,last_login FROM xgg_manager');
     $res=$sth->fetchAll(PDO::FETCH_ASSOC);
     foreach ($res as $k => $v) {
@@ -85,11 +81,8 @@ class ManagerModel {
 
   /*删除*/
   public function del($id) {
-    if(!$this->_isadmin()){
-      $this->errcode=403;
-      $this->errmsg='没有权限';
-      return false;
-    }
+    if(!$this->_isadmin()){return false;}
+    
     $sth=$this->_pdo->prepare('DELETE FROM xgg_manager WHERE id=?');
     $sth->execute(array($id));
     return true;
@@ -99,7 +92,7 @@ class ManagerModel {
   public function logout(){
     $this->_mem->delete('uid');
     $this->_mem->delete('uname');
-    return $res;
+    return true;
   }
 
   // public function register($uname,$upw,$email,$aclist) {

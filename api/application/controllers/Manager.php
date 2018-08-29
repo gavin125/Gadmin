@@ -17,9 +17,9 @@ class ManagerController extends Yaf_Controller_Abstract {
 	public function indexAction(){
 		$model = new managerModel();
 		$manager = $model->getname();
-		if(!$manager){echo $this->_createJson($model->errcode,$model->errmsg);}
+		if(!$manager){echo $this->_createJson($model->errcode,$model->errmsg);exit();}
 		$managers = $model->getmanagers();
-		if(!$managers){echo $this->_createJson($model->errcode,$model->errmsg);}
+		if(!$managers){echo $this->_createJson($model->errcode,$model->errmsg);exit();}
 
 		echo $this->_createJson(0,'',array(
 			'manager'=>$manager,
@@ -77,8 +77,6 @@ class ManagerController extends Yaf_Controller_Abstract {
 		$model = new managerModel();
 		if($res=$model->logout()){
 			echo $this->_createJson(0,'',$res);
-		}else{
-			echo $this->_createJson($model->errcode,$model->errmsg);
 		}
 		return false;
 	}

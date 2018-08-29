@@ -112,7 +112,7 @@ export default {
         this.total=res.data.data.total;
         this.server=res.data.data.server;
         this.login_log=res.data.data.login_log;
-      }else if(res.data.errcode==403){
+      }else if(res.data.errcode==401){
         window.location.href='login.html'; 
       };
     }).catch(function(err){console.log(err);})

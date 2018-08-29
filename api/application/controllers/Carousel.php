@@ -15,16 +15,18 @@ class CarouselController extends Yaf_Controller_Abstract {
 
   /*获取全部*/
 	public function indexAction(){
+
 		$model = new managerModel();
 		$manager = $model->getname();
-		if(!$manager){echo $this->_createJson($model->errcode,$model->errmsg);}
+		if(!$manager){echo $this->_createJson($model->errcode,$model->errmsg);exit();}
 
 		$model = new CarouselModel();
 		$PC = $model->getPC();
-		if(!$PC){echo $this->_createJson($model->errcode,$model->errmsg);}
+		if(!is_array($PC)){echo $this->_createJson($model->errcode,$model->errmsg);exit();}
 		$H5 = $model->getH5();
-		if(!$H5){echo $this->_createJson($model->errcode,$model->errmsg);}
+		if(!is_array($H5)){echo $this->_createJson($model->errcode,$model->errmsg);exit();}
 		
+
 		echo $this->_createJson(0,'',array(
 			'manager'=>$manager,
 			'carousel'=>array(

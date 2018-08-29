@@ -69,7 +69,7 @@ export default {
 
   mounted () {
 		//获取信息进行编辑
-		let page=this._etQueryString("page")?this.getQueryString("page"):'1';
+		let page=this.getQueryString("page")?this.getQueryString("page"):'1';
 		
 		this.$axios.get(_API+"log?page="+page)
 		.then((res)=>{
@@ -77,7 +77,7 @@ export default {
 				this.manager=res.data.data.manager;
 				this.logs=res.data.data.logs;
 				this.pagination=res.data.data.pagination;
-			}else if(res.data.errcode==403){
+			}else if(res.data.errcode==401){
 				window.location.href='login.html'; 
 			};
 		}).catch(function(err){console.log(err);})

@@ -13,21 +13,19 @@
         <div class="py-3 text-center ">
           <table class="table table-bordered">
             <tr class="bg-light">
-             <th width="120">编号</th>
-             <th>分类名称</th>
-             <th>父级分类</th>
-             <th>排序</th>
-             <th width="150">操作</th>
+							<th width="120">编号</th>
+							<th>分类名称</th>
+							<th>父级分类</th>
+							<th>排序</th>
+							<th width="150">操作</th>
             </tr>
-            <tbody>
             <tr v-for='item in article_group'>
-             <td>{{item.id}}</td>
-             <td>{{item.name}}</td>
-             <td>{{item.parent_id}}</td>
-             <td>{{item.sort}}</td>
-             <td><a href="article_group.html?id='+item.id">编辑</a> | <span class='btn-link' v-on:click="del(item.id)">删除</span></td>
+							<td>{{item.id}}</td>
+							<td>{{item.name}}</td>
+							<td>{{item.parent_id}}</td>
+							<td>{{item.sort}}</td>
+							<td><a href="article_group.html?id='+item.id">编辑</a> | <span class='btn-link' v-on:click="del(item.id)">删除</span></td>
             </tr>
-            </tbody>
           </table>
         </div>     
       </div>
@@ -35,6 +33,9 @@
 
     <!-- foot -->
     <xggFoot></xggFoot>
+		
+		<!-- alert -->
+		<b-alert class='alert' :variant="alert.type" :show="alert.show">{{alert.msg}}</b-alert>
   </div>
 </template>
 
@@ -61,7 +62,9 @@ export default {
       items: [{text: '网站管理中心',active: true},{text: '文章分类',active: true}],
       
       manager:{uid:0,uname:''},
-			article_group:[{id:0,name:'1',parent_id:'2',sort:'3'}]
+			article_group:[{id:0,name:'1',parent_id:'2',sort:'3'}],
+			
+			alert:{show:false,type:'danger',msg:'这是一个错误提示！'},
     }
   },
 
@@ -72,7 +75,7 @@ export default {
     		this.manager=res.data.data.manager;
     		this.article_group=res.data.data.article_group;
 
-    	}else if(res.data.errcode==403){
+    	}else if(res.data.errcode==401){
     		window.location.href='login.html'; 
     	};
     }).catch(function(err){console.log(err);})
@@ -83,7 +86,7 @@ export default {
 			var that=this;
 			if(n>0){
 				that.alert={show:true,type:'success',msg:msg+'~ '+n+'后自动关闭'};
-				setTimeout(function(){that._timer(n-1,msg)},1000);
+				setTimeout(function(){that.timer(n-1,msg)},1000);
 			}else{
 				that.alert.show=false;
 			}
@@ -91,20 +94,18 @@ export default {
 
 		update(id){
 			let that=this;
-			for(let x in that.nav){
-				that.nav[x].forEach(function(v,i){
-					if(v.id==id){that.nav[x].splice(i,1);}
-				})
-			}
+			that.article_group.forEach(function(v,i){
+				if(v.id==id){that.article_group.splice(i,1);}
+			})
 		},
 
 		del(id){
-			this.$axios.get(_API+"nav/del?id="+id)
+			this.$axios.get(_API+"articlegroup/del?id="+id)
 			.then((res)=>{
 				if(res.data.errcode==0){
-					this.timer(3,'删除导航成功');
+					this.timer(3,'删除文章分类成功');
 					this.update(id);
-				}else if(res.data.errcode==403){
+				}else if(res.data.errcode==401){
 					window.location.href='login.html'; 
 				};
 			}).catch(function(err){console.log(err);})

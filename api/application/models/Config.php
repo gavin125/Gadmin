@@ -17,6 +17,8 @@ class ConfigModel {
 
   private function _isadmin() {
     if($this->_mem->get('uid')){return true;}
+    $this->errcode=401;
+    $this->errmsg='没有权限';
     return false;
   }
 
@@ -41,22 +43,16 @@ class ConfigModel {
 
   /*获取*/
   public function getPC() {
-    if(!$this->_isadmin()){
-      $this->errcode=403;
-      $this->errmsg='没有权限';
-      return false;
-    }
+    if(!$this->_isadmin()){return false;}
+
     $sth=$this->_pdo->prepare('SELECT * FROM xgg_config WHERE id=?');
     $sth->execute(array(1));//1PC
     return $sth->fetch(PDO::FETCH_ASSOC);
   }
 
   public function getH5() {
-    if(!$this->_isadmin()){
-      $this->errcode=403;
-      $this->errmsg='没有权限';
-      return false;
-    }
+    if(!$this->_isadmin()){return false;}
+
     $sth=$this->_pdo->prepare('SELECT * FROM xgg_config WHERE id=?');
     $sth->execute(array(2));//2H5
     return $sth->fetch(PDO::FETCH_ASSOC);
@@ -64,11 +60,8 @@ class ConfigModel {
 
   /*编辑*/
   public function setPC($on_off,$title,$keywords,$description,$address,$icp,$tel,$email,$code,$logofile) {
-    if(!$this->_isadmin()){
-      $this->errcode=403;
-      $this->errmsg='没有权限';
-      return false;
-    }
+    if(!$this->_isadmin()){return false;}
+
     $sth=$this->_pdo->prepare('UPDATE xgg_config SET on_off=?,title=?,keywords=?,description=?,address=?,icp=?,tel=?,email=?,code=? WHERE id=?');
     $sth->execute(array($on_off,$title,$keywords,$description,$address,$icp,$tel,$email,$code,1));//1PC
     if($logofile){
@@ -92,11 +85,8 @@ class ConfigModel {
   }
 
   public function setH5($on_off,$title,$keywords,$description,$display,$logofile) {
-    if(!$this->_isadmin()){
-      $this->errcode=403;
-      $this->errmsg='没有权限';
-      return false;
-    }
+    if(!$this->_isadmin()){return false;}
+    
     $sth=$this->_pdo->prepare('UPDATE xgg_config SET on_off=?,title=?,keywords=?,description=?,display=? WHERE id=?');
     $sth->execute(array($on_off,$title,$keywords,$description,$display,2));//1PC
     if($logofile){

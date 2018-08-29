@@ -16,15 +16,14 @@ class _WebsiteModel {
 
   private function _isadmin() {
     if($this->_mem->get('uid')){return true;}
+    $this->errcode=401;
+    $this->errmsg='没有权限';
     return false;
   }
 
   public function gettotel() {
-    if(!$this->_isadmin()){
-      $this->errcode=403;
-      $this->errmsg='没有权限';
-      return false;
-    }
+    if(!$this->_isadmin()){return false;}
+
   	$res['name']=$this->_pdo->query('SELECT title FROM xgg_config WHERE id=1')->fetch(PDO::FETCH_ASSOC)['title'];
     $res['num_log']=$this->_pdo->query('SELECT * FROM xgg_log')->rowCount();
     $res['num_page']=$this->_pdo->query('SELECT * FROM xgg_page')->rowCount();
@@ -36,11 +35,8 @@ class _WebsiteModel {
   }
 
   public function getserver(){
-    if(!$this->_isadmin()){
-      $this->errcode=403;
-      $this->errmsg='没有权限';
-      return false;
-    }
+    if(!$this->_isadmin()){return false;}
+    
     $res['php_ver']=PHP_VERSION;
     $res['mysql_ver']=$this->_pdo->query('SELECT VERSION()')->fetch(PDO::FETCH_ASSOC)['VERSION()'];
     $res['server_ver']=apache_get_version();

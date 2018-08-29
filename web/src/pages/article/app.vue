@@ -26,7 +26,7 @@
               <th class="text-left">名称</th>
               <th>分类</th>
               <th>添加日期</th>
-              <th>浏览量</th>
+              <th>排序</th>
               <th>操作</th>
             </tr>
             <tr v-for='item in articles'>
@@ -36,14 +36,14 @@
               <td class="align-middle text-left">{{item.title}}</td>
               <td class="align-middle">{{item.name}}</td>
               <td class="align-middle">{{item.add_time}}</td>
-              <td class="align-middle">{{item.click}}</td>
-              <td class="align-middle"><a href="article_edit.html?id='+item.id">编辑</a> | <span class='btn-link' v-on:click="del(item.id)">删除</span></td>
+              <td class="align-middle">{{item.sort}}</td>
+              <td class="align-middle"><a :href="'article_edit.html?id='+item.id">编辑</a> | <span class='btn-link' v-on:click="del(item.id)">删除</span></td>
             </tr>
           </table>
           <b-form @submit.prevent="onExecute">
             <b-form-row class='mb-3'>
               <div class="col-2"><b-form-select v-model="execute.action" :options="execute.actionOps" size='sm'/></div>
-              <div class="col-2" v-show='execute.action==2'><b-form-select v-model="execute.group" :options="execute.groupOps" size='sm'/></div>
+              <div class="col-2" v-show='execute.action!=0'><b-form-select v-model="execute.group" :options="execute.groupOps" size='sm'/></div>
               <div class="col-2 text-left"><b-button size='sm' type="submit" class="px-5" variant="success">执 行</b-button></div>
             </b-form-row>
           </b-form>
@@ -57,6 +57,10 @@
 
     <!-- foot -->
     <xggFoot></xggFoot>
+		
+		<!-- alert -->
+		<b-alert class='alert' :variant="alert.type" :show="alert.show">{{alert.msg}}</b-alert>
+		
   </div>
 </template>
 
@@ -84,22 +88,21 @@ export default {
       items: [{text: '网站管理中心',active: true},{text: '文章列表',active: true}],
 			
 			manager:{uid:0,uname:''},
-      filter:{
-        group:'',
-        groupOps:[{ value:0,text:'无'},{value:1,text:'公司动态'},{value:2,text:'行业新闻'}],
-        text:''
-      },
-      execute:{
-        action:'',
-        actionOps:[{value:1,text:'删除'},{value:2,text:'移动至分类'}],
-        group:'',
-        groupOps:[{ value:0,text:'无'},{value:1,text:'公司动态'},{value:2,text:'行业新闻'}],
-      },
-      articles:[{id:0,src:'',title:'',name:'',add_time:'',click:''}],
-      pagination:{
-        current:1,
-        totel:10
-      }
+      articles:[{id:0,src:'',title:'',name:'',add_time:'',sort:''}],
+      pagination:{current:1,totel:10},
+			filter:{
+				group:0,
+				groupOps:[{ value:0,text:'无'},{value:1,text:'公司动态'},{value:2,text:'行业新闻'}],
+				text:''
+			},
+			execute:{
+				action:0,
+				actionOps:[{value:0,text:'请选择操作'},{value:1,text:'删除'},{value:2,text:'移动至分类'}],
+				group:0,
+				groupOps:[{ value:0,text:'无'},{value:1,text:'公司动态'},{value:2,text:'行业新闻'}],
+			},
+			
+			alert:{show:false,type:'danger',msg:'这是一个错误提示！'},
     }
   },
 
@@ -114,7 +117,7 @@ export default {
         this.articles=res.data.data.articles;
         this.pagination=res.data.data.pagination;
 
-      }else if(res.data.errcode==403){
+      }else if(res.data.errcode==401){
         window.location.href='login.html'; 
       };
     }).catch(function(err){console.log(err);})
@@ -128,7 +131,37 @@ export default {
       if (r != null) {return unescape(r[2]); }
       return null;
     },
+		
+		timer(n,msg){
+			var that=this;
+			if(n>0){
+				that.alert={show:true,type:'success',msg:msg+'~ '+n+'后自动关闭'};
+				setTimeout(function(){that.timer(n-1,msg)},1000);
+			}else{
+				that.alert.show=false;
+			}
+		},
 
+		update(id){
+			let that=this;
+			that.articles.forEach(function(v,i){
+				if(v.id==id){that.articles.splice(i,1);}
+			})
+		},
+
+		del(id){
+
+			this.$axios.get(_API+"article/del?id="+id)
+			.then((res)=>{
+				if(res.data.errcode==0){
+					this.timer(3,'删除文章成功');
+					this.update(id);
+				}else if(res.data.errcode==401){
+					window.location.href='login.html'; 
+				};
+			}).catch(function(err){console.log(err);})
+		},
+			
     onFilter:function(){
       console.log(this.filter);
     },

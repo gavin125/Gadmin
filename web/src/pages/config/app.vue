@@ -252,7 +252,7 @@ export default {
 
         this.H5=this._copyObj(this.H5,res.data.data.H5);
         this.H5.display=JSON.parse(res.data.data.H5.display);
-      }else if(res.data.errcode==403){
+      }else if(res.data.errcode==401){
         window.location.href='login.html'; 
       };
     }).catch(function(err){console.log(err);})
@@ -295,11 +295,11 @@ export default {
       }
     },
 
-    _timer(n,msg){
+    timer(n,msg){
       var that=this;
       if(n>0){
         that.alert={show:true,type:'success',msg:msg+'~ '+n+'后自动关闭'};
-        setTimeout(function(){that._timer(n-1,msg)},1000);
+        setTimeout(function(){that.timer(n-1,msg)},1000);
       }else{
         that.alert.show=false;
       }
@@ -317,8 +317,8 @@ export default {
       this.$axios.post(_API+"config/PC",formData, config)
       .then((res)=>{
         if(res.data.errcode==0){
-          that._timer(3,'编辑PC配置成功');
-        }else if(res.data.errcode==403){
+          that.timer(3,'编辑PC配置成功');
+        }else if(res.data.errcode==401){
           window.location.href='login.html'; 
         };
       }).catch(function(err){console.log(err);})
@@ -333,7 +333,7 @@ export default {
       .then((res)=>{
         if(res.data.errcode==0){
           that._timer(3,'编辑显示配置成功');
-        }else if(res.data.errcode==403){
+        }else if(res.data.errcode==401){
           window.location.href='login.html'; 
         };
       }).catch(function(err){console.log(err);})
@@ -353,7 +353,7 @@ export default {
       .then((res)=>{
         if(res.data.errcode==0){
           that._timer(3,'编辑H5配置成功');
-        }else if(res.data.errcode==403){
+        }else if(res.data.errcode==401){
           window.location.href='login.html'; 
         };
       }).catch(function(err){console.log(err);})

@@ -19,11 +19,11 @@ class ArticlegroupController extends Yaf_Controller_Abstract {
 	public function indexAction(){
 		$model = new managerModel();
 		$manager = $model->getname();
-		if(!$manager){echo $this->_createJson($model->errcode,$model->errmsg);}
+		if(!$manager){echo $this->_createJson($model->errcode,$model->errmsg);exit();}
 
 		$model = new ArticlegroupModel();
 		$article_group = $model->getgroup();
-		if(!$article_group){echo $this->_createJson($model->errcode,$model->errmsg);}
+		if(!$article_group){echo $this->_createJson($model->errcode,$model->errmsg);exit();}
 
 		echo $this->_createJson(0,'',array(
 			'manager'=>$manager,
@@ -32,7 +32,18 @@ class ArticlegroupController extends Yaf_Controller_Abstract {
 		return false;
 	}
 	
-
+	/*删除*/
+	public function delAction(){
+		$id = $this->getRequest()->get("id");
+		
+		$model = new ArticlegroupModel();
+		if($model->del($id)){
+			echo $this->_createJson(0,'');
+		}else{
+			echo $this->_createJson($model->errcode,$model->errmsg);
+		}
+		return false;
+	}
 
 
 	

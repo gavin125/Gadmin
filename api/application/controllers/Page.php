@@ -19,11 +19,11 @@ class PageController extends Yaf_Controller_Abstract {
 	public function indexAction(){
 		$model = new managerModel();
 		$manager = $model->getname();
-		if(!$manager){echo $this->_createJson($model->errcode,$model->errmsg);}
+		if(!$manager){echo $this->_createJson($model->errcode,$model->errmsg);exit();}
 
 		$model = new PageModel();
 		$pages = $model->getpages();
-		if(!$pages){echo $this->_createJson($model->errcode,$model->errmsg);}
+		if(!$pages){echo $this->_createJson($model->errcode,$model->errmsg);exit();}
 
 		echo $this->_createJson(0,'',array(
 			'manager'=>$manager,

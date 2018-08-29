@@ -88,8 +88,8 @@ export default {
       
       manager:{uid:0,uname:''},
       carousel:{
-        PC:[{id:0,name:'1',src:'2',link:'3',sort:'4'}],
-        H5:[{id:0,name:'1',src:'2',link:'3',sort:'4'}],
+        PC:[{id:0,name:'1',src:'',link:'3',sort:'4'}],
+        H5:[{id:0,name:'1',src:'',link:'3',sort:'4'}],
       },
 			
 			alert:{show:false,type:'danger',msg:'这是一个错误提示！'},
@@ -102,7 +102,7 @@ export default {
       if(res.data.errcode==0){
         this.manager=res.data.data.manager;
         this.carousel=res.data.data.carousel;  
-      }else if(res.data.errcode==403){
+      }else if(res.data.errcode==401){
         window.location.href='login.html'; 
       };
     }).catch(function(err){console.log(err);})
@@ -114,7 +114,7 @@ export default {
       var that=this;
       if(n>0){
         that.alert={show:true,type:'success',msg:msg+'~ '+n+'后自动关闭'};
-        setTimeout(function(){that._timer(n-1,msg)},1000);
+        setTimeout(function(){that.timer(n-1,msg)},1000);
       }else{
         that.alert.show=false;
       }
@@ -135,7 +135,7 @@ export default {
         if(res.data.errcode==0){
           this.timer(3,'删除轮播图成功');
           this.update(id);
-        }else if(res.data.errcode==403){
+        }else if(res.data.errcode==401){
           window.location.href='login.html'; 
         };
       }).catch(function(err){console.log(err);})

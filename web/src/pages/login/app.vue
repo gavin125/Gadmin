@@ -64,7 +64,7 @@ export default {
       if(this.manager.user_name==="" || this.manager.pass_word===""){
         this.alert={show:true,msg:'用户名与密码不能为空！'};
       }else{
-        this.$axios.post(_API+"admin/login",this._transformRequest(this.manager))
+        this.$axios.post(_API+"manager/login",this._transformRequest(this.manager))
         .then((res)=>{
           console.log(res.data);
           if(res.data.errcode!=0){
