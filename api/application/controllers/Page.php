@@ -45,5 +45,46 @@ class PageController extends Yaf_Controller_Abstract {
 		return false;
 	}
 
+	/*获取配置*/
+  public function prepareAction(){
+    $id = $this->getRequest()->get("id");
+
+    $model = new managerModel();
+    $manager = $model->getname();
+    if(!$manager){echo $this->_createJson($model->errcode,$model->errmsg);exit();}
+
+    $model = new PageModel();
+    $page= $model->getpage($id);
+    if(!$page){echo $this->_createJson($model->errcode,$model->errmsg);exit();}
+
+
+    echo $this->_createJson(0,'',array(
+      'manager'=>$manager,
+      'page'=>$page,
+    ));
+    return false;
+  }
+
+  /*编辑*/
+  public function editAction(){
+    $id = $this->getRequest()->get("id");
+
+    $type = $this->getRequest()->getPost("type");
+    $name = $this->getRequest()->getPost("name");
+    $link = $this->getRequest()->getPost("link");
+    $srcfile = $this->getRequest()->getFiles("srcfile");
+    $sort = $this->getRequest()->getPost("sort");
+
+    $model = new CarouselModel();
+    if($id==0){//新增
+      $res= $model->add($type,$name,$link,$srcfile,$sort);
+      if(!$res){echo $this->_createJson($model->errcode,$model->errmsg);exit();}
+    }else{//更新
+      $res= $model->update($type,$name,$link,$srcfile,$sort,$id);
+      if(!$res){echo $this->_createJson($model->errcode,$model->errmsg);exit();}
+    }
+    echo $this->_createJson(0,'',$res);
+    return false;
+  }
 	
 }

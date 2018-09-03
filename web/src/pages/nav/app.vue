@@ -108,7 +108,7 @@
     <xggFoot></xggFoot>
     
     <!-- alert -->
-    <b-alert class='alert' :variant="alert.type" :show="alert.show">{{alert.msg}}</b-alert>
+    <b-alert class='alert' :variant="alert.type" :dismissible='alert.close' :show="alert.show">{{alert.msg}}</b-alert>
   </div>
 </template>
 
@@ -118,10 +118,10 @@
 
 <script>
 
+import {_API,config} from '../../config.js'
 import xggHead from '../../components/xggHead.vue'
 import xggMenu from '../../components/xggMenu.vue'
 import xggFoot from '../../components/xggFoot.vue'
-let _API='http://localhost/Gadmin/api/';
 
 export default {
   components: {
@@ -142,7 +142,7 @@ export default {
         mobile:[{id: "5", name: "产品中心4",link: "product.html",parent_id:'',sort: "10"}]
       },
 			
-			alert:{show:false,type:'danger',msg:'这是一个错误提示！'},
+			alert:{show:false,type:'danger',close:true,msg:'这是一个错误提示！'},
     }
   },
 
@@ -164,7 +164,7 @@ export default {
     timer(n,msg){
       var that=this;
       if(n>0){
-        that.alert={show:true,type:'success',msg:msg+'~ '+n+'后自动关闭'};
+        that.alert={show:true,type:'success',close:true,msg:msg+'~ '+n+'后自动关闭'};
         setTimeout(function(){that.timer(n-1,msg)},1000);
       }else{
         that.alert.show=false;

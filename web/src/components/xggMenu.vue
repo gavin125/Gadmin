@@ -39,6 +39,16 @@ export default {
 					text:'产品分类',icon:'package',link:'product_group.html'},{
 					text:'产品列表',icon:'gift',link:'product.html'
 				}],
+				/*[{
+					text:'学生分组',icon:'organization',link:'#'},{
+					text:'学生列表',icon:'mortar-board',link:'#'
+				}],
+				[{
+					text:'讲师管理',icon:'gist-secret',link:'#'
+				}],
+				[{
+					text:'订单查询',icon:'credit-card',link:'#'
+				}],*/
 			],
 		}
   },

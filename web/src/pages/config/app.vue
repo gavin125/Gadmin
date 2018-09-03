@@ -22,15 +22,15 @@
                 </b-form-row>
                 <b-form-row class="mb-2">
                   <div class="col-2 text-right py-1">站点标题</div>
-                  <div class="col-4"><b-form-input size='sm' v-model="PC.title" type="text"></b-form-input></div>
+                  <div class="col-4"><b-form-input v-model="PC.title" type="text"></b-form-input></div>
                 </b-form-row>
                 <b-form-row class="mb-2">
                   <div class="col-2 text-right py-1">站点关键词</div>
-                  <div class="col-4"><b-form-textarea size='sm' v-model="PC.keywords" :rows="3" :max-rows="5"></b-form-textarea></div>
+                  <div class="col-4"><b-form-textarea v-model="PC.keywords" :rows="3" :max-rows="5"></b-form-textarea></div>
                 </b-form-row>
                 <b-form-row class="mb-2">
                   <div class="col-2 text-right py-1">站点描述</div>
-                  <div class="col-4"><b-form-textarea size='sm' v-model="PC.description" :rows="5" :max-rows="8"></b-form-textarea></div>
+                  <div class="col-4"><b-form-textarea v-model="PC.description" :rows="5" :max-rows="8"></b-form-textarea></div>
                 </b-form-row>
                 <b-form-row class="mb-2">
                   <div class="col-2 text-right py-1">站点LOGO</div>
@@ -44,23 +44,23 @@
                 </b-form-row>
                 <b-form-row class="mb-2">
                   <div class="col-2 text-right py-1">公司地址</div>
-                  <div class="col-4"><b-form-input size='sm' v-model="PC.address" type="text"></b-form-input></div>
+                  <div class="col-4"><b-form-input v-model="PC.address" type="text"></b-form-input></div>
                 </b-form-row>
                 <b-form-row class="mb-2">
                   <div class="col-2 text-right py-1">备案号</div>
-                  <div class="col-4"><b-form-input size='sm' v-model="PC.icp" type="text"></b-form-input></div>
+                  <div class="col-4"><b-form-input v-model="PC.icp" type="text"></b-form-input></div>
                 </b-form-row>
                 <b-form-row class="mb-2">
                   <div class="col-2 text-right py-1">服务热线</div>
-                  <div class="col-4"><b-form-input size='sm' v-model="PC.tel" type="text"></b-form-input></div>
+                  <div class="col-4"><b-form-input v-model="PC.tel" type="text"></b-form-input></div>
                 </b-form-row>
                 <b-form-row class="mb-2">
                   <div class="col-2 text-right py-1">邮箱地址</div>
-                  <div class="col-4"><b-form-input size='sm' v-model="PC.email" type="text"></b-form-input></div>
+                  <div class="col-4"><b-form-input v-model="PC.email" type="text"></b-form-input></div>
                 </b-form-row>
                 <b-form-row class="mb-2">
                   <div class="col-2 text-right py-1">统计/客服代码</div>
-                  <div class="col-4"><b-form-textarea size='sm' v-model="PC.code":rows="5" :max-rows="8"></b-form-textarea></div>
+                  <div class="col-4"><b-form-textarea v-model="PC.code":rows="5" :max-rows="8"></b-form-textarea></div>
                 </b-form-row>
                 <b-form-row>
                   <div class="col-2 text-right py-1"></div>
@@ -74,27 +74,27 @@
               <b-form  @submit.prevent="onDisplay">
                 <b-form-row class="mb-2">
                   <div class="col-2 text-right py-1">缩略图宽度</div>
-                  <div class="col-4"><b-form-input size='sm' v-model="PC.display.w" type="text"></b-form-input></div>
+                  <div class="col-4"><b-form-input v-model="PC.display.w" type="text"></b-form-input></div>
                 </b-form-row>
                 <b-form-row class="mb-2">
                   <div class="col-2 text-right py-1">缩略图高度</div>
-                  <div class="col-4"><b-form-input size='sm' v-model="PC.display.h" type="text"></b-form-input></div>
+                  <div class="col-4"><b-form-input v-model="PC.display.h" type="text"></b-form-input></div>
                 </b-form-row>
                 <b-form-row class="mb-2">
                   <div class="col-2 text-right py-1">文章列表数量</div>
-                  <div class="col-4"><b-form-input size='sm' v-model="PC.display.artSize" type="text"></b-form-input></div>
+                  <div class="col-4"><b-form-input v-model="PC.display.artSize" type="text"></b-form-input></div>
                 </b-form-row>
                 <b-form-row class="mb-2">
                   <div class="col-2 text-right py-1">文章首页数量</div>
-                  <div class="col-4"><b-form-input size='sm' v-model="PC.display.artNum" type="text"></b-form-input></div>
+                  <div class="col-4"><b-form-input v-model="PC.display.artNum" type="text"></b-form-input></div>
                 </b-form-row>
                 <b-form-row class="mb-2">
                   <div class="col-2 text-right py-1">商品列表数量</div>
-                  <div class="col-4"><b-form-input size='sm' v-model="PC.display.proSize" type="text"></b-form-input></div>
+                  <div class="col-4"><b-form-input v-model="PC.display.proSize" type="text"></b-form-input></div>
                 </b-form-row>
                 <b-form-row class="mb-2">
                   <div class="col-2 text-right py-1">商品首页数量</div>
-                  <div class="col-4"><b-form-input size='sm' v-model="PC.display.proNum" type="text"></b-form-input></div>
+                  <div class="col-4"><b-form-input v-model="PC.display.proNum" type="text"></b-form-input></div>
                 </b-form-row>
                 <b-form-row>
                   <div class="col-2 text-right py-1"></div>
@@ -114,15 +114,15 @@
                 </b-form-row>
                 <b-form-row class="mb-2">
                   <div class="col-2 text-right py-1">站点标题</div>
-                  <div class="col-4"><b-form-input size='sm' v-model="H5.title" type="text"></b-form-input></div>
+                  <div class="col-4"><b-form-input v-model="H5.title" type="text"></b-form-input></div>
                 </b-form-row>
                 <b-form-row class="mb-2">
                   <div class="col-2 text-right py-1">站点关键词</div>
-                  <div class="col-4"><b-form-textarea size='sm' v-model="H5.keywords" :rows="2" :max-rows="3"></b-form-textarea></div>
+                  <div class="col-4"><b-form-textarea v-model="H5.keywords" :rows="2" :max-rows="3"></b-form-textarea></div>
                 </b-form-row>
                 <b-form-row class="mb-2">
                   <div class="col-2 text-right py-1">站点描述</div>
-                  <div class="col-4"><b-form-textarea size='sm' v-model="H5.description" :rows="5" :max-rows="8"></b-form-textarea></div>
+                  <div class="col-4"><b-form-textarea v-model="H5.description" :rows="5" :max-rows="8"></b-form-textarea></div>
                 </b-form-row>
                 <b-form-row class="mb-2">
                   <div class="col-2 text-right py-1">站点LOGO</div>
@@ -136,19 +136,19 @@
                 </b-form-row>
                 <b-form-row class="mb-2">
                   <div class="col-2 text-right py-1">文章列表数量</div>
-                  <div class="col-4"><b-form-input size='sm' v-model="H5.display.artSize" type="text"></b-form-input></div>
+                  <div class="col-4"><b-form-input v-model="H5.display.artSize" type="text"></b-form-input></div>
                 </b-form-row>
                 <b-form-row class="mb-2">
                   <div class="col-2 text-right py-1">文章首页数量</div>
-                  <div class="col-4"><b-form-input size='sm' v-model="H5.display.artNum" type="text"></b-form-input></div>
+                  <div class="col-4"><b-form-input v-model="H5.display.artNum" type="text"></b-form-input></div>
                 </b-form-row>
                 <b-form-row class="mb-2">
                   <div class="col-2 text-right py-1">商品列表数量</div>
-                  <div class="col-4"><b-form-input size='sm' v-model="H5.display.proSize" type="text"></b-form-input></div>
+                  <div class="col-4"><b-form-input v-model="H5.display.proSize" type="text"></b-form-input></div>
                 </b-form-row>
                 <b-form-row class="mb-2">
                   <div class="col-2 text-right py-1">商品首页数量</div>
-                  <div class="col-4"><b-form-input size='sm' v-model="H5.display.proNum" type="text"></b-form-input></div>
+                  <div class="col-4"><b-form-input v-model="H5.display.proNum" type="text"></b-form-input></div>
                 </b-form-row>
                 <b-form-row>
                   <div class="col-2 text-right py-1"></div>
@@ -170,7 +170,7 @@
     <xggFoot></xggFoot>
 
     <!-- alert -->
-    <b-alert class='alert' :variant="alert.type" :show="alert.show">{{alert.msg}}</b-alert>
+    <b-alert class='alert' :variant="alert.type" :dismissible='alert.close' :show="alert.show">{{alert.msg}}</b-alert>
   </div>
 </template>
 
@@ -180,10 +180,10 @@
 
 <script>
 
+import {_API,config} from '../../config.js'
 import xggHead from '../../components/xggHead.vue'
 import xggMenu from '../../components/xggMenu.vue'
 import xggFoot from '../../components/xggFoot.vue'
-let _API='http://localhost/Gadmin/api/';
 
 export default {
   components: {
@@ -235,7 +235,7 @@ export default {
         }
       },
 			
-			alert:{show:false,type:'danger',msg:'这是一个错误提示！'},      
+			alert:{show:false,type:'danger',close:true,msg:'这是一个错误提示！'},      
     }
   },
   computed:{
@@ -298,7 +298,7 @@ export default {
     timer(n,msg){
       var that=this;
       if(n>0){
-        that.alert={show:true,type:'success',msg:msg+'~ '+n+'后自动关闭'};
+        that.alert={show:true,type:'success',close:true,msg:msg+'~ '+n+'后自动关闭'};
         setTimeout(function(){that.timer(n-1,msg)},1000);
       }else{
         that.alert.show=false;

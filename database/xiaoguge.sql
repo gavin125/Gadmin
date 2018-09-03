@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 2018-08-29 12:40:20
+-- Generation Time: 2018-09-03 12:31:51
 -- 服务器版本： 10.1.19-MariaDB
 -- PHP Version: 5.6.28
 
@@ -44,9 +44,9 @@ CREATE TABLE `xgg_article` (
 --
 
 INSERT INTO `xgg_article` (`id`, `group_id`, `title`, `content`, `src`, `click`, `key_word`, `description`, `add_time`, `sort`) VALUES
-(1, NULL, '这是标题', '这是一条新闻的内容，这是一条新闻的内容', '20130514acunau_thumb.jpg', 5, '关键词', '描述', 1509980132, 0),
-(2, 1, '这是标题22222', '这是一条新闻的内容，这是一条新闻的内容', '20130514acunau_thumb.jpg', 5, '关键词', '描述', 1509980132, 0),
-(3, 3, '这是标题3333', '这是一条新闻的内容，这是一条新闻的内容', '20130514acunau_thumb.jpg', 5, '关键词', '描述', 1509980132, 0);
+(1, NULL, '这是标题', '这是一条新闻的内容，这是一条新闻的内容', '20130514.jpg', 5, '关键词', '描述', 1509980132, 0),
+(2, 1, '这是标题22222', '这是一条新闻的内容，这是一条新闻的内容', '20130514.jpg', 5, '关键词', '描述', 1509980132, 0),
+(3, 3, '这是标题3333', '这是一条新闻的内容，这是一条新闻的内容', '20130514.jpg', 5, '关键词', '描述', 1509980132, 0);
 
 -- --------------------------------------------------------
 
@@ -78,10 +78,10 @@ INSERT INTO `xgg_article_group` (`id`, `name`, `parent_id`, `sort`) VALUES
 
 CREATE TABLE `xgg_carousel` (
   `id` smallint(5) UNSIGNED NOT NULL COMMENT 'ID',
+  `type` varchar(8) NOT NULL COMMENT '类型（PC|H5）',
   `name` varchar(64) NOT NULL DEFAULT '' COMMENT '名称',
   `link` varchar(256) NOT NULL DEFAULT '' COMMENT '链接',
   `src` varchar(256) NOT NULL COMMENT '图片',
-  `type` varchar(8) NOT NULL COMMENT '类型（PC|H5）',
   `sort` tinyint(3) UNSIGNED NOT NULL DEFAULT '50' COMMENT '排序'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='轮播图';
 
@@ -89,10 +89,10 @@ CREATE TABLE `xgg_carousel` (
 -- 转存表中的数据 `xgg_carousel`
 --
 
-INSERT INTO `xgg_carousel` (`id`, `name`, `link`, `src`, `type`, `sort`) VALUES
-(1, 'banner1', 'http://www.baidu.com', '20130514acunau_thumb.jpg', 'PC', 10),
-(2, 'banner2', 'http://www.163.com', '20130514acunau_thumb.jpg', 'PC', 20),
-(11, 'banner2', 'http://www.163.com', '20130514acunau_thumb.jpg', 'H5', 20);
+INSERT INTO `xgg_carousel` (`id`, `type`, `name`, `link`, `src`, `sort`) VALUES
+(1, 'PC', 'banner1', 'http://www.baidu.com', '20130514.jpg', 10),
+(2, 'PC', 'banner2', 'http://www.163.com', '20130514.jpg', 20),
+(11, 'H5', 'banner2', 'http://www.163.com', '20130514.jpg', 20);
 
 -- --------------------------------------------------------
 
@@ -269,15 +269,14 @@ CREATE TABLE `xgg_nav` (
 
 INSERT INTO `xgg_nav` (`id`, `parent_id`, `name`, `site`, `link`, `sort`) VALUES
 (7, NULL, '首页11', 'main', 'index.html', 10),
-(3, NULL, '联系我们', 'main', 'contact.html', 0),
+(3, NULL, '联系我们1', 'main', 'contact.html', 0),
 (4, NULL, '产品中心1', 'top', 'product.html', 0),
 (5, NULL, '产品中心2', 'bottom', 'product.html', 0),
 (6, NULL, '产品中心3', 'mobile', 'product.html', 0),
 (8, NULL, '首页2', 'main', 'index.html', 0),
-(10, 4, '产品中心12', 'top', 'product.html', 0),
-(11, NULL, '测试', 'main', 'a.html', 20),
-(12, NULL, '测试22', 'main', '1', 1),
-(13, 3, '测试33', 'main', '23', 1);
+(10, NULL, '产品中心12', 'top', 'product.html', 0),
+(11, 3, '测试1', 'main', 'a.html', 20),
+(14, NULL, '1', 'main', '1', 0);
 
 -- --------------------------------------------------------
 
@@ -299,8 +298,8 @@ CREATE TABLE `xgg_page` (
 --
 
 INSERT INTO `xgg_page` (`id`, `name`, `src`, `content`, `keywords`, `description`) VALUES
-(1, '公司介绍', '20130514acunau_thumb.jpg', '这里是公司的详细介绍信息，这里是公司的详细介绍信息，这里是公司的详细介绍信息，这里是公司的详细介绍信息，', '介绍信息', '这里是公司的详细介绍信息'),
-(2, '联系我们', '20130514acunau_thumb.jpg', '这里是详细的联系方式信息，这里是详细的联系方式信息，这里是详细的联系方式信息，这里是详细的联系方式信息，这里是详细的联系方式信息，', '联系方式信息', '这里是详细的联系方式信息');
+(1, '公司介绍', '20130514.jpg', '这里是公司的详细介绍信息，这里是公司的详细介绍信息，这里是公司的详细介绍信息，这里是公司的详细介绍信息，', '介绍信息', '这里是公司的详细介绍信息'),
+(2, '联系我们', '20130514.jpg', '这里是详细的联系方式信息，这里是详细的联系方式信息，这里是详细的联系方式信息，这里是详细的联系方式信息，这里是详细的联系方式信息，', '联系方式信息', '这里是详细的联系方式信息');
 
 -- --------------------------------------------------------
 
@@ -325,9 +324,9 @@ CREATE TABLE `xgg_product` (
 --
 
 INSERT INTO `xgg_product` (`id`, `group_id`, `title`, `content`, `src`, `key_word`, `description`, `add_time`, `sort`) VALUES
-(1, NULL, '企业网站定制', '根据企业的所属行业、产品特点、网站结构、审美需要等量身定制，界面设计和功能开发上有很大的灵活性。', '20130514acunau_thumb.jpg', '企业网站定制', '根据企业的所属行业、产品特点、网站结构、审美需要等量身定制，界面设计和功能开发上有很大的灵活性。', '1509980132', 0),
-(2, 1, '高级前端开发', '专注各类前端技术，熟悉常用前端框架，可配合开发PC端或移动端的各类界面交互，活动游戏等。', '20130514acunau_thumb.jpg', '高级前端开发', '专注各类前端技术，熟悉常用前端框架，可配合开发PC端或移动端的各类界面交互，活动游戏等。', '1509980132', 0),
-(3, 2, 'APP开发', '采用MUI框架，一次开发即可多端发布，轻松解决高频应用的移动客户端需求。', '20130514acunau_thumb.jpg', 'APP开发', '采用MUI框架，一次开发即可多端发布，轻松解决高频应用的移动客户端需求。', '1509980132', 0);
+(1, NULL, '企业网站定制', '根据企业的所属行业、产品特点、网站结构、审美需要等量身定制，界面设计和功能开发上有很大的灵活性。', '20130514.jpg', '企业网站定制', '根据企业的所属行业、产品特点、网站结构、审美需要等量身定制，界面设计和功能开发上有很大的灵活性。', '1509980132', 0),
+(2, 1, '高级前端开发', '专注各类前端技术，熟悉常用前端框架，可配合开发PC端或移动端的各类界面交互，活动游戏等。', '20130514.jpg', '高级前端开发', '专注各类前端技术，熟悉常用前端框架，可配合开发PC端或移动端的各类界面交互，活动游戏等。', '1509980132', 0),
+(3, 2, 'APP开发', '采用MUI框架，一次开发即可多端发布，轻松解决高频应用的移动客户端需求。', '20130514.jpg', 'APP开发', '采用MUI框架，一次开发即可多端发布，轻松解决高频应用的移动客户端需求。', '1509980132', 0);
 
 -- --------------------------------------------------------
 
@@ -450,7 +449,7 @@ ALTER TABLE `xgg_article_group`
 -- 使用表AUTO_INCREMENT `xgg_carousel`
 --
 ALTER TABLE `xgg_carousel`
-  MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=12;
+  MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=17;
 --
 -- 使用表AUTO_INCREMENT `xgg_case`
 --
@@ -485,7 +484,7 @@ ALTER TABLE `xgg_manager`
 -- 使用表AUTO_INCREMENT `xgg_nav`
 --
 ALTER TABLE `xgg_nav`
-  MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=14;
+  MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=15;
 --
 -- 使用表AUTO_INCREMENT `xgg_page`
 --

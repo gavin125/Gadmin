@@ -91,10 +91,11 @@ class NavModel {
         'sort'=>'0'
       );
     }
-
     $sth=$this->_pdo->prepare('SELECT name,site,link,parent_id,sort FROM xgg_nav WHERE id=?');
     $sth->execute(array($id));
-    return $sth->fetch(PDO::FETCH_ASSOC);
+    $res=$sth->fetch(PDO::FETCH_ASSOC);
+    if($res['parent_id']===NULL){$res['parent_id']='';}
+    return $res;
   }
 
 

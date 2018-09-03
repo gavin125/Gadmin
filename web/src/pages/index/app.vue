@@ -55,7 +55,7 @@
     <!-- foot -->
     <xggFoot></xggFoot>
     
-
+    <img style="display:none;" src="../../assets/20130514.jpg" alt="">
   </div>
 </template>
 
@@ -65,10 +65,10 @@
 
 <script>
 
+import {_API,config} from '../../config.js'
 import xggHead from '../../components/xggHead.vue'
 import xggMenu from '../../components/xggMenu.vue'
 import xggFoot from '../../components/xggFoot.vue'
-let _API='http://localhost/Gadmin/api/';
 
 export default {
   components: {

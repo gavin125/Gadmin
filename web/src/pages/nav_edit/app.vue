@@ -16,11 +16,11 @@
 							<b-form @submit.prevent="onsystem">
 								<b-form-row class="mb-2">
 									<div class="col-2 text-right py-1">系统内容</div>
-									<div class="col-4"><b-form-select size='sm' v-model="systemnav.system" :options="systemOps" class="mb-3" /></div>
+									<div class="col-4"><b-form-select v-model="systemnav.system" :options="systemOps" class="mb-3" /></div>
 								</b-form-row>
 								<b-form-row class="mb-2">
 									<div class="col-2 text-right py-1">导航名称</div>
-									<div class="col-4"><b-form-input size='sm' v-model="systemnav.name" type="text"></b-form-input></div>
+									<div class="col-4"><b-form-input v-model="systemnav.name" type="text"></b-form-input></div>
 								</b-form-row>
 								<b-form-row class="mb-2">
 									<div class="col-2 text-right py-1">位置</div>
@@ -28,19 +28,19 @@
 								</b-form-row>
 								<b-form-row class="mb-2" v-if='systemnav.site=="main"'>
 									<div class="col-2 text-right py-1">上级分类</div>
-									<div class="col-4"><b-form-select size='sm' v-model="systemnav.parent_id" :options="parentOps.main" class="mb-3" /></div>
+									<div class="col-4"><b-form-select v-model="systemnav.parent_id" :options="parentOps.main" class="mb-3" /></div>
 								</b-form-row>
 								<b-form-row class="mb-2" v-if='systemnav.site=="top"'>
 									<div class="col-2 text-right py-1">上级分类</div>
-									<div class="col-4"><b-form-select size='sm' v-model="systemnav.parent_id" :options="parentOps.top" class="mb-3" /></div>
+									<div class="col-4"><b-form-select v-model="systemnav.parent_id" :options="parentOps.top" class="mb-3" /></div>
 								</b-form-row>
 								<b-form-row class="mb-2" v-if='systemnav.site=="bottom"'>
 									<div class="col-2 text-right py-1">上级分类</div>
-									<div class="col-4"><b-form-select size='sm' v-model="systemnav.parent_id" :options="parentOps.bottom" class="mb-3" /></div>
+									<div class="col-4"><b-form-select v-model="systemnav.parent_id" :options="parentOps.bottom" class="mb-3" /></div>
 								</b-form-row>
 								<b-form-row class="mb-2">
 									<div class="col-2 text-right py-1">排序</div>
-									<div class="col-4"><b-form-input size='sm' v-model="systemnav.srot" type="text"></b-form-input></div>
+									<div class="col-4"><b-form-input v-model="systemnav.srot" type="text"></b-form-input></div>
 								</b-form-row>
 								<b-form-row>
 									<div class="col-2 text-right py-1"></div>
@@ -54,7 +54,7 @@
 							<b-form @submit.prevent="oncustom">
 								<b-form-row class="mb-2">
 									<div class="col-2 text-right py-1">导航名称</div>
-									<div class="col-4"><b-form-input size='sm' v-model="customnav.name" type="text"></b-form-input></div>
+									<div class="col-4"><b-form-input v-model="customnav.name" type="text"></b-form-input></div>
 								</b-form-row>
 								<b-form-row class="mb-2">
 									<div class="col-2 text-right py-1">位置</div>
@@ -62,23 +62,23 @@
 								</b-form-row>
 								<b-form-row class="mb-2">
 									<div class="col-2 text-right py-1">链接地址</div>
-									<div class="col-4"><b-form-input size='sm' v-model="customnav.link" type="text"></b-form-input></div>
+									<div class="col-4"><b-form-input v-model="customnav.link" type="text"></b-form-input></div>
 								</b-form-row>
 								<b-form-row class="mb-2" v-if='customnav.site=="main"'>
 									<div class="col-2 text-right py-1">上级分类</div>
-									<div class="col-4"><b-form-select size='sm' v-model="customnav.parent_id" :options="parentOps.main" class="mb-3" /></div>
+									<div class="col-4"><b-form-select v-model="customnav.parent_id" :options="parentOps.main" class="mb-3" /></div>
 								</b-form-row>
 								<b-form-row class="mb-2" v-if='customnav.site=="top"'>
 									<div class="col-2 text-right py-1">上级分类</div>
-									<div class="col-4"><b-form-select size='sm' v-model="customnav.parent_id" :options="parentOps.top" class="mb-3" /></div>
+									<div class="col-4"><b-form-select v-model="customnav.parent_id" :options="parentOps.top" class="mb-3" /></div>
 								</b-form-row>
 								<b-form-row class="mb-2" v-if='customnav.site=="bottom"'>
 									<div class="col-2 text-right py-1">上级分类</div>
-									<div class="col-4"><b-form-select size='sm' v-model="customnav.parent_id" :options="parentOps.bottom" class="mb-3" /></div>
+									<div class="col-4"><b-form-select v-model="customnav.parent_id" :options="parentOps.bottom" class="mb-3" /></div>
 								</b-form-row>
 								<b-form-row class="mb-2">
 									<div class="col-2 text-right py-1">排序</div>
-									<div class="col-4"><b-form-input size='sm' v-model="customnav.sort" type="text"></b-form-input></div>
+									<div class="col-4"><b-form-input v-model="customnav.sort" type="text"></b-form-input></div>
 								</b-form-row>
 								<b-form-row>
 									<div class="col-2 text-right py-1"></div>
@@ -97,7 +97,7 @@
     <xggFoot></xggFoot>
     
     <!-- alert -->
-    <b-alert class='alert' :variant="alert.type" :show="alert.show">{{alert.msg}}</b-alert>
+    <b-alert class='alert' :variant="alert.type" :dismissible='alert.close' :show="alert.show">{{alert.msg}}</b-alert>
   </div>
 </template>
 
@@ -107,10 +107,10 @@
 
 <script>
 
+import {_API,config} from '../../config.js'
 import xggHead from '../../components/xggHead.vue'
 import xggMenu from '../../components/xggMenu.vue'
 import xggFoot from '../../components/xggFoot.vue'
-let _API='http://localhost/Gadmin/api/';
 
 export default {
   components: {
@@ -121,7 +121,7 @@ export default {
   data () {
     return {
       menucurr:'导航栏',
-      items: [{text: '网站管理中心',active: true},{text: '导航栏',active: true}],
+      items: [{text: '网站管理中心',active: true},{text: '编辑导航栏',active: true}],
 			siteOps:[{ value:'main',text:'主导航'},{value:'top',text:'顶部'},{value:'bottom',text:'底部'},{value:'mobile',text:'手机版'}],
       
       manager:{uid:0,uname:''},
@@ -146,11 +146,8 @@ export default {
 				sort:0
 			},
 			
-			alert:{show:false,type:'danger',msg:'这是一个错误提示！'},      
+			alert:{show:false,type:'danger',close:true,msg:'这是一个错误提示！'},
     }
-  },
-  computed:{
-    year:()=>{return new Date().getFullYear();}
   },
   mounted () {
     //获取信息进行编辑
@@ -180,7 +177,7 @@ export default {
 		timer(n,msg){
 			var that=this;
 			if(n>0){
-				that.alert={show:true,type:'success',msg:msg+'~ '+n+'后自动返回列表'};
+				that.alert={show:true,type:'success',close:true,msg:msg+'~ '+n+'后自动返回列表'};
 				setTimeout(function(){that.timer(n-1,msg)},1000);
 			}else{
 				that.alert.show=false;
@@ -194,7 +191,7 @@ export default {
 			let id=this.getQueryString("id")?this.getQueryString("id"):'0';
 			for(let x in this.customnav){formData.append(x, this.customnav[x]);}
 			let config = {headers: {'Content-Type': 'multipart/form-data'}};
-			
+
 			this.$axios.post(_API+"nav/edit?id="+id,formData, config)
 			.then((res)=>{
 				if(res.data.errcode==0){
@@ -204,8 +201,7 @@ export default {
 				};
 			}).catch(function(err){console.log(err);})
 		},
-		
-		
+
   }
 };
 

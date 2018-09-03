@@ -78,6 +78,7 @@ class NavController extends Yaf_Controller_Abstract {
 	public function editAction(){
 		$id = $this->getRequest()->get("id");
 
+
 		$parent_id = $this->getRequest()->getPost("parent_id");
 		$name = $this->getRequest()->getPost("name");
 		$site = $this->getRequest()->getPost("site");

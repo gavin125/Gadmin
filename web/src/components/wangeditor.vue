@@ -7,6 +7,7 @@
 
 <script>
     import E from 'wangeditor'
+    import {_API,config} from '../../config.js'
 
     export default {
       name: 'editor',
@@ -24,8 +25,8 @@
       mounted() {
         var that=this;
         var editor = new E(this.$refs.editor);
-        editor.customConfig.uploadImgServer = '../api/upload.php';
-        editor.customConfig.uploadImgMaxLength = 5;
+        editor.customConfig.uploadImgServer = _API+"wangeditor";
+        editor.customConfig.uploadImgMaxLength = 1;
         editor.customConfig.onchange = (html) => {
           this.editorContent = html;
           that.$emit('listenEditor',that.editorContent)

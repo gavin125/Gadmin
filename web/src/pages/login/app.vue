@@ -37,8 +37,8 @@
 
 <script>
 
-import xggFoot from '../../components/xggFoot.vue';
-let _API='http://localhost/Gadmin/api/';
+import {_API,config} from '../../config.js'
+import xggFoot from '../../components/xggFoot.vue'
 
 export default {
   components: {

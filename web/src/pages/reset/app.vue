@@ -34,7 +34,9 @@
 
 <script>
 
+import {_API,config} from '../../config.js'
 import xggFoot from '../../components/xggFoot.vue'
+
 
 export default {
   components: {

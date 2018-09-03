@@ -73,11 +73,11 @@
 
 <script>
 
+import {_API,config} from '../../config.js'
 import xggHead from '../../components/xggHead.vue'
 import xggMenu from '../../components/xggMenu.vue'
 import xggFoot from '../../components/xggFoot.vue'
 import wangeditor from '../../components/wangeditor.vue'
-let _API='http://localhost/Gadmin/api/';
 
 
 export default {
