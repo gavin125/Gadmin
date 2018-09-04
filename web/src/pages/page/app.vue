@@ -18,8 +18,8 @@
               <th width="150">操作</th>
             </tr>
             <tr v-for="item in pages">
-              <td class="align-middle">{{item.name}}</td>
-              <td><img :src="item.src" alt=""></td>
+              <td class="align-middle">{{item.title}}</td>
+              <td><img :src="item.src" alt="" height="100"></td>
              <td class="align-middle"><a :href="'page_edit.html?id='+item.id">编辑</a> | <span class='btn-link' v-on:click="del(item.id)">删除</span></td>
             </tr>
             </tbody>
@@ -59,7 +59,7 @@ export default {
       items: [{text: '网站管理中心',active: true},{text: '单页面',active: true}],
       
       manager:{uid:0,uname:''},
-      pages:[{id:0,name:'1',src:'2'}],
+      pages:[{id:0,title:'1',src:'2'}],
 			
 			alert:{show:false,type:'danger',close:true,msg:'这是一个错误提示！'},
     }

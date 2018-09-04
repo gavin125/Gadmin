@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 2018-09-03 12:31:51
+-- Generation Time: 2018-09-04 12:29:39
 -- 服务器版本： 10.1.19-MariaDB
 -- PHP Version: 5.6.28
 
@@ -68,7 +68,7 @@ CREATE TABLE `xgg_article_group` (
 INSERT INTO `xgg_article_group` (`id`, `name`, `parent_id`, `sort`) VALUES
 (1, '公司动态', NULL, 0),
 (2, '行业新闻', NULL, 0),
-(3, '公司公告', 1, 0);
+(3, '公司公告', 1, 101);
 
 -- --------------------------------------------------------
 
@@ -90,8 +90,8 @@ CREATE TABLE `xgg_carousel` (
 --
 
 INSERT INTO `xgg_carousel` (`id`, `type`, `name`, `link`, `src`, `sort`) VALUES
-(1, 'PC', 'banner1', 'http://www.baidu.com', '20130514.jpg', 10),
-(2, 'PC', 'banner2', 'http://www.163.com', '20130514.jpg', 20),
+(1, '', '', '', 'http://www.gavin.com/Gadmin/api/../upload/carousel/1536046879.jpg', 0),
+(2, 'PC', 'banner2', 'http://www.163.com', 'http://www.gavin.com/Gadmin/api/../upload/carousel/1536047203.jpg', 20),
 (11, 'H5', 'banner2', 'http://www.163.com', '20130514.jpg', 20);
 
 -- --------------------------------------------------------
@@ -159,7 +159,7 @@ CREATE TABLE `xgg_config` (
 --
 
 INSERT INTO `xgg_config` (`id`, `on_off`, `title`, `keywords`, `description`, `logo`, `address`, `icp`, `tel`, `email`, `code`, `display`) VALUES
-(1, 'on', '小古哥-全栈工程师', '小古哥 全栈工程师 网站开发建设 网站定制开发 HTML5 H5游戏 APP开发 Android IOS', '全栈开发工程师，先后从事美术设计与技术开发等相关工作，熟练掌握多种设计软件和编程语言。对常见互联网产品的用户体验和研发流程有深入理解，精通各类网站/H5/小程序/APP的制作与开发。', '../upload/1535519840.jpg', '上海浦东新区杨高南路799号', '沪ICP备17025818号-1', '15000902705', 'gulei125@163.com', '1233567', '{"w":"415","h":300,"artSize":6,"artNum":4,"proSize":5,"proNum":3}'),
+(1, 'on', '小古哥-全栈工程师', '小古哥 全栈工程师 网站开发建设 网站定制开发 HTML5 H5游戏 APP开发 Android IOS', '全栈开发工程师，先后从事美术设计与技术开发等相关工作，熟练掌握多种设计软件和编程语言。对常见互联网产品的用户体验和研发流程有深入理解，精通各类网站/H5/小程序/APP的制作与开发。', 'http://www.gavin.com/Gadmin/api/../upload/1536046796.png', '上海浦东新区杨高南路799号', '沪ICP备17025818号-1', '15000902705', 'gulei125@163.com', '1233567', '{"w":"415","h":300,"artSize":6,"artNum":4,"proSize":5,"proNum":3}'),
 (2, 'on', '小古哥M1-全栈工程师', '小古哥 全栈工程师 网站开发建设 网站定制开发 HTML5 H5游戏 APP开发 Android IOS', '全栈开发工程师，先后从事美术设计与技术开发等相关工作，熟练掌握多种设计软件和编程语言。对常见互联网产品的用户体验和研发流程有深入理解，精通各类网站/H5/小程序/APP的制作与开发。', 'upload/1535363556.png', NULL, NULL, NULL, NULL, NULL, '{"artSize":"6","artNum":"4","proSize":"5","proNum":3}');
 
 -- --------------------------------------------------------
@@ -221,7 +221,9 @@ INSERT INTO `xgg_log` (`id`, `add_time`, `action`, `user_id`, `last_ip`) VALUES
 (16, 1535365622, '管理员登录成功', 1, '192.168.2.52'),
 (17, 1535508310, '管理员登录成功', 2, '::1'),
 (18, 1535512279, '管理员登录成功', 1, '::1'),
-(19, 1535519840, '编辑PC配置', 1, '::1');
+(19, 1535519840, '编辑PC配置', 1, '::1'),
+(20, 1536046796, '编辑PC配置', 1, '::1'),
+(21, 1536056696, '管理员登录成功', 1, '::1');
 
 -- --------------------------------------------------------
 
@@ -245,7 +247,7 @@ CREATE TABLE `xgg_manager` (
 --
 
 INSERT INTO `xgg_manager` (`id`, `user_name`, `pass_word`, `email`, `action_list`, `add_time`, `last_login`, `last_ip`) VALUES
-(1, 'admin', '04eb952966a62f2c777e416846b14f04', '1', 'ALL', 1509980132, 1535512279, '::1'),
+(1, 'admin', '04eb952966a62f2c777e416846b14f04', '1', 'ALL', 1509980132, 1536056696, '::1'),
 (2, 'gavin', '04eb952966a62f2c777e416846b14f04', '2', 'ALL', 1534746630, 1535508310, '::1');
 
 -- --------------------------------------------------------
@@ -286,20 +288,20 @@ INSERT INTO `xgg_nav` (`id`, `parent_id`, `name`, `site`, `link`, `sort`) VALUES
 
 CREATE TABLE `xgg_page` (
   `id` mediumint(8) UNSIGNED NOT NULL,
-  `name` varchar(64) NOT NULL COMMENT '名称',
-  `src` varchar(256) NOT NULL COMMENT 'banner',
+  `title` varchar(64) NOT NULL COMMENT '名称',
+  `src` varchar(256) DEFAULT NULL COMMENT 'banner',
   `content` longtext NOT NULL COMMENT '页面内容',
-  `keywords` varchar(128) NOT NULL DEFAULT '',
-  `description` varchar(256) NOT NULL DEFAULT ''
+  `keywords` varchar(128) DEFAULT NULL,
+  `description` varchar(256) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='页面';
 
 --
 -- 转存表中的数据 `xgg_page`
 --
 
-INSERT INTO `xgg_page` (`id`, `name`, `src`, `content`, `keywords`, `description`) VALUES
-(1, '公司介绍', '20130514.jpg', '这里是公司的详细介绍信息，这里是公司的详细介绍信息，这里是公司的详细介绍信息，这里是公司的详细介绍信息，', '介绍信息', '这里是公司的详细介绍信息'),
-(2, '联系我们', '20130514.jpg', '这里是详细的联系方式信息，这里是详细的联系方式信息，这里是详细的联系方式信息，这里是详细的联系方式信息，这里是详细的联系方式信息，', '联系方式信息', '这里是详细的联系方式信息');
+INSERT INTO `xgg_page` (`id`, `title`, `src`, `content`, `keywords`, `description`) VALUES
+(1, '公司介绍', 'http://www.gavin.com/Gadmin/api/../upload/banner/1536048596.jpg', '<p>请编辑内容3334</p>', '介绍信息', '这里是公司的详细介绍信息'),
+(2, '联系我们', 'http://www.gavin.com/Gadmin/api/../upload/banner/1536048612.jpg', '<p>请编辑内容2</p>', '联系方式信息', '这里是详细的联系方式信息');
 
 -- --------------------------------------------------------
 
@@ -474,12 +476,12 @@ ALTER TABLE `xgg_link`
 -- 使用表AUTO_INCREMENT `xgg_log`
 --
 ALTER TABLE `xgg_log`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=20;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=22;
 --
 -- 使用表AUTO_INCREMENT `xgg_manager`
 --
 ALTER TABLE `xgg_manager`
-  MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=6;
+  MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=7;
 --
 -- 使用表AUTO_INCREMENT `xgg_nav`
 --
@@ -489,7 +491,7 @@ ALTER TABLE `xgg_nav`
 -- 使用表AUTO_INCREMENT `xgg_page`
 --
 ALTER TABLE `xgg_page`
-  MODIFY `id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- 使用表AUTO_INCREMENT `xgg_product`
 --
@@ -499,7 +501,7 @@ ALTER TABLE `xgg_product`
 -- 使用表AUTO_INCREMENT `xgg_product_group`
 --
 ALTER TABLE `xgg_product_group`
-  MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

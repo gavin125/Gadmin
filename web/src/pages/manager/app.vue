@@ -24,7 +24,7 @@
              <td>{{item.email}}</td>
              <td>{{item.add_time}}</td>
              <td>{{item.last_login}}</td>
-             <td><a href="manager_edit.html?id='+item.id">编辑</a><span v-if="item.id!=manager.uid"> | <span class='btn-link' v-on:click="del(item.id)">删除</span></span></td>
+             <td align="center"><a :href="'manager_edit.html?id='+item.id">编辑</a><span v-if='item.id!=manager.uid'> | <span class='btn-link' v-on:click="del(item.id)">删除</span></span></td>
             </tr>
           </table>
         </div>     

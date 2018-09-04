@@ -32,6 +32,7 @@ class ManagerModel {
     return false;
   }
 
+  /*登录*/
   public function login($uname,$upw,$ip) {
     if(!$this->_isuname($uname)){ 
       $this->errcode=403;
@@ -58,6 +59,7 @@ class ManagerModel {
     return true;
   }
 
+  /*获取*/
   public function getname(){
     if(!$this->_isadmin()){return false;}
 
@@ -79,6 +81,21 @@ class ManagerModel {
     return $res;
   }
 
+  public function getinfo($id){
+    if($id==0){
+      return array(
+        'user_name'=>'',
+        'email'=>'',
+        'pass_word'=>'',
+        'pw_again'=>''
+      );
+    }
+    $sth=$this->_pdo->prepare('SELECT user_name,email FROM xgg_manager WHERE id=?');
+    $sth->execute(array($id));
+    $res=$sth->fetch(PDO::FETCH_ASSOC);
+    return $res;
+  }
+
   /*删除*/
   public function del($id) {
     if(!$this->_isadmin()){return false;}
@@ -93,6 +110,24 @@ class ManagerModel {
     $this->_mem->delete('uid');
     $this->_mem->delete('uname');
     return true;
+  }
+
+  /*编辑*/
+  public function add($user_name,$email,$pass_word) {
+    if(!$this->_isadmin()){return false;}
+
+    $sth=$this->_pdo->prepare('INSERT INTO xgg_manager (user_name,email,pass_word,action_list,add_time) VALUES (?,?,?,?,?)');
+    $sth->execute(array($user_name,$email,$this->_addSalt($pass_word),'ALL',time()));
+    $id=$this->_pdo->lastInsertId();
+    return array('insertid'=>$id);
+  }
+
+  public function update($user_name,$email,$pass_word,$id) {
+    if(!$this->_isadmin()){return false;}
+
+    $sth=$this->_pdo->prepare('UPDATE xgg_manager SET user_name=?,email=?,pass_word=? WHERE id=?');
+    $sth->execute(array($user_name,$email,$this->_addSalt($pass_word),$id));
+    return array('updateid'=>$id);
   }
 
   // public function register($uname,$upw,$email,$aclist) {

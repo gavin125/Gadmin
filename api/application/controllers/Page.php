@@ -57,7 +57,6 @@ class PageController extends Yaf_Controller_Abstract {
     $page= $model->getpage($id);
     if(!$page){echo $this->_createJson($model->errcode,$model->errmsg);exit();}
 
-
     echo $this->_createJson(0,'',array(
       'manager'=>$manager,
       'page'=>$page,
@@ -69,18 +68,19 @@ class PageController extends Yaf_Controller_Abstract {
   public function editAction(){
     $id = $this->getRequest()->get("id");
 
-    $type = $this->getRequest()->getPost("type");
-    $name = $this->getRequest()->getPost("name");
-    $link = $this->getRequest()->getPost("link");
-    $srcfile = $this->getRequest()->getFiles("srcfile");
-    $sort = $this->getRequest()->getPost("sort");
+    $title = $this->getRequest()->getPost("title");
+    $bannerfile = $this->getRequest()->getFiles("bannerfile");
+    $content = $this->getRequest()->getPost("content");
+    $keywords = $this->getRequest()->getPost("keywords");
+    $description = $this->getRequest()->getPost("description");
+    
 
-    $model = new CarouselModel();
+    $model = new PageModel();
     if($id==0){//新增
-      $res= $model->add($type,$name,$link,$srcfile,$sort);
+      $res= $model->add($title,$bannerfile,$content,$keywords,$description);
       if(!$res){echo $this->_createJson($model->errcode,$model->errmsg);exit();}
     }else{//更新
-      $res= $model->update($type,$name,$link,$srcfile,$sort,$id);
+      $res= $model->update($title,$bannerfile,$content,$keywords,$description,$id);
       if(!$res){echo $this->_createJson($model->errcode,$model->errmsg);exit();}
     }
     echo $this->_createJson(0,'',$res);

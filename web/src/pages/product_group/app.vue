@@ -24,7 +24,7 @@
             	<td>{{item.name}}</td>
             	<td>{{item.parent_id}}</td>
             	<td>{{item.sort}}</td>
-            	<td><a href="product_group.html?id='+item.id">编辑</a> | <span class='btn-link' v-on:click="del(item.id)">删除</span></td>
+            	<td><a :href="'product_group_edit.html?id='+item.id">编辑</a> | <span class='btn-link' v-on:click="del(item.id)">删除</span></td>
             </tr>
           </table>
         </div>     

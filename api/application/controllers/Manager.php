@@ -71,7 +71,7 @@ class ManagerController extends Yaf_Controller_Abstract {
 		return false;
 	}
 
-	/*获取信息*/
+	/*登出*/
 	public function logoutAction(){
 		
 		$model = new managerModel();
@@ -81,6 +81,43 @@ class ManagerController extends Yaf_Controller_Abstract {
 		return false;
 	}
 
+	/*获取配置*/
+  public function prepareAction(){
+    $id = $this->getRequest()->get("id");
+
+    $model = new managerModel();
+    $manager = $model->getname();
+    if(!$manager){echo $this->_createJson($model->errcode,$model->errmsg);exit();}
+
+    $managerinfo= $model->getinfo($id);
+    if(!$managerinfo){echo $this->_createJson($model->errcode,$model->errmsg);exit();}
+
+    echo $this->_createJson(0,'',array(
+      'manager'=>$manager,
+      'managerinfo'=>$managerinfo,
+    ));
+    return false;
+  }
+
+  /*编辑*/
+  public function editAction(){
+    $id = $this->getRequest()->get("id");
+
+    $user_name = $this->getRequest()->getPost("user_name");
+    $email = $this->getRequest()->getPost("email");
+    $pass_word = $this->getRequest()->getPost("pass_word");    
+
+    $model = new managerModel();
+    if($id==0){//新增
+      $res= $model->add($user_name,$email,$pass_word);
+      if(!$res){echo $this->_createJson($model->errcode,$model->errmsg);exit();}
+    }else{//更新
+      $res= $model->update($user_name,$email,$pass_word,$id);
+      if(!$res){echo $this->_createJson($model->errcode,$model->errmsg);exit();}
+    }
+    echo $this->_createJson(0,'',$res);
+    return false;
+  }
 	/*注册*/
 	// public function registerAction(){
 

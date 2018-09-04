@@ -7,7 +7,7 @@
 
 <script>
     import E from 'wangeditor'
-    import {_API,config} from '../../config.js'
+    import {_API,config} from '../config.js'
 
     export default {
       name: 'editor',
@@ -23,16 +23,16 @@
       //   }
       // },
       mounted() {
-        var that=this;
-        var editor = new E(this.$refs.editor);
-        editor.customConfig.uploadImgServer = _API+"wangeditor";
-        editor.customConfig.uploadImgMaxLength = 1;
-        editor.customConfig.onchange = (html) => {
-          this.editorContent = html;
-          that.$emit('listenEditor',that.editorContent)
+        this.editor = new E(this.$refs.editor);
+        this.editor.customConfig.uploadImgServer = _API+"wangeditor";
+        this.editor.customConfig.onchange = (html) => {
+          this.$emit('listenEditor',html)
         }
-        editor.create();
-        editor.txt.html(this.inittxt);
+        this.editor.create();
+        this.editor.txt.html(this.inittxt);
+      },
+      updated(){
+        this.editor.txt.html(this.inittxt);
       }
     };
 </script>

@@ -15,12 +15,12 @@
             <div class="py-3 text-center">
               <table class="table table-bordered">
                 <tr class="bg-light">
-									<th>编号</th>
-                  <th width="150">导航名称</th>
+									<th width="60">编号</th>
+                  <th>名称</th>
                   <th class="text-left">链接地址</th>
-									<th>父级ID</th>
-                  <th width="80">排序</th>
-                  <th width="150">操作</th>
+									<th width="60">父级ID</th>
+                  <th width="60">排序</th>
+                  <th width="120">操作</th>
                 </tr>
                 <tr v-for="item in nav.main">
                   <td>{{item.id}}</td>
@@ -37,12 +37,12 @@
             <div class="py-3 text-center">
               <table class="table table-bordered">
                 <tr class="bg-light">
-									<th>编号</th>
-                  <th width="150">导航名称</th>
+                  <th width="60">编号</th>
+                  <th>导航名称</th>
                   <th class="text-left">链接地址</th>
-									<th>父级ID</th>
-                  <th width="80">排序</th>
-                  <th width="150">操作</th>
+                  <th width="60">父级ID</th>
+                  <th width="60">排序</th>
+                  <th width="120">操作</th>
                 </tr>
                 <tr v-for="item in nav.top">
                   <td>{{item.id}}</td>
@@ -59,12 +59,12 @@
             <div class="py-3 text-center">
               <table class="table table-bordered">
                 <tr class="bg-light">
-									<th>编号</th>
-                  <th width="150">导航名称</th>
+                  <th width="60">编号</th>
+                  <th>导航名称</th>
                   <th class="text-left">链接地址</th>
-									<th>父级ID</th>
-                  <th width="80">排序</th>
-                  <th width="150">操作</th>
+                  <th width="60">父级ID</th>
+                  <th width="60">排序</th>
+                  <th width="120">操作</th>
                 </tr>
                 <tr v-for="item in nav.bottom">
                   <td>{{item.id}}</td>
@@ -81,12 +81,12 @@
             <div class="py-3 text-center">
               <table class="table table-bordered">
                 <tr class="bg-light">
-									<th>编号</th>
-                  <th width="150">导航名称</th>
+                  <th width="60">编号</th>
+                  <th>导航名称</th>
                   <th class="text-left">链接地址</th>
-									<th>父级ID</th>
-                  <th width="80">排序</th>
-                  <th width="150">操作</th>
+                  <th width="60">父级ID</th>
+                  <th width="60">排序</th>
+                  <th width="120">操作</th>
                 </tr>
                 <tr v-for="item in nav.mobile">
                   <td>{{item.id}}</td>

@@ -30,12 +30,39 @@ class ProductgroupModel {
     return false;
   }
 
-  public function getgroup() {
+  public function getgroups() {
     if(!$this->_isadmin()){return false;}
 
     $sth=$this->_pdo->query('SELECT id,name,parent_id,sort FROM xgg_product_group');
     return $sth->fetchAll(PDO::FETCH_ASSOC);
   }
+
+  public function getparentOps($id) {
+    if(!$this->_isadmin()){return false;}
+
+    $sth=$this->_pdo->prepare('SELECT id AS value,name AS text FROM xgg_product_group WHERE id!=? ORDER BY sort');
+    $sth->execute(array($id));
+    $res=$sth->fetchAll(PDO::FETCH_ASSOC);
+    array_unshift($res,array('value'=>'','text'=>'请选择'));
+
+    return $res;
+  }
+
+  public function getproductgroup($id){
+    if($id==0){
+      return array(
+        'name'=>'',
+        'parent_id'=>'',
+        'sort'=>'0'
+      );
+    }
+    $sth=$this->_pdo->prepare('SELECT name,parent_id,sort FROM xgg_product_group WHERE id=?');
+    $sth->execute(array($id));
+    $res=$sth->fetch(PDO::FETCH_ASSOC);
+    if($res['parent_id']===NULL){$res['parent_id']='';}
+    return $res;
+  }
+
 
   /*删除*/
   public function del($id) {
@@ -47,6 +74,23 @@ class ProductgroupModel {
     return true;
   }
   
+  /*编辑*/
+  public function add($name,$parent_id,$sort) {
+    if(!$this->_isadmin()){return false;}
+    
+    if($parent_id==''){$parent_id=null;}
+    $sth=$this->_pdo->prepare('INSERT INTO xgg_product_group (name,parent_id,sort) VALUES (?,?,?)');
+    $sth->execute(array($name,$parent_id,$sort));
+    return array('insertid'=>$this->_pdo->lastInsertId());
+  }
+  public function update($name,$parent_id,$sort,$id) {
+    if(!$this->_isadmin()){return false;}
+
+    if($parent_id==''){$parent_id=null;}
+    $sth=$this->_pdo->prepare('UPDATE xgg_product_group SET name=?,parent_id=?,sort=? WHERE id=?');
+    $sth->execute(array($name,$parent_id,$sort,$id));
+    return array('updateid'=>$id);
+  }
   
 
   

@@ -24,7 +24,7 @@
 							<td>{{item.name}}</td>
 							<td>{{item.parent_id}}</td>
 							<td>{{item.sort}}</td>
-							<td><a href="article_group.html?id='+item.id">编辑</a> | <span class='btn-link' v-on:click="del(item.id)">删除</span></td>
+							<td><a :href="'article_group_edit.html?id='+item.id">编辑</a> | <span class='btn-link' v-on:click="del(item.id)">删除</span></td>
             </tr>
           </table>
         </div>     
@@ -74,7 +74,6 @@ export default {
     	if(res.data.errcode==0){
     		this.manager=res.data.data.manager;
     		this.article_group=res.data.data.article_group;
-
     	}else if(res.data.errcode==401){
     		window.location.href='login.html'; 
     	};

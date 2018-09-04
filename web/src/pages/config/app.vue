@@ -17,7 +17,7 @@
                 <b-form-row class="mb-2">
                   <div class="col-2 text-right py-1">是否开启网站</div>
                   <div class="col-4 py-1">
-                    <b-form-radio-group plain v-model="PC.on_off" :options="PC.on_offOps" name="radioInline"></b-form-radio-group>
+                    <b-form-radio-group plain v-model="PC.on_off" :options="on_offOps" name="radioInline"></b-form-radio-group>
                   </div>
                 </b-form-row>
                 <b-form-row class="mb-2">
@@ -109,7 +109,7 @@
                 <b-form-row class="mb-2">
                   <div class="col-2 text-right py-1">是否开启手机版</div>
                   <div class="col-4 py-1">
-                    <b-form-radio-group plain v-model="H5.on_off" :options="H5.on_offOps" name="radioInline"></b-form-radio-group>
+                    <b-form-radio-group plain v-model="H5.on_off" :options="on_offOps" name="radioInline"></b-form-radio-group>
                   </div>
                 </b-form-row>
                 <b-form-row class="mb-2">
@@ -195,11 +195,11 @@ export default {
     return {
       menucurr:'系统设置',
       items: [{text: '网站管理中心',active: true},{text: '系统设置',active: true}],
+      on_offOps:[{ value:"on",text:'是'},{value:"off",text:'否'}],
       
       manager:{uid:0,uname:''},
       PC:{
         on_off:"on",
-        on_offOps:[{ value:"on",text:'是'},{value:"off",text:'否'}],
         title:'小古哥',
         keywords:'',
         description:'',
@@ -221,7 +221,6 @@ export default {
       },
       H5:{
         on_off:"on",
-        on_offOps:[{ value:"on",text:'是'},{value:"off",text:'否'}],
         title:'小古哥',
         keywords:'',
         description:'',
@@ -306,57 +305,74 @@ export default {
     },
 
     onPC(){
-      let that=this;
-      let formData = new FormData();
-      for(let x in this.PC){
-        if(x!='on_offOps'||x!='logo'||x!='logo64'){formData.append(x, this.PC[x])}
+      // 表单本地验证
+      if(this.PC.title==''){
+        this.alert={show:true,type:'danger',close:true,msg:'名称不能为空'};
+      }else{
+        // 构造数据并提交
+        let that=this;
+        let formData = new FormData();
+        for(let x in this.PC){
+          if(x!='on_offOps'||x!='logo'||x!='logo64'){formData.append(x, this.PC[x])}
+        }
+        if(this.PC.hasOwnProperty('logofile')){formData.append('file', this.PC.logofile)}
+        let config = {headers: {'Content-Type': 'multipart/form-data'}}
+        this.$axios.post(_API+"config/PC",formData, config)
+        .then((res)=>{
+          if(res.data.errcode==0){
+            that.timer(3,'编辑PC配置成功');
+          }else if(res.data.errcode==401){
+            window.location.href='login.html'; 
+          };
+        }).catch(function(err){console.log(err);})
       }
-      if(this.PC.hasOwnProperty('logofile')){formData.append('file', this.PC.logofile)}
-      let config = {headers: {'Content-Type': 'multipart/form-data'}}
-
-      this.$axios.post(_API+"config/PC",formData, config)
-      .then((res)=>{
-        if(res.data.errcode==0){
-          that.timer(3,'编辑PC配置成功');
-        }else if(res.data.errcode==401){
-          window.location.href='login.html'; 
-        };
-      }).catch(function(err){console.log(err);})
     },
 
     onDisplay(){
-      let that=this;
-      let formData = new FormData();
-      formData.append('display', JSON.stringify(this.PC.display))
-      let config = {headers: {'Content-Type': 'multipart/form-data'}}
-      this.$axios.post(_API+"config/display",formData, config)
-      .then((res)=>{
-        if(res.data.errcode==0){
-          that._timer(3,'编辑显示配置成功');
-        }else if(res.data.errcode==401){
-          window.location.href='login.html'; 
-        };
-      }).catch(function(err){console.log(err);})
+      // 表单本地验证
+      if(this.display.w==''){
+        this.alert={show:true,type:'danger',close:true,msg:'名称不能为空'};
+      }else{
+        // 构造数据并提交
+        let that=this;
+        let formData = new FormData();
+        formData.append('display', JSON.stringify(this.PC.display))
+        let config = {headers: {'Content-Type': 'multipart/form-data'}}
+        this.$axios.post(_API+"config/display",formData, config)
+        .then((res)=>{
+          if(res.data.errcode==0){
+            that._timer(3,'编辑显示配置成功');
+          }else if(res.data.errcode==401){
+            window.location.href='login.html'; 
+          };
+        }).catch(function(err){console.log(err);})
+      }
     },
 
     onH5(){
-      let that=this;
-      let formData = new FormData();
-      for(let x in this.H5){
-        if(x!='on_offOps'||x!='logo'||x!='logo64'){formData.append(x, this.H5[x])}
-      }
-      formData.append('display', JSON.stringify(this.H5.display));
-      if(this.H5.hasOwnProperty('logofile')){formData.append('file', this.H5.logofile)}
-      let config = {headers: {'Content-Type': 'multipart/form-data'}}
+      // 表单本地验证
+      if(this.H5.title==''){
+        this.alert={show:true,type:'danger',close:true,msg:'名称不能为空'};
+      }else{
+        // 构造数据并提交
+        let that=this;
+        let formData = new FormData();
+        for(let x in this.H5){
+          if(x!='on_offOps'||x!='logo'||x!='logo64'){formData.append(x, this.H5[x])}
+        }
+        formData.append('display', JSON.stringify(this.H5.display));
+        if(this.H5.hasOwnProperty('logofile')){formData.append('file', this.H5.logofile)}
+        let config = {headers: {'Content-Type': 'multipart/form-data'}}
 
-      this.$axios.post(_API+"config/H5",formData, config)
-      .then((res)=>{
-        if(res.data.errcode==0){
-          that._timer(3,'编辑H5配置成功');
-        }else if(res.data.errcode==401){
-          window.location.href='login.html'; 
-        };
-      }).catch(function(err){console.log(err);})
+        this.$axios.post(_API+"config/H5",formData, config)
+        .then((res)=>{
+          if(res.data.errcode==0){
+            that._timer(3,'编辑H5配置成功');
+          }else if(res.data.errcode==401){
+            window.location.href='login.html'; 
+          };
+        }).catch(function(err){console.log(err);})
+      }
     }
 
 

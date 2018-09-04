@@ -44,12 +44,7 @@
             </b-form-row>
           </b-form>
         </div>
-
-      
       </div>
-
-
-
     </div>
 
     <!-- foot -->
@@ -90,9 +85,9 @@ export default {
         title:'',
         banner:'',
         banner64:'',
+        content:'<p>请编辑内容333</p>',
         keywords:'',
-        description:'',
-        content:'<p>请编辑内容</p>'
+        description:''
       },
       
       alert:{show:false,type:'danger',close:true,msg:'这是一个错误提示！'},
@@ -147,27 +142,33 @@ export default {
     },
 
     listenEditor(data){
-      console.log(data);
+      this.page.content=data;
     },
 
     onpage(){
-      let that=this;
-      let formData = new FormData();
-      let id=this.getQueryString("id")?this.getQueryString("id"):'0';
-      for(let x in this.page){
-        if(x!='banner'||x!='banner64'){formData.append(x, this.page[x])}
-      }
-      if(this.page.hasOwnProperty('bannerfile')){formData.append('file', this.page.bannerfile)}
-      let config = {headers: {'Content-Type': 'multipart/form-data'}};
+      // 表单本地验证
+      if(this.page.title==''){
+        this.alert={show:true,type:'danger',close:true,msg:'标题不能为空'};
+      }else{
+        // 构造数据并提交
+        let that=this;
+        let formData = new FormData();
+        let id=this.getQueryString("id")?this.getQueryString("id"):'0';
+        for(let x in this.page){
+          if(x!='banner'||x!='banner64'){formData.append(x, this.page[x])}
+        }
+        if(this.page.hasOwnProperty('bannerfile')){formData.append('file', this.page.bannerfile)}
+        let config = {headers: {'Content-Type': 'multipart/form-data'}};
 
-      this.$axios.post(_API+"page/edit?id="+id,formData, config)
-      .then((res)=>{
-        if(res.data.errcode==0){
-          that.timer(3,'编辑单页面成功');
-        }else if(res.data.errcode==401){
-          window.location.href='login.html'; 
-        };
-      }).catch(function(err){console.log(err);})
+        this.$axios.post(_API+"page/edit?id="+id,formData, config)
+        .then((res)=>{
+          if(res.data.errcode==0){
+            that.timer(3,'编辑单页面成功');
+          }else if(res.data.errcode==401){
+            window.location.href='login.html'; 
+          };
+        }).catch(function(err){console.log(err);})
+      }
     },
     
   }

@@ -30,12 +30,38 @@ class ArticlegroupModel {
     return false;
   }
 
-  public function getgroup() {
+  public function getgroups() {
     if(!$this->_isadmin()){return false;}
 
     $sth=$this->_pdo->query('SELECT id,name,parent_id,sort FROM xgg_article_group');
   	// $sth=$this->_pdo->query('SELECT a.id,a.name,a.sort,b.name AS parent FROM xgg_article_group AS a JOIN xgg_article_group AS b ON a.parent_id=b.id');
     return $sth->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  public function getparentOps($id) {
+    if(!$this->_isadmin()){return false;}
+
+    $sth=$this->_pdo->prepare('SELECT id AS value,name AS text FROM xgg_article_group WHERE id!=? ORDER BY sort');
+    $sth->execute(array($id));
+    $res=$sth->fetchAll(PDO::FETCH_ASSOC);
+    array_unshift($res,array('value'=>'','text'=>'请选择'));
+
+    return $res;
+  }
+
+  public function getarticlegroup($id){
+    if($id==0){
+      return array(
+        'name'=>'',
+        'parent_id'=>'',
+        'sort'=>'0'
+      );
+    }
+    $sth=$this->_pdo->prepare('SELECT name,parent_id,sort FROM xgg_article_group WHERE id=?');
+    $sth->execute(array($id));
+    $res=$sth->fetch(PDO::FETCH_ASSOC);
+    if($res['parent_id']===NULL){$res['parent_id']='';}
+    return $res;
   }
 
   /*删除*/
@@ -48,6 +74,24 @@ class ArticlegroupModel {
     return true;
   }
   
+  /*编辑*/
+  public function add($name,$parent_id,$sort) {
+    if(!$this->_isadmin()){return false;}
+    
+    if($parent_id==''){$parent_id=null;}
+    $sth=$this->_pdo->prepare('INSERT INTO xgg_article_group (name,parent_id,sort) VALUES (?,?,?)');
+    $sth->execute(array($name,$parent_id,$sort));
+    return array('insertid'=>$this->_pdo->lastInsertId());
+  }
+  public function update($name,$parent_id,$sort,$id) {
+    if(!$this->_isadmin()){return false;}
+
+    if($parent_id==''){$parent_id=null;}
+    $sth=$this->_pdo->prepare('UPDATE xgg_article_group SET name=?,parent_id=?,sort=? WHERE id=?');
+    $sth->execute(array($name,$parent_id,$sort,$id));
+    return array('updateid'=>$id);
+  }
+
   
 
   

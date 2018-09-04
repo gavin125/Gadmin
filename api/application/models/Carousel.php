@@ -32,15 +32,16 @@ class CarouselModel {
       if(!file_exists($dir)){mkdir($dir,0777,true);}
       $img_name = explode(".", $file['name']);
       $img_type = '.'.$img_name[count($img_name)-1];
-      if(!move_uploaded_file($file['tmp_name'],$dir.time().$img_type)){
+      $newname=$dir.time().$img_type;
+      if(!move_uploaded_file($file['tmp_name'],$newname)){
         $this->errcode=403;
         $this->errmsg='存储文件错误';
         return false;
       }
-      return $dir.time().$img_type;
+      return 'http://www.gavin.com/Gadmin/api/'.$newname;
     }
   }
-
+  
 
   /*获取*/
   public function getPC() {

@@ -14,11 +14,11 @@
           <b-form @submit="onSubmit">
             <b-form-row class="mb-2">
               <div class="col-2 text-right py-1">分类</div>
-              <div class="col-4"><b-form-select size='sm' v-model="article.group" :options="article.groupOps" /></b-form-input></div>
+              <div class="col-4"><b-form-select v-model="article.group" :options="article.groupOps" /></b-form-input></div>
             </b-form-row>
             <b-form-row class="mb-2">
               <div class="col-2 text-right py-1">标题</div>
-              <div class="col-4"><b-form-input size='sm' v-model="article.title" type="text"/></b-form-input></div>
+              <div class="col-4"><b-form-input v-model="article.title" type="text"/></b-form-input></div>
             </b-form-row>
             <b-form-row class="mb-2">
               <div class="col-2 text-right py-1">页面内容</div>
@@ -37,15 +37,15 @@
             
             <b-form-row class="mb-2">
               <div class="col-2 text-right py-1">关键词</div>
-              <div class="col-4"><b-form-input size='sm' v-model="article.keywords" type="text"></b-form-input></div>
+              <div class="col-4"><b-form-input v-model="article.keywords" type="text"></b-form-input></div>
             </b-form-row>
             <b-form-row class="mb-2">
               <div class="col-2 text-right py-1">描述</div>
-              <div class="col-4"><b-form-textarea size='sm' v-model="article.description":rows="3" :max-rows="5"></b-form-textarea></div>
+              <div class="col-4"><b-form-textarea v-model="article.description":rows="3" :max-rows="5"></b-form-textarea></div>
             </b-form-row>
             <b-form-row class="mb-2">
               <div class="col-2 text-right py-1">排序</div>
-              <div class="col-4"><b-form-input size='sm' v-model="article.sort" type="text"></b-form-input></div>
+              <div class="col-4"><b-form-input v-model="article.sort" type="text"></b-form-input></div>
             </b-form-row>
             <b-form-row>
               <div class="col-2 text-right py-1"></div>

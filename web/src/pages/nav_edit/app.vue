@@ -53,7 +53,7 @@
 						<div class="py-3 Xggfz14">
 							<b-form @submit.prevent="oncustom">
 								<b-form-row class="mb-2">
-									<div class="col-2 text-right py-1">导航名称</div>
+									<div class="col-2 text-right py-1">名称</div>
 									<div class="col-4"><b-form-input v-model="customnav.name" type="text"></b-form-input></div>
 								</b-form-row>
 								<b-form-row class="mb-2">
@@ -186,20 +186,25 @@ export default {
 		},
 		
 		oncustom(){
-			let that=this;
-			let formData = new FormData();
-			let id=this.getQueryString("id")?this.getQueryString("id"):'0';
-			for(let x in this.customnav){formData.append(x, this.customnav[x]);}
-			let config = {headers: {'Content-Type': 'multipart/form-data'}};
-
-			this.$axios.post(_API+"nav/edit?id="+id,formData, config)
-			.then((res)=>{
-				if(res.data.errcode==0){
-					that.timer(3,'编辑导航成功');
-				}else if(res.data.errcode==401){
-					window.location.href='login.html'; 
-				};
-			}).catch(function(err){console.log(err);})
+			// 表单本地验证
+      if(this.customnav.name==''){
+        this.alert={show:true,type:'danger',close:true,msg:'名称不能为空'};
+      }else{
+        // 构造数据并提交
+				let that=this;
+				let formData = new FormData();
+				let id=this.getQueryString("id")?this.getQueryString("id"):'0';
+				for(let x in this.customnav){formData.append(x, this.customnav[x]);}
+				let config = {headers: {'Content-Type': 'multipart/form-data'}};
+				this.$axios.post(_API+"nav/edit?id="+id,formData, config)
+				.then((res)=>{
+					if(res.data.errcode==0){
+						that.timer(3,'编辑导航成功');
+					}else if(res.data.errcode==401){
+						window.location.href='login.html'; 
+					};
+				}).catch(function(err){console.log(err);})
+			}
 		},
 
   }

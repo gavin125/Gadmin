@@ -12,7 +12,7 @@
         <h3 class="border-bottom pb-2 mb-5 text-secondary">{{items[items.length-1].text}}</h3>
         <h5 class="border-bottom pb-2 my-3 text-muted">单页面快速管理</h5>
         <div class="mb-4">
-          <a href="" class="btn btn-secondary mr-3 px-4" v-for='p in pages' v-text='p.name'></a>
+          <a href="" class="btn btn-secondary mr-3 px-4" v-for='p in pages' v-text='p.title'></a>
         </div>
         <div class="row">
           <div class="col-8">
@@ -82,7 +82,7 @@ export default {
       items: [{text: '网站管理中心',active: true},{text: '管理首页',active: true}],
       
       manager:{uid:0,uname:''},
-      pages:[{id:1,name:'单页名称'}],
+      pages:[{id:1,title:'单页名称'}],
       total:{
         name:'',
         num_article:0,

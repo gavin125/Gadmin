@@ -22,7 +22,7 @@ class ArticlegroupController extends Yaf_Controller_Abstract {
 		if(!$manager){echo $this->_createJson($model->errcode,$model->errmsg);exit();}
 
 		$model = new ArticlegroupModel();
-		$article_group = $model->getgroup();
+		$article_group = $model->getgroups();
 		if(!$article_group){echo $this->_createJson($model->errcode,$model->errmsg);exit();}
 
 		echo $this->_createJson(0,'',array(
@@ -45,6 +45,48 @@ class ArticlegroupController extends Yaf_Controller_Abstract {
 		return false;
 	}
 
+	/*获取配置*/
+  public function prepareAction(){
+    $id = $this->getRequest()->get("id");
+
+    $model = new managerModel();
+    $manager = $model->getname();
+    if(!$manager){echo $this->_createJson($model->errcode,$model->errmsg);exit();}
+
+    $model = new ArticlegroupModel();
+    $parentOps= $model->getparentOps($id);
+		if(!$parentOps){echo $this->_createJson($model->errcode,$model->errmsg);exit();}
+    $article_group= $model->getarticlegroup($id);
+    if(!$article_group){echo $this->_createJson($model->errcode,$model->errmsg);exit();}
+
+    echo $this->_createJson(0,'',array(
+      'manager'=>$manager,
+      'parentOps'=>$parentOps,
+      'article_group'=>$article_group,
+    ));
+    return false;
+  }
+
+  /*编辑*/
+  public function editAction(){
+    $id = $this->getRequest()->get("id");
+
+    $name = $this->getRequest()->getPost("name");
+    $parent_id = $this->getRequest()->getPost("parent_id");
+    $sort = $this->getRequest()->getPost("sort");
+    
+
+    $model = new ArticlegroupModel();
+    if($id==0){//新增
+      $res= $model->add($name,$parent_id,$sort);
+      if(!$res){echo $this->_createJson($model->errcode,$model->errmsg);exit();}
+    }else{//更新
+      $res= $model->update($name,$parent_id,$sort,$id);
+      if(!$res){echo $this->_createJson($model->errcode,$model->errmsg);exit();}
+    }
+    echo $this->_createJson(0,'',$res);
+    return false;
+  }
 
 	
 }

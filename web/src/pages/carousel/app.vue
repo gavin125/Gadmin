@@ -15,15 +15,15 @@
             <div class="py-3 text-center">
               <table class="table table-bordered">
                 <tr class="bg-light">
-                  <th width="150">名称</th>
+                  <th width="120">描述</th>
                   <th >图片</th>
                   <th class="text-left">链接地址</th>
-                  <th width="80">排序</th>
-                  <th width="150">操作</th>
+                  <th width="60">排序</th>
+                  <th width="120">操作</th>
                 </tr>
                 <tr v-for="item in carousel.PC">
                   <td class="align-middle">{{item.name}}</td>
-                  <td><img :src="item.src" alt=""></td>
+                  <td><img :src="item.src" alt="" height="100"></td>
                   <td class="align-middle text-left ">{{item.link}}</td>
                   <td class="align-middle">{{item.sort}}</td>
                   <td class="align-middle"><a :href="'carousel_edit.html?id='+item.id">编辑</a> | <span class='btn-link' v-on:click="del(item.id)">删除</span></td>
@@ -35,11 +35,11 @@
             <div class="py-3 text-center">
               <table class="table table-bordered">
                 <tr class="bg-light">
-                  <th width="150">名称</th>
+                  <th width="120">描述</th>
                   <th >图片</th>
                   <th class="text-left">链接地址</th>
-                  <th width="80">排序</th>
-                  <th width="150">操作</th>
+                  <th width="60">排序</th>
+                  <th width="120">操作</th>
                 </tr>
                 <tr v-for="item in carousel.H5">
                   <td class="align-middle">{{item.name}}</td>
