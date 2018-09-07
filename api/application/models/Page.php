@@ -27,7 +27,7 @@ class PageModel {
       $this->errmsg=$file['error'];
       return false;
     }else{
-      $dir = "../upload/banner/";
+      $dir = "../upload/page/";
       if(!file_exists($dir)){mkdir($dir,0777,true);}
       $img_name = explode(".", $file['name']);
       $img_type = '.'.$img_name[count($img_name)-1];

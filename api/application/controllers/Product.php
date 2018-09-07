@@ -19,23 +19,31 @@ class ProductController extends Yaf_Controller_Abstract {
 	public function indexAction(){
 		$page = $this->getRequest()->get("page");
 		$size = $this->getRequest()->get("size")?$this->getRequest()->get("size"):10;
+		$group = $this->getRequest()->get("group");
+		$text = $this->getRequest()->get("text");
 
 		$model = new managerModel();
 		$manager = $model->getname();
 		if(!$manager){echo $this->_createJson($model->errcode,$model->errmsg);exit();}
 
 		$model = new ProductModel();
-		$products = $model->getproducts($page,$size);
-		if(!$products){echo $this->_createJson($model->errcode,$model->errmsg);exit();}
+		$products = $model->getproducts($page,$size,$group,$text);
+		if(!$products && is_bool($products)){echo $this->_createJson($model->errcode,$model->errmsg);exit();}
 		$pagination=array(
 			'current'=>intval($page),
-			'totel'=>ceil($model->gettotel()/$size)
+			//当数据为空时，设置为1
+			'totel'=>count($products)==0?1:ceil($model->gettotel($group,$text)/$size)
 		);
+		
+		$model = new ProductgroupModel();
+		$groupOps = $model->getgroupOps();
+		if(!$groupOps){echo $this->_createJson($model->errcode,$model->errmsg);exit();}
 
 		echo $this->_createJson(0,'',array(
 			'manager'=>$manager,
 			'products'=>$products,
-			'pagination'=>$pagination
+			'pagination'=>$pagination,
+			'groupOps'=>$groupOps
 		));
 		return false;
 	}
@@ -54,7 +62,71 @@ class ProductController extends Yaf_Controller_Abstract {
 		return false;
 	}
 
+	/*批量*/
+	public function executeAction(){
+		$action = $this->getRequest()->get("action");
+		$group = $this->getRequest()->get("group");
+		$checked = $this->getRequest()->get("checked");
 
+		$model = new ProductModel();
+		if($model->execute($action,$group,$checked)){
+			echo $this->_createJson(0,'');
+		}else{
+			echo $this->_createJson($model->errcode,$model->errmsg);
+		}
+
+		return false;
+	}
+
+
+	/*获取配置*/
+  public function prepareAction(){
+    $id = $this->getRequest()->get("id");
+
+    $model = new managerModel();
+    $manager = $model->getname();
+    if(!$manager){echo $this->_createJson($model->errcode,$model->errmsg);exit();}
+
+    $model = new ProductgroupModel();
+    $groupOps= $model->getgroupOps();
+    if(!$groupOps){echo $this->_createJson($model->errcode,$model->errmsg);exit();}
+
+    $model = new ProductModel();
+    $product= $model->getproduct($id);
+
+    if(!$product){echo $this->_createJson($model->errcode,$model->errmsg);exit();}
+
+    echo $this->_createJson(0,'',array(
+      'manager'=>$manager,
+      'groupOps'=>$groupOps,
+      'product'=>$product,
+    ));
+    return false;
+  }
+
+  /*编辑*/
+  public function editAction(){
+    $id = $this->getRequest()->get("id");
+
+    $group_id = $this->getRequest()->getPost("group_id");
+    $title = $this->getRequest()->getPost("title");
+    $content = $this->getRequest()->getPost("content");
+    $imagefile = $this->getRequest()->getFiles("imagefile");
+    $keywords = $this->getRequest()->getPost("keywords");
+    $description = $this->getRequest()->getPost("description");
+    $sort = $this->getRequest()->getPost("sort");
+    
+    $model = new ProductModel();
+    if($id==0){//新增
+      $res= $model->add($group_id,$title,$content,$imagefile,$keywords,$description,$sort);
+      if(!$res){echo $this->_createJson($model->errcode,$model->errmsg);exit();}
+    }else{//更新
+      $res= $model->update($group_id,$title,$content,$imagefile,$keywords,$description,$sort,$id);
+      if(!$res){echo $this->_createJson($model->errcode,$model->errmsg);exit();}
+    }
+    echo $this->_createJson(0,'',$res);
+    return false;
+  }
 
 	
 }

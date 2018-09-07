@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 2018-09-04 12:29:39
+-- Generation Time: 2018-09-07 12:05:47
 -- 服务器版本： 10.1.19-MariaDB
 -- PHP Version: 5.6.28
 
@@ -33,7 +33,7 @@ CREATE TABLE `xgg_article` (
   `content` longtext NOT NULL COMMENT '详情',
   `src` varchar(256) NOT NULL DEFAULT '' COMMENT '图片',
   `click` smallint(5) UNSIGNED NOT NULL DEFAULT '0' COMMENT '点击',
-  `key_word` varchar(128) NOT NULL DEFAULT '' COMMENT '关键词',
+  `keywords` varchar(128) NOT NULL DEFAULT '' COMMENT '关键词',
   `description` varchar(256) NOT NULL DEFAULT '' COMMENT '描述',
   `add_time` int(11) NOT NULL COMMENT '添加时间',
   `sort` tinyint(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '排序'
@@ -43,10 +43,10 @@ CREATE TABLE `xgg_article` (
 -- 转存表中的数据 `xgg_article`
 --
 
-INSERT INTO `xgg_article` (`id`, `group_id`, `title`, `content`, `src`, `click`, `key_word`, `description`, `add_time`, `sort`) VALUES
-(1, NULL, '这是标题', '这是一条新闻的内容，这是一条新闻的内容', '20130514.jpg', 5, '关键词', '描述', 1509980132, 0),
-(2, 1, '这是标题22222', '这是一条新闻的内容，这是一条新闻的内容', '20130514.jpg', 5, '关键词', '描述', 1509980132, 0),
-(3, 3, '这是标题3333', '这是一条新闻的内容，这是一条新闻的内容', '20130514.jpg', 5, '关键词', '描述', 1509980132, 0);
+INSERT INTO `xgg_article` (`id`, `group_id`, `title`, `content`, `src`, `click`, `keywords`, `description`, `add_time`, `sort`) VALUES
+(1, 2, '这是标题1', '<p>1111</p>', 'http://www.gavin.com/Gadmin/api/../upload/article/1536313777.png', 5, '关键词', '描述', 1509980132, 0),
+(23, NULL, '这是标题2', '<p>请编辑内容</p>', 'http://www.gavin.com/Gadmin/api/../upload/article/1536313877.png', 0, '', '', 1536313877, 0),
+(24, 2, '这是标题3', '<p>请编辑内容</p>', 'http://www.gavin.com/Gadmin/api/../upload/article/1536313912.png', 0, '', '', 1536313912, 0);
 
 -- --------------------------------------------------------
 
@@ -277,8 +277,7 @@ INSERT INTO `xgg_nav` (`id`, `parent_id`, `name`, `site`, `link`, `sort`) VALUES
 (6, NULL, '产品中心3', 'mobile', 'product.html', 0),
 (8, NULL, '首页2', 'main', 'index.html', 0),
 (10, NULL, '产品中心12', 'top', 'product.html', 0),
-(11, 3, '测试1', 'main', 'a.html', 20),
-(14, NULL, '1', 'main', '1', 0);
+(11, 3, '测试1', 'main', 'a.html', 20);
 
 -- --------------------------------------------------------
 
@@ -300,8 +299,8 @@ CREATE TABLE `xgg_page` (
 --
 
 INSERT INTO `xgg_page` (`id`, `title`, `src`, `content`, `keywords`, `description`) VALUES
-(1, '公司介绍', 'http://www.gavin.com/Gadmin/api/../upload/banner/1536048596.jpg', '<p>请编辑内容3334</p>', '介绍信息', '这里是公司的详细介绍信息'),
-(2, '联系我们', 'http://www.gavin.com/Gadmin/api/../upload/banner/1536048612.jpg', '<p>请编辑内容2</p>', '联系方式信息', '这里是详细的联系方式信息');
+(1, '公司介绍', 'http://www.gavin.com/Gadmin/api/../upload/page/1536048596.jpg', '<p>请编辑内容88890</p>', '介绍信息', '这里是公司的详细介绍信息'),
+(2, '联系我们', 'http://www.gavin.com/Gadmin/api/../upload/page/1536048612.jpg', '<p>请编辑内容111</p>', '关键词', '描述');
 
 -- --------------------------------------------------------
 
@@ -315,7 +314,7 @@ CREATE TABLE `xgg_product` (
   `title` varchar(150) NOT NULL DEFAULT '' COMMENT '名称',
   `content` longtext NOT NULL COMMENT '详情',
   `src` varchar(255) NOT NULL DEFAULT '' COMMENT '图片',
-  `key_word` varchar(255) NOT NULL DEFAULT '' COMMENT '关键词',
+  `keywords` varchar(255) NOT NULL DEFAULT '' COMMENT '关键词',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
   `add_time` varchar(50) DEFAULT NULL COMMENT '添加时间',
   `sort` tinyint(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '排序'
@@ -325,10 +324,11 @@ CREATE TABLE `xgg_product` (
 -- 转存表中的数据 `xgg_product`
 --
 
-INSERT INTO `xgg_product` (`id`, `group_id`, `title`, `content`, `src`, `key_word`, `description`, `add_time`, `sort`) VALUES
-(1, NULL, '企业网站定制', '根据企业的所属行业、产品特点、网站结构、审美需要等量身定制，界面设计和功能开发上有很大的灵活性。', '20130514.jpg', '企业网站定制', '根据企业的所属行业、产品特点、网站结构、审美需要等量身定制，界面设计和功能开发上有很大的灵活性。', '1509980132', 0),
-(2, 1, '高级前端开发', '专注各类前端技术，熟悉常用前端框架，可配合开发PC端或移动端的各类界面交互，活动游戏等。', '20130514.jpg', '高级前端开发', '专注各类前端技术，熟悉常用前端框架，可配合开发PC端或移动端的各类界面交互，活动游戏等。', '1509980132', 0),
-(3, 2, 'APP开发', '采用MUI框架，一次开发即可多端发布，轻松解决高频应用的移动客户端需求。', '20130514.jpg', 'APP开发', '采用MUI框架，一次开发即可多端发布，轻松解决高频应用的移动客户端需求。', '1509980132', 0);
+INSERT INTO `xgg_product` (`id`, `group_id`, `title`, `content`, `src`, `keywords`, `description`, `add_time`, `sort`) VALUES
+(1, NULL, '企业网站定制', '根据企业的所属行业、产品特点、网站结构、审美需要等量身定制，界面设计和功能开发上有很大的灵活性。<p><br></p>', 'http://www.gavin.com/Gadmin/api/../upload/product/1536313615.png', '企业网站定制', '根据企业的所属行业、产品特点、网站结构、审美需要等量身定制，界面设计和功能开发上有很大的灵活性。', '1509980132', 0),
+(2, 1, '高级前端开发', '专注各类前端技术，熟悉常用前端框架，可配合开发PC端或移动端的各类界面交互，活动游戏等。<p><br></p>', 'http://www.gavin.com/Gadmin/api/../upload/product/1536313630.png', '高级前端开发', '专注各类前端技术，熟悉常用前端框架，可配合开发PC端或移动端的各类界面交互，活动游戏等。', '1509980132', 0),
+(3, 2, 'APP开发', '采用MUI框架，一次开发即可多端发布，轻松解决高频应用的移动客户端需求。<p><br></p>', 'http://www.gavin.com/Gadmin/api/../upload/product/1536313643.png', 'APP开发', '采用MUI框架，一次开发即可多端发布，轻松解决高频应用的移动客户端需求。', '1509980132', 0),
+(6, 1, '111', '<p>111<img src="http://www.gavin.com/Gadmin/api/../upload/editor/1536311472_1.jpg" style="font-size: 1rem; max-width: 100%;"></p>', 'http://www.gavin.com/Gadmin/api/../upload/product/1536313655.png', '11', '11', '1536311392', 0);
 
 -- --------------------------------------------------------
 
@@ -441,7 +441,7 @@ ALTER TABLE `xgg_product_group`
 -- 使用表AUTO_INCREMENT `xgg_article`
 --
 ALTER TABLE `xgg_article`
-  MODIFY `id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=4;
+  MODIFY `id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=25;
 --
 -- 使用表AUTO_INCREMENT `xgg_article_group`
 --
@@ -496,7 +496,7 @@ ALTER TABLE `xgg_page`
 -- 使用表AUTO_INCREMENT `xgg_product`
 --
 ALTER TABLE `xgg_product`
-  MODIFY `id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=4;
+  MODIFY `id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=7;
 --
 -- 使用表AUTO_INCREMENT `xgg_product_group`
 --

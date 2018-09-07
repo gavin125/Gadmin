@@ -30,6 +30,7 @@ class ArticlegroupModel {
     return false;
   }
 
+  // 获取分类列表
   public function getgroups() {
     if(!$this->_isadmin()){return false;}
 
@@ -38,6 +39,7 @@ class ArticlegroupModel {
     return $sth->fetchAll(PDO::FETCH_ASSOC);
   }
 
+  // 获取可编辑的父级分类
   public function getparentOps($id) {
     if(!$this->_isadmin()){return false;}
 
@@ -49,6 +51,18 @@ class ArticlegroupModel {
     return $res;
   }
 
+  // 获取全部父级分类
+  public function getgroupOps() {
+    if(!$this->_isadmin()){return false;}
+
+    $sth=$this->_pdo->query('SELECT id AS value,name AS text FROM xgg_article_group ORDER BY sort');
+    $res=$sth->fetchAll(PDO::FETCH_ASSOC);
+    array_unshift($res,array('value'=>'','text'=>'请选择'));
+
+    return $res;
+  }
+
+  // 获取指定分类
   public function getarticlegroup($id){
     if($id==0){
       return array(
